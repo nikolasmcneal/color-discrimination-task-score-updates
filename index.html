@@ -3271,7 +3271,7 @@
       on_start: function (trial) {
         cu_sco = g(left_arr, right_arr)
         trial.stimulus =
-          `<p> You have completed ` + (left_arr.length/rep) * 100 + `% of the experiment. </p> \
+          `<p> You have completed ` + (left_value.length/rep) * 100 + `% of the experiment. </p> \
              <p>You have currently scored ` + cu_sco + ` points.</p> \
              <p>At a conversion rate of $1 for every ` + conversion_rate + ` points, your current bonus is $` +
           Number((cu_sco/conversion_rate)).toFixed(2) +
