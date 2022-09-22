@@ -30,19 +30,50 @@
     var z = 1; //number of practice trials // 10
     var rep = 15; //number of experiment trials //150
     var num_curr_score = 3 //number of trials between showing current score //30
-    var fixedfirst = false;
+    var fixedfirst = false; //which condition the experiment will run
+    var toggle; //toggle memory on
+    
+    
+    
+
+
+
+    //conversion rate, rainbow, turning off memory.
+
+
+
+
+
     if(fixedfirst){
-      var conversion_rate = 100; //number of points per dollar //this assumes the average accuracy in FR is .70, and the intended avg payout is 21
+      // look at what the average accuracy is in FR , multiply that by average stimulus value. round to the nearest $.05.
+      var conversion_rate = 425; //number of points per dollar //this assumes the average accuracy in FR is .85, and the correct payout is X
+      //(150 * 33) = 4950 ~ 5000
+      //5000 * .85 = 4250
+      //4250 / x = 10
+      //x = 425
     }
     if(fixedfirst==false){
-      var conversion_rate = 200;
+      var conversion_rate = 500; // set value-based conversion rate first (avg = 33)
+      // 33 * 150 = 4950
+      // 4950 / x = 10
+      // x = 495
+      // round to 500
     }
     const fixation_duration = 500;
 
+//total reward should be around $10
 
 
 
+//code so that we have both options for reward: change reward at end, change instructions about reward end
+//look into memory data for interesting relationships but for now remove memory tasks at end
 
+
+
+      //fixed reward feedback
+      //total earnings: points, and then underneath in dollars
+      // 4 points per dollar
+          // 2100 points / 4 = your current earnings are $550
 
 
 
@@ -145,14 +176,16 @@
     var anchors_two = []
     //pink to blue
     var colors = [
-      "rgb(237,48,137)",
-      "rgb(226,62,153)",
-      "rgb(211,77,167)",
-      "rgb(193.5,90,177.5)",
-      "rgb(172,103,185)",
-      "rgb(149,113.5,189)",
-      "rgb(125,122,189)",
-      "rgb(100,129.5,184.5)",
+    'rgb(242.5,41,125.5)', 
+    'rgb(233,55,145)',
+    'rgb(217.5,71,162)',
+    'rgb(198,87,175)',
+    'rgb(174,102,184.5)',
+    'rgb(147,114,189)',
+    'rgb(119,124,188.5)',
+    'rgb(91,132,182)',
+    'rgb(65.5,137,171)',
+    'rgb(48,141,156)'
     ];
 
     //blue to pink
@@ -161,18 +194,20 @@
       pinktoblue = false;
       bluetopink = true;
     }
-
+    
     //green to orange
-    var colors2 = [
-      "rgb(82.5,142,91)",
-      "rgb(100,140,73)",
-      "rgb(117,137,56.5)",
-      "rgb(134,133,41)",
-      "rgb(152,127.5,28.5)",
-      "rgb(169,120,20)",
-      "rgb(186.5,111.5,19.5)",
-      "rgb(202,101,27)",
-    ];
+   var colors2 = ['rgb(227.0, 78.0, 50.0)',
+ 'rgb(207.0, 98.0, 30.0)',
+ 'rgb(182.0, 114.0, 19.0)',
+ 'rgb(156.0, 126.0, 26.0)',
+ 'rgb(129.0, 134.0, 46.0)',
+ 'rgb(102.0, 140.0, 71.0)',
+ 'rgb(76.0, 143.0, 98.0)',
+ 'rgb(53.0, 143.0, 126.0)',
+ 'rgb(46.0, 141.0, 151.0)',
+ 'rgb(67.0, 137.0, 172.0)',
+ 'rgb(102.0, 129.0, 185.0)',
+ 'rgb(140.0, 117.0, 190.0)']
 
     //orange to green
     if (Math.random() > 0.5) {
@@ -3336,28 +3371,28 @@
         }
       }
       timeline.push(checkOrdercall);
-      timeline.push(memslider_instr);
-      timeline.push(cursor_on);
-      timeline.push(memslider);
-      timeline.push(fixation)
-      timeline.push(memslider2);
-      timeline.push(fixation)
-      timeline.push(memslider3);
-      timeline.push(fixation)
-      timeline.push(memslider4);
-      timeline.push(fixation)
-      timeline.push(memslider5);
-      timeline.push(cursor_off);
-      timeline.push(memchoice_instr);
-      timeline.push(memchoice);
-      timeline.push(fixation)
-      timeline.push(memchoice2);
-      timeline.push(fixation)
-      timeline.push(memchoice3);
-      timeline.push(fixation)
-      timeline.push(memchoice4);
-      timeline.push(fixation)
-      timeline.push(memchoice5);
+      // timeline.push(memslider_instr);
+      // timeline.push(cursor_on);
+      // timeline.push(memslider);
+      // timeline.push(fixation)
+      // timeline.push(memslider2);
+      // timeline.push(fixation)
+      // timeline.push(memslider3);
+      // timeline.push(fixation)
+      // timeline.push(memslider4);
+      // timeline.push(fixation)
+      // timeline.push(memslider5);
+      // timeline.push(cursor_off);
+      // timeline.push(memchoice_instr);
+      // timeline.push(memchoice);
+      // timeline.push(fixation)
+      // timeline.push(memchoice2);
+      // timeline.push(fixation)
+      // timeline.push(memchoice3);
+      // timeline.push(fixation)
+      // timeline.push(memchoice4);
+      // timeline.push(fixation)
+      // timeline.push(memchoice5);
       // timeline.push(finish_p1_fixed_done);
       // timeline.push(trialm);
 
@@ -3421,28 +3456,28 @@
         }
       }
       timeline.push(checkOrdercall);
-      timeline.push(memslider_instr);
-      timeline.push(cursor_on);
-      timeline.push(memslider);
-      timeline.push(fixation)
-      timeline.push(memslider2);
-      timeline.push(fixation)
-      timeline.push(memslider3);
-      timeline.push(fixation)
-      timeline.push(memslider4);
-      timeline.push(fixation)
-      timeline.push(memslider5);
-      timeline.push(cursor_off);
-      timeline.push(memchoice_instr);
-      timeline.push(memchoice);
-      timeline.push(fixation)
-      timeline.push(memchoice2);
-      timeline.push(fixation)
-      timeline.push(memchoice3);
-      timeline.push(fixation)
-      timeline.push(memchoice4);
-      timeline.push(fixation)
-      timeline.push(memchoice5);
+      // timeline.push(memslider_instr);
+      // timeline.push(cursor_on);
+      // timeline.push(memslider);
+      // timeline.push(fixation)
+      // timeline.push(memslider2);
+      // timeline.push(fixation)
+      // timeline.push(memslider3);
+      // timeline.push(fixation)
+      // timeline.push(memslider4);
+      // timeline.push(fixation)
+      // timeline.push(memslider5);
+      // timeline.push(cursor_off);
+      // timeline.push(memchoice_instr);
+      // timeline.push(memchoice);
+      // timeline.push(fixation)
+      // timeline.push(memchoice2);
+      // timeline.push(fixation)
+      // timeline.push(memchoice3);
+      // timeline.push(fixation)
+      // timeline.push(memchoice4);
+      // timeline.push(fixation)
+      // timeline.push(memchoice5);
       // timeline.push(finish_p1_value_done);
       // timeline.push(trialm);
 
