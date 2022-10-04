@@ -1,2646 +1,1638 @@
 <!-- <!DOCTYPE html> -->
 <html>
-  <head>
-    <script src="jspsych/jspsych.js"></script>
-    <script src="jspsych/plugins/jquery-3.5.1.min.js"></script>
-    <script src="jspsych/plugins/jspsych-blocks.js"></script>
-    <script src="jspsych/plugins/jspsych-image-keyboard-response.js"></script>
-    <script src="jspsych/plugins/jspsych-rainbowimage-keyboard-response.js"></script>
-    <script src="jspsych/plugins/jspsych-blocks-exp.js"></script>
-    <script src="jspsych/plugins/jspsych-image-button-response.js"></script>
-    <script src="jspsych/plugins/jspsych-rainbow.js"></script>
-    <script src="jspsych/plugins/jspsych-call-function.js"></script>
-    <script src="jspsych/plugins/jspsych-reward-function.js"></script>
-    <script src="jspsych/plugins/jspsych-call.js"></script>
-    <script src="jspsych/plugins/jspsych-fullscreen.js"></script>
-    <script src="jspsych/plugins/jspsych-memslider.js"></script>
-    <script src="jspsych/plugins/jspsych-memchoice.js"></script>
-    <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>
-    <script src="jspsych/plugins/jspsych-survey-text.js"></script>
-    <script src="jspsych/plugins/jspsych-image-slider-response.js"></script>
-    <script src="jspsych/plugins/jspsych-blocks-prac-fixed.js"></script>
-    <script src="jspsych/plugins/jspsych-blocks-prac-VB.js"></script>
-    
-    <link rel="stylesheet" href="jspsych/css/jspsych.css" />
-  </head>
-  <body></body>
-  <script>
-    var subject_id = jsPsych.randomization.randomID(9);
-    var n = 3; //number of training trials // 30
-    var z = 1; //number of practice trials // 10
-    var rep = 15; //number of experiment trials //150
-    var num_curr_score = 3 //number of trials between showing current score //30
-    var fixedfirst = false; //which condition the experiment will run
-    var toggle; //toggle memory on
-    
-    
-    
 
+<head>
+  <script src="jspsych/jspsych.js"></script>
+  <script src="jspsych/plugins/jquery-3.5.1.min.js"></script>
+  <script src="jspsych/plugins/jspsych-blocks.js"></script>
+  <script src="jspsych/plugins/jspsych-image-keyboard-response.js"></script>
+  <script src="jspsych/plugins/jspsych-rainbowimage-keyboard-response.js"></script>
+  <script src="jspsych/plugins/jspsych-blocks-exp.js"></script>
+  <script src="jspsych/plugins/jspsych-image-button-response.js"></script>
+  <script src="jspsych/plugins/jspsych-rainbow.js"></script>
+  <script src="jspsych/plugins/jspsych-call-function.js"></script>
+  <script src="jspsych/plugins/jspsych-reward-function.js"></script>
+  <script src="jspsych/plugins/jspsych-call.js"></script>
+  <script src="jspsych/plugins/jspsych-fullscreen.js"></script>
+  <script src="jspsych/plugins/jspsych-memslider.js"></script>
+  <script src="jspsych/plugins/jspsych-memchoice.js"></script>
+  <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="jspsych/plugins/jspsych-survey-text.js"></script>
+  <script src="jspsych/plugins/jspsych-image-slider-response.js"></script>
+  <script src="jspsych/plugins/jspsych-blocks-prac-fixed.js"></script>
+  <script src="jspsych/plugins/jspsych-blocks-prac-VB.js"></script>
 
+  <link rel="stylesheet" href="jspsych/css/jspsych.css" />
+</head>
 
-    //conversion rate, rainbow, turning off memory.
+<body></body>
+<script>
+  var subject_id = jsPsych.randomization.randomID(9);
+  var n = 3; //number of training trials // 30
+  var z = 1; //number of practice trials // 10
+  var rep = 15; //number of experiment trials //150
+  var num_curr_score = 3 //number of trials between showing current score //30
+  var fixedfirst = true; //which condition the experiment will run
+  var training_fixed_static = true //if true, then FR training is 27/0. if false, then FR training shows value of selected item
+  var toggle; //toggle memory on
 
 
 
 
 
-    if(fixedfirst){
-      // look at what the average accuracy is in FR , multiply that by average stimulus value. round to the nearest $.05.
-      var conversion_rate = 425; //number of points per dollar //this assumes the average accuracy in FR is .85, and the correct payout is X
-      //(150 * 33) = 4950 ~ 5000
-      //5000 * .85 = 4250
-      //4250 / x = 10
-      //x = 425
+
+  //conversion rate, rainbow, turning off memory.
+
+
+
+
+
+  if (fixedfirst) {
+    // look at what the average accuracy is in FR , multiply that by average stimulus value. round to the nearest $.05.
+    var conversion_rate = 497.00; //number of points per dollar //this assumes the average accuracy in FR is .85, and the correct payout is X
+    //(150 * 39) = 5850 
+    //5850 * .85 = 4972 ~ 4970
+    //4970 / x = 10
+    //x = 497
+  }
+  if (fixedfirst == false) {
+    var conversion_rate = 585.00; // set value-based conversion rate first (avg = 39)
+    // 39 * 150 = 5850
+    // 5850 / x = 10
+    // x = 585
+    // round to 585
+  }
+  const fixation_duration = 500;
+
+  //total reward should be around $10
+
+
+
+  //code so that we have both options for reward: change reward at end, change instructions about reward end
+  //look into memory data for interesting relationships but for now remove memory tasks at end
+
+
+
+  //fixed reward feedback
+  //total earnings: points, and then underneath in dollars
+  // 4 points per dollar
+  // 2100 points / 4 = your current earnings are $550
+
+
+
+  var timeline = [];
+  var col1 = [];
+
+
+  //chrome, opera, edge, firefox
+  var isChrome;
+  var checkBrowser = function () {
+    if (navigator.userAgent.indexOf("Chrome") != -1) {
+      isChrome = true;
+      console.log("Chrome");
+    } else {
+      isChrome = false;
+      console.log("unknown");
     }
-    if(fixedfirst==false){
-      var conversion_rate = 500; // set value-based conversion rate first (avg = 33)
-      // 33 * 150 = 4950
-      // 4950 / x = 10
-      // x = 495
-      // round to 500
-    }
-    const fixation_duration = 500;
-
-//total reward should be around $10
+  };
+  var checkBrowsercall = {
+    type: "call-function",
+    func: checkBrowser,
+  };
+  timeline.push(checkBrowsercall)
 
 
-
-//code so that we have both options for reward: change reward at end, change instructions about reward end
-//look into memory data for interesting relationships but for now remove memory tasks at end
-
-
-
-      //fixed reward feedback
-      //total earnings: points, and then underneath in dollars
-      // 4 points per dollar
-          // 2100 points / 4 = your current earnings are $550
-
-
-
-    var timeline = [];
-    var col1 = [];
-
-
-    //chrome, opera, edge, firefox
-    var isChrome;
-    var checkBrowser = function () {
-      if (navigator.userAgent.indexOf("Chrome") != -1) {
-        isChrome = true;
-        console.log("Chrome");
-      } else {
-        isChrome = false;
-        console.log("unknown");
-      }
-    };
-    var checkBrowsercall = {
-      type: "call-function",
-      func: checkBrowser,
-    };
-    timeline.push(checkBrowsercall)
-
-
-    var browser_fail = {
-      type: 'html-keyboard-response',      
-      stimulus: `<p>Oops! It looks like you aren't using the Google Chrome browser.  </p>
+  var browser_fail = {
+    type: 'html-keyboard-response',
+    stimulus: `<p>Oops! It looks like you aren't using the Google Chrome browser.  </p>
             <p>Please make sure that you complete this experiment in Google Chrome.</p>
             <p>The experiment will now end. Press any key to continue.</p>`,
-      choices: jsPsych.ALL_KEYS,
-      on_finish: function(data){
-        jsPsych.endExperiment();
-      }
+    choices: jsPsych.ALL_KEYS,
+    on_finish: function (data) {
+      jsPsych.endExperiment();
     }
+  }
 
 
-    //Conditional Browser
-    var conditional_browser = {
-      timeline: [browser_fail],
-      conditional_function: function () {
-        if (!isChrome) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-    };
-    timeline.push(conditional_browser)
+  //Conditional Browser
+  var conditional_browser = {
+    timeline: [browser_fail],
+    conditional_function: function () {
+      if (!isChrome) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  };
+  timeline.push(conditional_browser)
 
 
-    // Enter fullscreen:
-    timeline.push({
-      type: "fullscreen",
-      fullscreen_mode: true,
-      message: `<p>Before we begin, please close any unnecessary programs or applications on your computer. This will help the study run more smoothly.</p>
+  // Enter fullscreen:
+  timeline.push({
+    type: "fullscreen",
+    fullscreen_mode: true,
+    message: `<p>Before we begin, please close any unnecessary programs or applications on your computer. This will help the study run more smoothly.</p>
                <p>Also, please close any browser tabs that could produce popups or alerts that would interfere with the study. Finally, once the study</p>
                <p>has started, DO NOT EXIT fullscreen mode or you will terminate the study and not receive any payment.</p>
                <p>The study will switch to full screen mode when you press the button below. When you are ready to begin, press the button.</p>`
-    });
+  });
 
-    var cursor_off = {
-      type: "call-function",
-      func: function () {
-        document.body.style.cursor = "none";
-      },
-    };
+  var cursor_off = {
+    type: "call-function",
+    func: function () {
+      document.body.style.cursor = "none";
+    },
+  };
 
-    timeline.push(cursor_off);
+  timeline.push(cursor_off);
 
-    var cursor_on = {
-      type: "call-function",
-      func: function () {
-        document.body.style.cursor = "auto";
-      },
-    };
+  var cursor_on = {
+    type: "call-function",
+    func: function () {
+      document.body.style.cursor = "auto";
+    },
+  };
 
-    // var fixedfirst = true;
-    // if (Math.random() > 0.5) {
-    //   fixedfirst = true;
-    // } else {
-    //   fixedfirst = false;
-    // }
+  // var fixedfirst = true;
+  // if (Math.random() > 0.5) {
+  //   fixedfirst = true;
+  // } else {
+  //   fixedfirst = false;
+  // }
 
-    //Reward
-    acc_reward = 21;
-    
-    var fixation = {
-      type: "html-keyboard-response",
-      stimulus: '<div style="font-size:60px;">+</div>',
-      choices: jsPsych.NO_KEYS,
-      trial_duration: fixation_duration,
-    };
+  //Reward
+  acc_reward = 39;
 
-    var pinktoblue = true;
-    var bluetopink = false;
-    var greentoorange = true;
-    var orangetogreen = false;
-    var anchors = [];
-    var anchors_two = []
-    //pink to blue
-    var colors = [
-    'rgb(242.5,41,125.5)', 
-    'rgb(233,55,145)',
-    'rgb(217.5,71,162)',
+  var fixation = {
+    type: "html-keyboard-response",
+    stimulus: '<div style="font-size:60px;">+</div>',
+    choices: jsPsych.NO_KEYS,
+    trial_duration: fixation_duration,
+  };
+
+  var pinktoblue = true;
+  var bluetopink = false;
+  var greentoorange = true;
+  var orangetogreen = false;
+  var anchors = [];
+  var anchors_two = []
+  //pink to blue
+  var colors = [
+    'rgb(243,39,122)',
+    'rgb(237,48,137)',
+    'rgb(227,61,152)',
+    'rgb(214,75,165)',
     'rgb(198,87,175)',
-    'rgb(174,102,184.5)',
-    'rgb(147,114,189)',
-    'rgb(119,124,188.5)',
+    'rgb(179,99,183)',
+    'rgb(158,109,188)',
+    'rgb(136,118,190)',
+    'rgb(113,126,188)',
     'rgb(91,132,182)',
-    'rgb(65.5,137,171)',
-    'rgb(48,141,156)'
+    'rgb(70,136,174)',
+    'rgb(53,139,162)'
+  ];
+
+  //blue to pink
+  if (Math.random() > 0.5) {
+    colors.reverse();
+    pinktoblue = false;
+    bluetopink = true;
+  }
+
+  //green to orange -- doesn't matter
+  var colors2 = ['rgb(227.0, 78.0, 50.0)',
+    'rgb(207.0, 98.0, 30.0)',
+    'rgb(182.0, 114.0, 19.0)',
+    'rgb(156.0, 126.0, 26.0)',
+    'rgb(129.0, 134.0, 46.0)',
+    'rgb(102.0, 140.0, 71.0)',
+    'rgb(76.0, 143.0, 98.0)',
+    'rgb(53.0, 143.0, 126.0)',
+    'rgb(46.0, 141.0, 151.0)',
+    'rgb(67.0, 137.0, 172.0)',
+    'rgb(102.0, 129.0, 185.0)',
+    'rgb(140.0, 117.0, 190.0)']
+
+  //orange to green
+  if (Math.random() > 0.5) {
+    greentoorange = false;
+    orangetogreen = true;
+    colors2.reverse();
+  }
+
+  var BPfirst = false;
+  var GOfirst = false;
+
+
+  var BPfirst = true;
+  col1 = colors
+  // if (Math.random() > 0.5) {
+  //   col1 = colors; //BP
+  //   BPfirst = true;
+  // } else {
+  //   col1 = colors2; //GO
+  //   GOfirst = true;
+  // }
+
+  // BPfirst = true;
+  // col1 = colors;
+
+  rainbow_one = []
+  rainbow_two = []
+  rainbow_BP = ["img/rainbows/BP.png", "blue", "pink"]
+  rainbow_PB = ["img/rainbows/PB.png", "pink", "blue"]
+  rainbow_OG = ["img/rainbows/OG.jpg", "orange", "green"]
+  rainbow_GO = ["img/rainbows/GO.jpg", "green", "orange"]
+
+  var log_rainbow = {
+    type: "call",
+    func: function () { },
+    on_finish: function (data) {
+      if (BPfirst) {
+        if (bluetopink) {
+          data.first_rainbow = "Blue to Pink";
+          anchors = ['img/anchors/blue.jpg', 'img/anchors/pink.jpg']
+          example_current = example_BP
+          rainbow_one = rainbow_BP
+        }
+        if (pinktoblue) {
+          data.first_rainbow = "Pink to Blue";
+          anchors = ['img/anchors/pink.jpg', 'img/anchors/blue.jpg']
+          example_current = example_PB
+          rainbow_one = rainbow_PB
+        }
+        if (greentoorange) {
+          data.second_rainbow = "Green to Orange";
+          anchors_two = ['img/anchors/green.jpg', 'img/anchors/orange.jpg']
+          example_current_2 = example_GO
+          rainbow_two = rainbow_GO
+        }
+        if (orangetogreen) {
+          data.second_rainbow = "Orange to Green";
+          anchors_two = ['img/anchors/orange.jpg', 'img/anchors/green.jpg']
+          example_current_2 = example_OG
+          rainbow_two = rainbow_OG
+        }
+      }
+      if (GOfirst) {
+        if (greentoorange) {
+          data.first_rainbow = "Green to Orange";
+          anchors = ['img/anchors/green.jpg', 'img/anchors/orange.jpg']
+          example_current = example_GO
+          rainbow_one = rainbow_GO
+        }
+        if (orangetogreen) {
+          data.first_rainbow = "Orange to Green";
+          anchors = ['img/anchors/orange.jpg', 'img/anchors/green.jpg']
+          example_current = example_OG
+          rainbow_one = rainbow_OG
+        }
+        if (bluetopink) {
+          data.second_rainbow = "Blue to Pink";
+          anchors_two = ['img/anchors/blue.jpg', 'img/anchors/pink.jpg']
+          example_current_2 = example_BP
+          rainbow_two = rainbow_BP
+        }
+        if (pinktoblue) {
+          data.second_rainbow = "Pink to Blue";
+          anchors_two = ['img/anchors/pink.jpg', 'img/anchors/blue.jpg']
+          example_current_2 = example_PB
+          rainbow_two = rainbow_PB
+        }
+      }
+    },
+  };
+  timeline.push(log_rainbow);
+  var arr_left;
+
+  //Code to generate arrays
+  // var arrays = new Array();
+  // for (var m = 0; m < 12; m++) {
+  //   arrays[m] = new Array();
+  // }
+  // for (var x = 0; x < 2; x++) {
+  //   for (var i = 0; i < 11; i++) {
+  //     var arr = [];
+  //     for (var j = 0; j < 6; j++) {
+  //       arr[j] = Math.floor(Math.random() * 8);
+  //       arrays[i][x] = arr;
+  //     }
+  //   }
+  // }
+
+  // var arrays = [
+  //   [
+  //     [1, 2, 3, 4, 5, 6],
+  //     [7, 2, 3, 5, 4, 1],
+  //   ],
+  //   [
+  //     [1, 6, 5, 0, 2, 3],
+  //     [2, 3, 1, 5, 3, 2],
+  //   ],
+  // ];
+
+  var arrays1 = [[[7, 3, 3, 10, 2, 6], [9, -1, 3, 6, 3, 10]],
+  [[6, 3, -1, 6, 1, 3], [1, 1, 3, 1, 8, 7]],
+  [[8, -1, 10, 8, 2, 4], [3, 7, 8, 3, 1, 4]],
+  [[4, 0, 3, 6, 9, 0], [3, -1, 4, 6, 8, 6]],
+  [[6, 9, 5, 5, 4, 2], [4, 0, 6, -1, 10, 10]],
+  [[5, 4, 0, 7, 6, 7], [9, 4, 3, 9, 0, -1]],
+  [[5, -1, 0, 5, 6, 4], [1, 3, 8, 1, 5, 7]],
+  [[3, 5, 10, 5, 7, 2], [10, 7, 5, 1, 2, 5]],
+  [[2, -1, 0, 6, 6, 9], [2, 3, 0, 10, 4, 4]],
+  [[7, 2, 3, 4, 7, 4], [0, 2, 2, 8, 7, 7]],
+  [[7, 0, 0, 9, 9, 5], [9, -1, -1, 9, 0, 10]],
+  [[10, 5, 3, -1, 6, 7], [4, 0, 9, -1, 3, 10]],
+  [[8, 7, 1, 8, 7, 0], [0, 5, 10, 4, 5, 4]],
+  [[0, 7, 4, 1, 3, 6], [3, 4, 0, 1, 6, 10]],
+  [[4, 10, 4, 6, 3, 0], [6, 5, 7, 3, 2, 7]],
+  [[0, 5, -1, 3, 5, 8], [7, 0, 1, 8, 0, 5]],
+  [[5, 1, 8, 0, 0, 6], [4, 6, 4, 0, 10, -1]],
+  [[-1, 4, 3, 3, 10, 3], [9, 2, 9, 5, 1, 2]],
+  [[3, 10, 8, 6, 3, -1], [7, 10, -1, 7, 4, 1]],
+  [[6, 5, 4, 3, 2, 7], [10, 7, 9, 2, 4, -1]],
+  [[8, 1, 8, 3, 0, 5], [0, 8, 4, 5, 1, 4]],
+  [[3, 8, 8, 1, 5, 0], [2, 7, 4, -1, 9, -1]],
+  [[6, 6, 9, 1, 8, -1], [0, 6, 2, 0, 7, 9]],
+  [[9, 5, 4, 0, 8, 8], [9, 4, 10, 0, 0, 6]],
+  [[0, 6, 8, 8, 4, 7], [0, 7, 7, 3, 10, 4]],
+  [[2, 6, 5, 5, -1, 4], [4, 8, -1, 0, 4, 5]],
+  [[9, 4, 8, 2, 5, 3], [0, 7, 6, 4, -1, 10]],
+  [[7, 8, 0, 9, 4, -1], [10, 2, 4, 8, 6, 3]],
+  [[9, 10, 1, 4, -1, 8], [5, 6, 3, 10, 2, 0]],
+  [[8, 7, 2, 1, 2, 5], [3, 3, 2, 5, 10, 6]],
+  [[0, 2, 9, 1, 10, 3], [4, 5, 1, 9, 0, 7]],
+  [[10, 0, 3, 1, 5, 8], [4, 6, 0, 10, 7, 5]],
+  [[3, 7, 8, 8, 0, 9], [9, 7, 5, 5, 2, 1]],
+  [[4, 1, 8, 10, 0, 2], [8, 3, 0, 5, 6, -1]],
+  [[8, 5, 0, 0, 10, -1], [7, 2, 1, 5, 4, 1]],
+  [[9, 0, 2, 4, 9, 8], [8, 10, 8, 4, 3, 1]],
+  [[4, 6, 9, 2, 1, 0], [-1, 7, 0, 9, 3, 10]],
+  [[3, 0, 2, 5, 5, 10], [2, 6, 10, 7, -1, 2]],
+  [[-1, 10, 5, 0, 1, 7], [1, 5, 0, 9, 4, 2]],
+  [[5, 2, 0, 8, 1, 7], [2, 6, 10, 4, 1, -1]],
+  [[4, 10, 2, 7, 7, 6], [10, 3, 2, 9, 0, 9]],
+  [[5, 2, 10, 1, 2, 10], [8, 0, 9, -1, 8, 9]],
+  [[10, 3, 2, 5, 2, 8], [1, 10, 6, 9, 5, 1]],
+  [[5, 5, 2, 3, 7, 4], [9, 5, 3, 5, 8, 0]],
+  [[-1, 2, 1, 9, 10, 6], [2, 8, -1, 6, 10, 5]],
+  [[10, 8, 6, 1, 5, 0], [7, 5, 0, 10, 1, 2]],
+  [[-1, 9, 7, 7, 8, 6], [6, 8, 6, 10, 1, -1]],
+  [[3, 4, 9, 5, 6, 3], [0, 2, 3, 10, 10, 9]],
+  [[6, 9, -1, 1, 7, 7], [0, 2, 7, -1, 10, 7]],
+  [[6, 5, 1, 8, 4, 8], [0, 7, 9, 5, 0, 10]],
+  [[9, 5, 5, 12, 4, 8], [11, 1, 5, 8, 5, 12]],
+  [[8, 5, 1, 8, 3, 5], [3, 3, 5, 3, 10, 9]],
+  [[10, 1, 12, 10, 4, 6], [5, 9, 10, 5, 3, 6]],
+  [[6, 2, 5, 8, 11, 2], [5, 1, 6, 8, 10, 8]],
+  [[8, 11, 7, 7, 6, 4], [6, 2, 8, 1, 12, 12]],
+  [[7, 6, 2, 9, 8, 9], [11, 6, 5, 11, 2, 1]],
+  [[7, 1, 2, 7, 8, 6], [3, 5, 10, 3, 7, 9]],
+  [[5, 7, 12, 7, 9, 4], [12, 9, 7, 3, 4, 7]],
+  [[4, 1, 2, 8, 8, 11], [4, 5, 2, 12, 6, 6]],
+  [[9, 4, 5, 6, 9, 6], [2, 4, 4, 10, 9, 9]],
+  [[9, 2, 2, 11, 11, 7], [11, 1, 1, 11, 2, 12]],
+  [[12, 7, 5, 1, 8, 9], [6, 2, 11, 1, 5, 12]],
+  [[10, 9, 3, 10, 9, 2], [2, 7, 12, 6, 7, 6]],
+  [[2, 9, 6, 3, 5, 8], [5, 6, 2, 3, 8, 12]],
+  [[6, 12, 6, 8, 5, 2], [8, 7, 9, 5, 4, 9]],
+  [[2, 7, 1, 5, 7, 10], [9, 2, 3, 10, 2, 7]],
+  [[7, 3, 10, 2, 2, 8], [6, 8, 6, 2, 12, 1]],
+  [[1, 6, 5, 5, 12, 5], [11, 4, 11, 7, 3, 4]],
+  [[5, 12, 10, 8, 5, 1], [9, 12, 1, 9, 6, 3]],
+  [[8, 7, 6, 5, 4, 9], [12, 9, 11, 4, 6, 1]],
+  [[10, 3, 10, 5, 2, 7], [2, 10, 6, 7, 3, 6]],
+  [[5, 10, 10, 3, 7, 2], [4, 9, 6, 1, 11, 1]],
+  [[8, 8, 11, 3, 10, 1], [2, 8, 4, 2, 9, 11]],
+  [[11, 7, 6, 2, 10, 10], [11, 6, 12, 2, 2, 8]],
+  [[2, 8, 10, 10, 6, 9], [2, 9, 9, 5, 12, 6]],
+  [[4, 8, 7, 7, 1, 6], [6, 10, 1, 2, 6, 7]],
+  [[11, 6, 10, 4, 7, 5], [2, 9, 8, 6, 1, 12]],
+  [[9, 10, 2, 11, 6, 1], [12, 4, 6, 10, 8, 5]],
+  [[11, 12, 3, 6, 1, 10], [7, 8, 5, 12, 4, 2]],
+  [[10, 9, 4, 3, 4, 7], [5, 5, 4, 7, 12, 8]],
+  [[2, 4, 11, 3, 12, 5], [6, 7, 3, 11, 2, 9]],
+  [[12, 2, 5, 3, 7, 10], [6, 8, 2, 12, 9, 7]],
+  [[5, 9, 10, 10, 2, 11], [11, 9, 7, 7, 4, 3]],
+  [[6, 3, 10, 12, 2, 4], [10, 5, 2, 7, 8, 1]],
+  [[10, 7, 2, 2, 12, 1], [9, 4, 3, 7, 6, 3]],
+  [[11, 2, 4, 6, 11, 10], [10, 12, 10, 6, 5, 3]],
+  [[6, 8, 11, 4, 3, 2], [1, 9, 2, 11, 5, 12]],
+  [[5, 2, 4, 7, 7, 12], [4, 8, 12, 9, 1, 4]],
+  [[1, 12, 7, 2, 3, 9], [3, 7, 2, 11, 6, 4]],
+  [[7, 4, 2, 10, 3, 9], [4, 8, 12, 6, 3, 1]],
+  [[6, 12, 4, 9, 9, 8], [12, 5, 4, 11, 2, 11]],
+  [[7, 4, 12, 3, 4, 12], [10, 2, 11, 1, 10, 11]],
+  [[12, 5, 4, 7, 4, 10], [3, 12, 8, 11, 7, 3]],
+  [[7, 7, 4, 5, 9, 6], [11, 7, 5, 7, 10, 2]],
+  [[1, 4, 3, 11, 12, 8], [4, 10, 1, 8, 12, 7]],
+  [[12, 10, 8, 3, 7, 2], [9, 7, 2, 12, 3, 4]],
+  [[1, 11, 9, 9, 10, 8], [8, 10, 8, 12, 3, 1]],
+  [[5, 6, 11, 7, 8, 5], [2, 4, 5, 12, 12, 11]],
+  [[8, 11, 1, 3, 9, 9], [2, 4, 9, 1, 12, 9]],
+  [[8, 7, 3, 10, 6, 10], [2, 9, 11, 7, 2, 12]],
+  [[11, 7, 7, 14, 6, 10], [13, 3, 7, 10, 7, 14]],
+  [[10, 7, 3, 10, 5, 7], [5, 5, 7, 5, 12, 11]],
+  [[12, 3, 14, 12, 6, 8], [7, 11, 12, 7, 5, 8]],
+  [[8, 4, 7, 10, 13, 4], [7, 3, 8, 10, 12, 10]],
+  [[10, 13, 9, 9, 8, 6], [8, 4, 10, 3, 14, 14]],
+  [[9, 8, 4, 11, 10, 11], [13, 8, 7, 13, 4, 3]],
+  [[9, 3, 4, 9, 10, 8], [5, 7, 12, 5, 9, 11]],
+  [[7, 9, 14, 9, 11, 6], [14, 11, 9, 5, 6, 9]],
+  [[6, 3, 4, 10, 10, 13], [6, 7, 4, 14, 8, 8]],
+  [[11, 6, 7, 8, 11, 8], [4, 6, 6, 12, 11, 11]],
+  [[11, 4, 4, 13, 13, 9], [13, 3, 3, 13, 4, 14]],
+  [[14, 9, 7, 3, 10, 11], [8, 4, 13, 3, 7, 14]],
+  [[12, 11, 5, 12, 11, 4], [4, 9, 14, 8, 9, 8]],
+  [[4, 11, 8, 5, 7, 10], [7, 8, 4, 5, 10, 14]],
+  [[8, 14, 8, 10, 7, 4], [10, 9, 11, 7, 6, 11]],
+  [[4, 9, 3, 7, 9, 12], [11, 4, 5, 12, 4, 9]],
+  [[9, 5, 12, 4, 4, 10], [8, 10, 8, 4, 14, 3]],
+  [[3, 8, 7, 7, 14, 7], [13, 6, 13, 9, 5, 6]],
+  [[7, 14, 12, 10, 7, 3], [11, 14, 3, 11, 8, 5]],
+  [[10, 9, 8, 7, 6, 11], [14, 11, 13, 6, 8, 3]],
+  [[12, 5, 12, 7, 4, 9], [4, 12, 8, 9, 5, 8]],
+  [[7, 12, 12, 5, 9, 4], [6, 11, 8, 3, 13, 3]],
+  [[10, 10, 13, 5, 12, 3], [4, 10, 6, 4, 11, 13]],
+  [[13, 9, 8, 4, 12, 12], [13, 8, 14, 4, 4, 10]],
+  [[4, 10, 12, 12, 8, 11], [4, 11, 11, 7, 14, 8]],
+  [[6, 10, 9, 9, 3, 8], [8, 12, 3, 4, 8, 9]],
+  [[13, 8, 12, 6, 9, 7], [4, 11, 10, 8, 3, 14]],
+  [[11, 12, 4, 13, 8, 3], [14, 6, 8, 12, 10, 7]],
+  [[13, 14, 5, 8, 3, 12], [9, 10, 7, 14, 6, 4]],
+  [[12, 11, 6, 5, 6, 9], [7, 7, 6, 9, 14, 10]],
+  [[4, 6, 13, 5, 14, 7], [8, 9, 5, 13, 4, 11]],
+  [[14, 4, 7, 5, 9, 12], [8, 10, 4, 14, 11, 9]],
+  [[7, 11, 12, 12, 4, 13], [13, 11, 9, 9, 6, 5]],
+  [[8, 5, 12, 14, 4, 6], [12, 7, 4, 9, 10, 3]],
+  [[12, 9, 4, 4, 14, 3], [11, 6, 5, 9, 8, 5]],
+  [[13, 4, 6, 8, 13, 12], [12, 14, 12, 8, 7, 5]],
+  [[8, 10, 13, 6, 5, 4], [3, 11, 4, 13, 7, 14]],
+  [[7, 4, 6, 9, 9, 14], [6, 10, 14, 11, 3, 6]],
+  [[3, 14, 9, 4, 5, 11], [5, 9, 4, 13, 8, 6]],
+  [[9, 6, 4, 12, 5, 11], [6, 10, 14, 8, 5, 3]],
+  [[8, 14, 6, 11, 11, 10], [14, 7, 6, 13, 4, 13]],
+  [[9, 6, 14, 5, 6, 14], [12, 4, 13, 3, 12, 13]],
+  [[14, 7, 6, 9, 6, 12], [5, 14, 10, 13, 9, 5]],
+  [[9, 9, 6, 7, 11, 8], [13, 9, 7, 9, 12, 4]],
+  [[3, 6, 5, 13, 14, 10], [6, 12, 3, 10, 14, 9]],
+  [[14, 12, 10, 5, 9, 4], [11, 9, 4, 14, 5, 6]],
+  [[3, 13, 11, 11, 12, 10], [10, 12, 10, 14, 5, 3]],
+  [[7, 8, 13, 9, 10, 7], [4, 6, 7, 14, 14, 13]],
+  [[10, 13, 3, 5, 11, 11], [4, 6, 11, 3, 14, 11]],
+  [[10, 9, 5, 12, 8, 12], [4, 11, 13, 9, 4, 14]]]
+
+  var arrays;
+
+  // if (Math.random() > 0.5) {
+  //   arrays = arrays1;
+  // } else {
+  //   arrays = arrays2;
+  // }
+
+  arrays = arrays1
+
+  function shuffle(arr) {
+    var currentIndex = arr.length,
+      randomIndex;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [arr[currentIndex], arr[randomIndex]] = [
+        arr[randomIndex],
+        arr[currentIndex],
+      ];
+    }
+
+    return arr;
+  }
+
+  function swap(arrays) {
+    for (var i = 0; i < arrays.length; i++) {
+      if (Math.random() > 0.5) {
+        var tmp = arrays[i][1];
+        arrays[i][1] = arrays[i][0];
+        arrays[i][0] = tmp;
+      }
+    }
+  }
+
+  shuffle(arrays); //shuffle order of trials
+  swap(arrays); //shuffle L or R
+
+  var indexx = 0;
+  var indexx2 = 0;
+
+  function rnd_array(arrays) {
+    var idx_array = arrays[indexx][0];
+    indexx++;
+    return idx_array;
+  }
+
+  function rnd_array2(arrays) {
+    var idx_array = arrays[indexx2][1];
+    indexx2++;
+    return idx_array;
+  }
+  var empt = [];
+
+  function drawRectLexp(c) {
+    j = 0;
+    var arr_left = rnd_array(arrays);
+    arr_left = shuffle(arr_left);
+    empt[indexx] = arr_left;
+    var ctx = c.getContext("2d");
+    ctx.beginPath();
+
+    ctx.fillStyle = col1[arr_left[0]];
+    ctx.fillRect(0, 0, 100, 100);
+
+    ctx.fillStyle = col1[arr_left[1]];
+    ctx.fillRect(125, 0, 100, 100);
+
+    ctx.fillStyle = col1[arr_left[2]];
+    ctx.fillRect(250, 0, 100, 100);
+
+    ctx.fillStyle = col1[arr_left[3]];
+    ctx.fillRect(0, 125, 100, 100);
+
+    ctx.fillStyle = col1[arr_left[4]];
+    ctx.fillRect(125, 125, 100, 100);
+
+    ctx.fillStyle = col1[arr_left[5]];
+    ctx.fillRect(250, 125, 100, 100);
+
+    for (var i = 0; i < 6; ++i) {
+      j += arr_left[i] + 1;
+    }
+    arr_L = [
+      arr_left[0] + 1,
+      arr_left[1] + 1,
+      arr_left[2] + 1,
+      arr_left[3] + 1,
+      arr_left[4] + 1,
+      arr_left[5] + 1,
+
+      //console.log("left: " + j)
     ];
+  }
 
-    //blue to pink
-    if (Math.random() > 0.5) {
-      colors.reverse();
-      pinktoblue = false;
-      bluetopink = true;
+  function drawRectRexp(d) {
+    w = 0;
+
+    var arr_right = rnd_array2(arrays);
+    arr_right = shuffle(arr_right);
+    empt[indexx2] = arr_right;
+
+    var ctx = d.getContext("2d");
+    ctx.beginPath();
+
+    ctx.fillStyle = col1[arr_right[0]];
+    ctx.fillRect(0, 0, 100, 100);
+
+    ctx.fillStyle = col1[arr_right[1]];
+    ctx.fillRect(125, 0, 100, 100);
+
+    ctx.fillStyle = col1[arr_right[2]];
+    ctx.fillRect(250, 0, 100, 100);
+
+    ctx.fillStyle = col1[arr_right[3]];
+    ctx.fillRect(0, 125, 100, 100);
+
+    ctx.fillStyle = col1[arr_right[4]];
+    ctx.fillRect(125, 125, 100, 100);
+
+    ctx.fillStyle = col1[arr_right[5]];
+    ctx.fillRect(250, 125, 100, 100);
+
+    for (var z = 0; z < arr_right.length; ++z) {
+      w += arr_right[z] + 1;
+      // arr_right[z] = arr_right[z]+1
     }
-    
-    //green to orange
-   var colors2 = ['rgb(227.0, 78.0, 50.0)',
- 'rgb(207.0, 98.0, 30.0)',
- 'rgb(182.0, 114.0, 19.0)',
- 'rgb(156.0, 126.0, 26.0)',
- 'rgb(129.0, 134.0, 46.0)',
- 'rgb(102.0, 140.0, 71.0)',
- 'rgb(76.0, 143.0, 98.0)',
- 'rgb(53.0, 143.0, 126.0)',
- 'rgb(46.0, 141.0, 151.0)',
- 'rgb(67.0, 137.0, 172.0)',
- 'rgb(102.0, 129.0, 185.0)',
- 'rgb(140.0, 117.0, 190.0)']
-
-    //orange to green
-    if (Math.random() > 0.5) {
-      greentoorange = false;
-      orangetogreen = true;
-      colors2.reverse();
-    }
-
-    var BPfirst = false;
-    var GOfirst = false;
-
-    if (Math.random() > 0.5) {
-      col1 = colors; //BP
-      BPfirst = true;
-    } else {
-      col1 = colors2; //GO
-      GOfirst = true;
-    }
-
-
-    // BPfirst = true;
-    // col1 = colors;
-
-    rainbow_one = []
-    rainbow_two = []
-    rainbow_BP = ["img/rainbows/BP.jpg", "blue", "pink"]
-    rainbow_PB = ["img/rainbows/PB.jpg", "pink", "blue"]
-    rainbow_OG = ["img/rainbows/OG.jpg", "orange", "green"]
-    rainbow_GO = ["img/rainbows/GO.jpg", "green", "orange"]
-
-    var log_rainbow = {
-      type: "call",
-      func: function () {},
-      on_finish: function (data) {
-        if (BPfirst) {
-          if (bluetopink) {
-            data.first_rainbow = "Blue to Pink";
-            anchors = ['img/anchors/blue.jpg', 'img/anchors/pink.jpg']
-            example_current = example_BP
-            rainbow_one = rainbow_BP
-          }
-          if (pinktoblue) {
-            data.first_rainbow = "Pink to Blue";
-            anchors = ['img/anchors/pink.jpg', 'img/anchors/blue.jpg']
-            example_current = example_PB
-            rainbow_one = rainbow_PB
-          }
-          if (greentoorange) {
-            data.second_rainbow = "Green to Orange";
-            anchors_two = ['img/anchors/green.jpg', 'img/anchors/orange.jpg']
-            example_current_2 = example_GO
-            rainbow_two = rainbow_GO
-          }
-          if (orangetogreen) {
-            data.second_rainbow = "Orange to Green";
-            anchors_two = ['img/anchors/orange.jpg', 'img/anchors/green.jpg']
-            example_current_2 = example_OG
-            rainbow_two = rainbow_OG
-          }
-        }
-        if (GOfirst) {
-          if (greentoorange) {
-            data.first_rainbow = "Green to Orange";
-            anchors = ['img/anchors/green.jpg', 'img/anchors/orange.jpg']
-            example_current = example_GO
-            rainbow_one = rainbow_GO
-          }
-          if (orangetogreen) {
-            data.first_rainbow = "Orange to Green";
-            anchors = ['img/anchors/orange.jpg', 'img/anchors/green.jpg']
-            example_current = example_OG
-            rainbow_one = rainbow_OG
-          }
-          if (bluetopink) {
-            data.second_rainbow = "Blue to Pink";
-            anchors_two = ['img/anchors/blue.jpg', 'img/anchors/pink.jpg']
-            example_current_2 = example_BP
-            rainbow_two = rainbow_BP
-          }
-          if (pinktoblue) {
-            data.second_rainbow = "Pink to Blue";
-            anchors_two = ['img/anchors/pink.jpg', 'img/anchors/blue.jpg']
-            example_current_2 = example_PB
-            rainbow_two = rainbow_PB
-          }
-        }
-      },
-    };
-    timeline.push(log_rainbow);
-    var arr_left;
-
-    //Code to generate arrays
-    // var arrays = new Array();
-    // for (var m = 0; m < 12; m++) {
-    //   arrays[m] = new Array();
-    // }
-    // for (var x = 0; x < 2; x++) {
-    //   for (var i = 0; i < 11; i++) {
-    //     var arr = [];
-    //     for (var j = 0; j < 6; j++) {
-    //       arr[j] = Math.floor(Math.random() * 8);
-    //       arrays[i][x] = arr;
-    //     }
-    //   }
-    // }
-
-    // var arrays = [
-    //   [
-    //     [1, 2, 3, 4, 5, 6],
-    //     [7, 2, 3, 5, 4, 1],
-    //   ],
-    //   [
-    //     [1, 6, 5, 0, 2, 3],
-    //     [2, 3, 1, 5, 3, 2],
-    //   ],
-    // ];
-
-    var arrays1 = [
-  [
-    [7, 2, 1, 0, 5, 0],
-    [5, 6, 5, 5, 3, 2],
-  ],
-  [
-    [1, 2, 5, 5, 5, 3],
-    [4, 6, 2, 5, 1, 5],
-  ],
-  [
-    [2, 1, 3, 2, 7, 3],
-    [4, 2, 7, 2, 0, 7],
-  ],
-  [
-    [5, 1, 3, 1, 5, 5],
-    [6, 7, 0, 1, 0, 5],
-  ],
-  [
-    [0, 3, 5, 2, 6, 4],
-    [0, 4, 1, 5, 0, 7],
-  ],
-  [
-    [5, 2, 4, 1, 4, 7],
-    [4, 1, 5, 2, 3, 1],
-  ],
-  [
-    [3, 4, 2, 7, 6, 7],
-    [0, 5, 5, 6, 1, 7],
-  ],
-  [
-    [5, 2, 0, 7, 4, 6],
-    [5, 3, 4, 6, 2, 7],
-  ],
-  [
-    [6, 6, 4, 1, 4, 6],
-    [3, 3, 1, 6, 6, 4],
-  ],
-  [
-    [4, 0, 6, 7, 5, 2],
-    [5, 2, 7, 6, 7, 2],
-  ],
-  [
-    [0, 3, 0, 4, 1, 6],
-    [2, 2, 2, 1, 7, 5],
-  ],
-  [
-    [0, 7, 6, 3, 6, 1],
-    [0, 3, 0, 2, 7, 5],
-  ],
-  [
-    [7, 2, 3, 5, 2, 0],
-    [2, 1, 1, 1, 3, 4],
-  ],
-  [
-    [1, 3, 5, 7, 0, 3],
-    [1, 5, 4, 2, 6, 7],
-  ],
-  [
-    [6, 5, 3, 1, 2, 5],
-    [2, 2, 6, 0, 1, 3],
-  ],
-  [
-    [7, 6, 6, 6, 5, 2],
-    [0, 4, 3, 7, 6, 5],
-  ],
-  [
-    [4, 7, 1, 1, 2, 0],
-    [0, 3, 4, 5, 3, 3],
-  ],
-  [
-    [0, 4, 4, 5, 2, 7],
-    [2, 7, 4, 5, 0, 4],
-  ],
-  [
-    [3, 5, 4, 5, 6, 1],
-    [2, 3, 4, 3, 1, 6],
-  ],
-  [
-    [1, 3, 0, 7, 1, 2],
-    [0, 0, 3, 2, 2, 1],
-  ],
-  [
-    [3, 3, 7, 4, 0, 5],
-    [5, 2, 4, 2, 1, 6],
-  ],
-  [
-    [2, 1, 4, 5, 3, 6],
-    [7, 4, 3, 2, 3, 1],
-  ],
-  [
-    [1, 2, 2, 2, 3, 2],
-    [5, 1, 0, 0, 0, 1],
-  ],
-  [
-    [2, 5, 6, 1, 1, 3],
-    [4, 5, 2, 6, 2, 5],
-  ],
-  [
-    [4, 3, 4, 1, 1, 0],
-    [2, 2, 5, 4, 7, 2],
-  ],
-  [
-    [7, 4, 5, 3, 1, 1],
-    [5, 3, 0, 6, 3, 0],
-  ],
-  [
-    [7, 2, 2, 1, 7, 1],
-    [3, 3, 6, 4, 7, 0],
-  ],
-  [
-    [5, 3, 7, 6, 5, 3],
-    [3, 2, 7, 3, 5, 3],
-  ],
-  [
-    [6, 6, 1, 3, 6, 7],
-    [6, 1, 0, 1, 7, 1],
-  ],
-  [
-    [4, 5, 4, 0, 7, 7],
-    [5, 3, 6, 2, 5, 6],
-  ],
-  [
-    [3, 7, 4, 3, 2, 7],
-    [1, 6, 1, 5, 5, 0],
-  ],
-  [
-    [2, 0, 1, 2, 6, 2],
-    [1, 1, 3, 0, 5, 7],
-  ],
-  [
-    [0, 4, 4, 1, 0, 1],
-    [0, 6, 5, 2, 5, 0],
-  ],
-  [
-    [2, 5, 6, 7, 3, 2],
-    [5, 7, 1, 6, 4, 7],
-  ],
-  [
-    [1, 2, 2, 1, 3, 5],
-    [1, 1, 0, 6, 0, 3],
-  ],
-  [
-    [0, 7, 2, 2, 1, 3],
-    [3, 7, 5, 1, 4, 6],
-  ],
-  [
-    [5, 2, 3, 7, 1, 1],
-    [3, 3, 6, 6, 0, 3],
-  ],
-  [
-    [1, 7, 7, 2, 4, 3],
-    [2, 7, 3, 2, 1, 4],
-  ],
-  [
-    [3, 4, 6, 0, 6, 1],
-    [7, 2, 2, 7, 0, 2],
-  ],
-  [
-    [2, 1, 2, 4, 0, 2],
-    [7, 0, 5, 3, 2, 0],
-  ],
-  [
-    [5, 1, 0, 6, 0, 0],
-    [7, 1, 0, 0, 5, 0],
-  ],
-  [
-    [7, 5, 0, 0, 0, 0],
-    [3, 3, 0, 7, 4, 2],
-  ],
-  [
-    [3, 0, 1, 7, 2, 0],
-    [5, 3, 4, 6, 0, 3],
-  ],
-  [
-    [5, 1, 5, 5, 7, 0],
-    [3, 3, 0, 3, 5, 3],
-  ],
-  [
-    [3, 4, 0, 2, 2, 4],
-    [4, 5, 1, 6, 7, 5],
-  ],
-  [
-    [4, 6, 2, 2, 2, 0],
-    [2, 3, 2, 3, 7, 3],
-  ],
-  [
-    [3, 3, 7, 6, 1, 7],
-    [0, 5, 3, 6, 5, 5],
-  ],
-  [
-    [0, 5, 3, 2, 0, 0],
-    [4, 2, 5, 1, 6, 5],
-  ],
-  [
-    [2, 3, 0, 3, 7, 0],
-    [0, 1, 6, 7, 6, 4],
-  ],
-  [
-    [2, 2, 2, 7, 3, 3],
-    [0, 1, 1, 7, 0, 7],
-  ],
-  [
-    [4, 0, 5, 7, 6, 0],
-    [0, 4, 4, 3, 7, 7],
-  ],
-  [
-    [5, 2, 2, 1, 5, 6],
-    [7, 6, 7, 6, 2, 4],
-  ],
-  [
-    [2, 6, 3, 4, 6, 2],
-    [1, 5, 1, 5, 5, 5],
-  ],
-  [
-    [4, 7, 1, 4, 2, 3],
-    [6, 7, 6, 5, 4, 1],
-  ],
-  [
-    [2, 4, 3, 2, 5, 5],
-    [1, 3, 3, 2, 7, 5],
-  ],
-  [
-    [6, 2, 6, 4, 4, 5],
-    [3, 7, 0, 2, 2, 7],
-  ],
-  [
-    [0, 5, 0, 7, 3, 5],
-    [7, 4, 6, 3, 4, 4],
-  ],
-  [
-    [4, 0, 5, 2, 5, 0],
-    [6, 4, 7, 2, 3, 6],
-  ],
-  [
-    [3, 3, 3, 4, 0, 1],
-    [5, 4, 1, 0, 1, 2],
-  ],
-  [
-    [7, 2, 1, 0, 3, 6],
-    [2, 1, 5, 5, 1, 0],
-  ],
-  [
-    [1, 7, 4, 4, 2, 6],
-    [4, 5, 2, 2, 1, 2],
-  ],
-  [
-    [3, 1, 7, 3, 0, 5],
-    [4, 3, 5, 1, 5, 1],
-  ],
-  [
-    [5, 1, 4, 7, 6, 4],
-    [6, 2, 0, 4, 0, 0],
-  ],
-  [
-    [2, 3, 2, 4, 4, 6],
-    [4, 3, 5, 6, 7, 3],
-  ],
-  [
-    [6, 1, 6, 4, 3, 7],
-    [4, 1, 2, 6, 2, 7],
-  ],
-  [
-    [2, 4, 0, 6, 5, 0],
-    [4, 1, 6, 1, 1, 7],
-  ],
-  [
-    [1, 2, 0, 2, 0, 1],
-    [2, 5, 4, 4, 6, 0],
-  ],
-  [
-    [4, 0, 0, 0, 1, 5],
-    [0, 1, 5, 3, 0, 2],
-  ],
-  [
-    [5, 4, 0, 6, 7, 4],
-    [6, 6, 3, 1, 4, 3],
-  ],
-  [
-    [3, 3, 7, 1, 6, 2],
-    [7, 1, 3, 7, 7, 1],
-  ],
-  [
-    [5, 6, 3, 6, 3, 2],
-    [2, 6, 4, 2, 2, 3],
-  ],
-  [
-    [7, 3, 1, 5, 1, 3],
-    [0, 4, 0, 6, 4, 4],
-  ],
-  [
-    [1, 7, 7, 4, 3, 6],
-    [0, 3, 0, 5, 0, 3],
-  ],
-  [
-    [7, 4, 0, 7, 2, 6],
-    [0, 2, 1, 7, 4, 7],
-  ],
-  [
-    [6, 6, 6, 7, 7, 4],
-    [3, 6, 6, 7, 5, 0],
-  ],
-  [
-    [5, 2, 4, 4, 7, 3],
-    [0, 0, 3, 7, 0, 2],
-  ],
-  [
-    [4, 6, 5, 1, 1, 1],
-    [7, 7, 5, 0, 6, 4],
-  ],
-  [
-    [0, 0, 0, 3, 6, 6],
-    [4, 2, 6, 4, 0, 0],
-  ],
-  [
-    [2, 3, 0, 5, 2, 3],
-    [2, 6, 5, 0, 3, 7],
-  ],
-  [
-    [5, 6, 7, 5, 5, 7],
-    [0, 1, 1, 4, 4, 3],
-  ],
-  [
-    [5, 7, 5, 7, 7, 2],
-    [3, 7, 2, 4, 0, 1],
-  ],
-  [
-    [7, 2, 5, 6, 0, 4],
-    [6, 5, 0, 7, 0, 2],
-  ],
-  [
-    [3, 0, 5, 4, 2, 3],
-    [4, 2, 2, 4, 6, 2],
-  ],
-  [
-    [3, 0, 6, 5, 2, 4],
-    [3, 3, 4, 4, 2, 5],
-  ],
-  [
-    [1, 3, 7, 1, 0, 6],
-    [6, 0, 0, 2, 0, 6],
-  ],
-  [
-    [3, 0, 0, 4, 5, 1],
-    [7, 2, 1, 5, 3, 2],
-  ],
-  [
-    [2, 7, 4, 3, 3, 6],
-    [1, 3, 4, 0, 7, 1],
-  ],
-  [
-    [1, 7, 5, 6, 0, 0],
-    [7, 1, 5, 5, 4, 5],
-  ],
-  [
-    [5, 7, 6, 4, 3, 7],
-    [7, 3, 2, 1, 6, 5],
-  ],
-  [
-    [4, 5, 5, 7, 0, 6],
-    [0, 1, 1, 5, 3, 7],
-  ],
-  [
-    [7, 7, 7, 7, 5, 5],
-    [3, 7, 2, 2, 4, 1],
-  ],
-  [
-    [6, 5, 4, 2, 0, 2],
-    [6, 5, 4, 0, 1, 3],
-  ],
-  [
-    [2, 3, 0, 4, 4, 2],
-    [2, 4, 2, 2, 2, 0],
-  ],
-  [
-    [3, 6, 7, 6, 5, 2],
-    [2, 5, 1, 0, 5, 3],
-  ],
-  [
-    [1, 5, 3, 6, 3, 6],
-    [2, 5, 6, 5, 6, 7],
-  ],
-  [
-    [1, 1, 1, 3, 4, 3],
-    [3, 1, 0, 5, 2, 0],
-  ],
-  [
-    [0, 4, 7, 2, 3, 4],
-    [6, 1, 4, 5, 2, 5],
-  ],
-  [
-    [6, 4, 6, 6, 5, 1],
-    [2, 4, 7, 4, 6, 4],
-  ],
-  [
-    [6, 7, 5, 2, 2, 5],
-    [3, 7, 2, 1, 4, 0],
-  ],
-  [
-    [1, 1, 2, 5, 2, 0],
-    [3, 6, 1, 1, 3, 2],
-  ],
-  [
-    [1, 4, 3, 7, 0, 3],
-    [2, 7, 5, 2, 2, 0],
-  ],
-  [
-    [6, 0, 1, 5, 2, 6],
-    [1, 6, 2, 4, 4, 5],
-  ],
-  [
-    [2, 5, 0, 1, 1, 4],
-    [0, 7, 7, 3, 6, 7],
-  ],
-  [
-    [2, 3, 0, 6, 4, 5],
-    [0, 6, 1, 3, 6, 4],
-  ],
-  [
-    [4, 1, 6, 2, 2, 7],
-    [7, 2, 2, 4, 1, 4],
-  ],
-  [
-    [6, 1, 1, 6, 6, 0],
-    [4, 1, 5, 4, 1, 6],
-  ],
-  [
-    [5, 5, 6, 7, 0, 5],
-    [7, 1, 2, 5, 6, 0],
-  ],
-  [
-    [3, 2, 6, 7, 3, 1],
-    [0, 6, 3, 4, 0, 7],
-  ],
-  [
-    [0, 5, 6, 4, 7, 1],
-    [7, 4, 1, 2, 1, 3],
-  ],
-  [
-    [5, 2, 6, 6, 7, 7],
-    [1, 5, 1, 1, 2, 6],
-  ],
-  [
-    [4, 2, 5, 5, 0, 0],
-    [4, 6, 4, 1, 1, 5],
-  ],
-  [
-    [6, 2, 1, 3, 4, 0],
-    [4, 4, 4, 5, 6, 0],
-  ],
-  [
-    [5, 2, 2, 0, 5, 7],
-    [0, 2, 3, 0, 3, 5],
-  ],
-  [
-    [2, 0, 5, 4, 7, 3],
-    [3, 2, 5, 6, 2, 4],
-  ],
-  [
-    [1, 2, 7, 3, 7, 7],
-    [4, 0, 0, 3, 4, 0],
-  ],
-  [
-    [5, 2, 7, 2, 2, 4],
-    [7, 7, 6, 4, 6, 1],
-  ],
-  [
-    [5, 6, 3, 6, 1, 6],
-    [1, 0, 4, 6, 1, 2],
-  ],
-  [
-    [4, 6, 4, 2, 1, 4],
-    [2, 1, 2, 7, 5, 1],
-  ],
-  [
-    [7, 7, 0, 4, 7, 1],
-    [5, 2, 5, 0, 2, 5],
-  ],
-  [
-    [2, 2, 0, 5, 3, 7],
-    [7, 1, 6, 3, 6, 4],
-  ],
-  [
-    [3, 2, 5, 3, 3, 6],
-    [3, 0, 5, 5, 4, 1],
-  ],
-  [
-    [2, 0, 1, 3, 4, 3],
-    [6, 2, 5, 0, 2, 0],
-  ],
-  [
-    [4, 3, 0, 1, 1, 1],
-    [6, 4, 3, 2, 2, 5],
-  ],
-  [
-    [5, 5, 5, 0, 1, 5],
-    [3, 6, 4, 0, 0, 1],
-  ],
-  [
-    [5, 7, 5, 5, 7, 7],
-    [4, 7, 3, 4, 3, 2],
-  ],
-  [
-    [0, 5, 5, 3, 4, 6],
-    [6, 1, 4, 7, 3, 0],
-  ],
-  [
-    [2, 7, 7, 1, 7, 1],
-    [0, 7, 5, 3, 2, 2],
-  ],
-  [
-    [6, 3, 0, 4, 7, 7],
-    [1, 0, 5, 6, 5, 2],
-  ],
-  [
-    [5, 1, 7, 5, 2, 0],
-    [3, 1, 0, 6, 4, 2],
-  ],
-  [
-    [3, 1, 6, 5, 3, 3],
-    [6, 7, 5, 2, 2, 7],
-  ],
-  [
-    [3, 6, 4, 4, 7, 3],
-    [1, 1, 0, 2, 2, 5],
-  ],
-  [
-    [6, 5, 5, 3, 5, 7],
-    [5, 7, 1, 7, 0, 5],
-  ],
-  [
-    [6, 3, 2, 3, 4, 1],
-    [5, 5, 0, 3, 6, 6],
-  ],
-  [
-    [1, 6, 0, 5, 6, 2],
-    [0, 2, 3, 7, 2, 3],
-  ],
-  [
-    [6, 1, 4, 3, 7, 7],
-    [6, 3, 7, 3, 4, 2],
-  ],
-  [
-    [0, 5, 1, 3, 4, 5],
-    [1, 3, 4, 3, 6, 7],
-  ],
-  [
-    [0, 0, 4, 5, 3, 4],
-    [6, 3, 5, 2, 6, 0],
-  ],
-  [
-    [0, 7, 4, 3, 0, 7],
-    [4, 7, 1, 7, 6, 0],
-  ],
-  [
-    [5, 7, 2, 6, 1, 2],
-    [2, 2, 6, 6, 6, 2],
-  ],
-  [
-    [3, 2, 7, 1, 0, 4],
-    [4, 3, 3, 6, 4, 7],
-  ],
-  [
-    [2, 1, 5, 0, 3, 2],
-    [4, 3, 1, 5, 1, 7],
-  ],
-  [
-    [2, 3, 7, 0, 3, 1],
-    [4, 0, 7, 6, 5, 7],
-  ],
-  [
-    [6, 0, 3, 6, 1, 7],
-    [7, 4, 2, 2, 0, 3],
-  ],
-  [
-    [3, 5, 1, 0, 0, 5],
-    [2, 6, 4, 3, 6, 2],
-  ],
-  [
-    [1, 5, 1, 1, 4, 6],
-    [4, 3, 4, 5, 0, 5],
-  ],
-  [
-    [6, 3, 5, 5, 4, 7],
-    [7, 7, 5, 4, 1, 5],
-  ],
-  [
-    [1, 1, 6, 0, 1, 4],
-    [1, 7, 3, 5, 1, 4],
-  ],
-  [
-    [1, 7, 0, 0, 7, 6],
-    [2, 1, 4, 5, 2, 0],
-  ],
-  [
-    [0, 0, 2, 3, 0, 2],
-    [5, 2, 4, 3, 4, 3],
-  ],
-  [
-    [5, 0, 4, 5, 1, 2],
-    [5, 7, 5, 6, 4, 1],
-  ],
-];
-
-    var arrays2 = [
-      [
-        [6, 7, 2, 6, 3, 4],
-        [7, 4, 4, 6, 3, 0],
-      ],
-      [
-        [5, 0, 2, 0, 1, 4],
-        [6, 7, 6, 7, 6, 6],
-      ],
-      [
-        [0, 6, 1, 6, 0, 6],
-        [0, 3, 1, 7, 0, 2],
-      ],
-      [
-        [0, 7, 6, 5, 1, 7],
-        [1, 7, 0, 3, 5, 1],
-      ],
-      [
-        [3, 6, 2, 1, 7, 7],
-        [1, 3, 2, 0, 0, 2],
-      ],
-      [
-        [0, 7, 1, 2, 2, 2],
-        [6, 0, 7, 6, 6, 6],
-      ],
-      [
-        [3, 0, 7, 0, 7, 0],
-        [0, 0, 2, 5, 1, 0],
-      ],
-      [
-        [7, 4, 2, 7, 2, 7],
-        [2, 3, 2, 4, 6, 1],
-      ],
-      [
-        [5, 2, 5, 7, 6, 7],
-        [2, 6, 2, 1, 6, 2],
-      ],
-      [
-        [0, 0, 5, 1, 6, 0],
-        [3, 6, 3, 1, 0, 0],
-      ],
-      [
-        [5, 0, 7, 7, 2, 0],
-        [0, 7, 5, 2, 7, 6],
-      ],
-      [
-        [6, 3, 4, 7, 4, 1],
-        [1, 3, 6, 0, 5, 0],
-      ],
-      [
-        [2, 3, 6, 1, 2, 2],
-        [7, 4, 3, 4, 6, 1],
-      ],
-      [
-        [7, 0, 4, 0, 6, 0],
-        [3, 7, 4, 7, 0, 4],
-      ],
-      [
-        [0, 1, 3, 6, 6, 2],
-        [6, 7, 4, 0, 6, 1],
-      ],
-      [
-        [5, 2, 0, 1, 5, 7],
-        [1, 1, 7, 6, 6, 3],
-      ],
-      [
-        [1, 6, 7, 5, 3, 3],
-        [2, 0, 6, 7, 3, 6],
-      ],
-      [
-        [3, 5, 0, 5, 4, 7],
-        [2, 1, 5, 1, 7, 3],
-      ],
-      [
-        [3, 0, 0, 6, 3, 1],
-        [1, 0, 7, 3, 4, 3],
-      ],
-      [
-        [6, 6, 1, 1, 3, 0],
-        [2, 1, 7, 6, 6, 6],
-      ],
-      [
-        [0, 1, 5, 1, 1, 1],
-        [1, 0, 0, 1, 3, 1],
-      ],
-      [
-        [1, 2, 1, 4, 0, 0],
-        [3, 0, 1, 6, 6, 6],
-      ],
-      [
-        [0, 4, 1, 3, 3, 0],
-        [1, 5, 4, 5, 3, 6],
-      ],
-      [
-        [2, 1, 3, 3, 7, 2],
-        [7, 0, 5, 3, 2, 1],
-      ],
-      [
-        [1, 1, 5, 7, 1, 6],
-        [7, 1, 7, 5, 4, 6],
-      ],
-      [
-        [3, 0, 0, 6, 3, 5],
-        [0, 0, 6, 2, 4, 0],
-      ],
-      [
-        [2, 1, 6, 1, 5, 7],
-        [0, 5, 0, 6, 2, 6],
-      ],
-      [
-        [7, 0, 5, 5, 1, 7],
-        [6, 2, 5, 4, 5, 7],
-      ],
-      [
-        [5, 5, 2, 1, 1, 5],
-        [6, 1, 7, 1, 4, 3],
-      ],
-      [
-        [7, 7, 1, 3, 6, 6],
-        [4, 1, 6, 3, 1, 2],
-      ],
-      [
-        [4, 4, 2, 6, 3, 3],
-        [1, 2, 2, 2, 6, 3],
-      ],
-      [
-        [2, 7, 7, 6, 5, 4],
-        [6, 6, 3, 7, 1, 7],
-      ],
-      [
-        [0, 2, 3, 7, 1, 2],
-        [4, 2, 4, 0, 6, 7],
-      ],
-      [
-        [4, 2, 1, 0, 6, 5],
-        [3, 7, 3, 3, 5, 3],
-      ],
-      [
-        [6, 1, 2, 7, 3, 4],
-        [6, 2, 2, 4, 1, 3],
-      ],
-      [
-        [2, 3, 6, 7, 2, 1],
-        [7, 7, 2, 1, 7, 2],
-      ],
-      [
-        [4, 0, 5, 0, 7, 0],
-        [1, 4, 5, 4, 3, 3],
-      ],
-      [
-        [2, 5, 3, 1, 6, 6],
-        [0, 1, 0, 5, 2, 1],
-      ],
-      [
-        [0, 1, 3, 1, 3, 0],
-        [3, 7, 2, 2, 1, 2],
-      ],
-      [
-        [2, 0, 1, 5, 5, 0],
-        [4, 2, 1, 4, 5, 2],
-      ],
-      [
-        [3, 0, 2, 5, 1, 2],
-        [3, 1, 2, 6, 3, 0],
-      ],
-      [
-        [2, 2, 5, 2, 2, 4],
-        [5, 3, 3, 7, 3, 7],
-      ],
-      [
-        [5, 0, 3, 6, 6, 4],
-        [2, 5, 6, 1, 3, 3],
-      ],
-      [
-        [0, 3, 5, 0, 7, 5],
-        [6, 0, 2, 1, 2, 0],
-      ],
-      [
-        [7, 1, 5, 1, 7, 2],
-        [4, 7, 5, 2, 6, 0],
-      ],
-      [
-        [0, 7, 4, 6, 4, 2],
-        [5, 0, 0, 7, 2, 1],
-      ],
-      [
-        [1, 6, 0, 6, 1, 7],
-        [0, 7, 5, 1, 6, 1],
-      ],
-      [
-        [0, 1, 1, 4, 4, 3],
-        [5, 6, 1, 2, 5, 4],
-      ],
-      [
-        [1, 5, 3, 1, 0, 2],
-        [1, 5, 1, 0, 7, 0],
-      ],
-      [
-        [2, 0, 0, 0, 2, 0],
-        [0, 0, 4, 7, 5, 6],
-      ],
-      [
-        [6, 1, 6, 0, 4, 7],
-        [5, 4, 7, 7, 2, 3],
-      ],
-      [
-        [6, 5, 7, 4, 2, 3],
-        [7, 3, 5, 7, 0, 3],
-      ],
-      [
-        [6, 6, 2, 7, 0, 7],
-        [2, 4, 4, 7, 7, 0],
-      ],
-      [
-        [6, 6, 2, 4, 5, 4],
-        [3, 3, 1, 4, 5, 7],
-      ],
-      [
-        [0, 3, 6, 0, 7, 3],
-        [4, 7, 3, 4, 7, 0],
-      ],
-      [
-        [4, 1, 1, 7, 2, 7],
-        [5, 4, 0, 2, 1, 0],
-      ],
-      [
-        [0, 4, 6, 1, 1, 7],
-        [3, 1, 7, 1, 2, 1],
-      ],
-      [
-        [4, 0, 7, 7, 3, 1],
-        [2, 7, 4, 6, 6, 6],
-      ],
-      [
-        [7, 5, 1, 5, 5, 5],
-        [3, 1, 0, 5, 4, 5],
-      ],
-      [
-        [1, 4, 1, 2, 5, 2],
-        [7, 3, 3, 7, 5, 3],
-      ],
-      [
-        [4, 4, 1, 2, 7, 1],
-        [1, 7, 7, 2, 3, 4],
-      ],
-      [
-        [2, 2, 5, 6, 4, 1],
-        [7, 2, 6, 4, 0, 5],
-      ],
-      [
-        [5, 3, 6, 3, 2, 6],
-        [0, 7, 4, 5, 1, 0],
-      ],
-      [
-        [3, 3, 1, 1, 6, 7],
-        [7, 0, 3, 4, 6, 4],
-      ],
-      [
-        [2, 3, 4, 1, 6, 5],
-        [0, 0, 3, 7, 3, 4],
-      ],
-      [
-        [2, 3, 0, 1, 7, 7],
-        [7, 6, 0, 6, 4, 2],
-      ],
-      [
-        [3, 0, 5, 7, 5, 6],
-        [0, 1, 3, 3, 1, 4],
-      ],
-      [
-        [2, 1, 6, 2, 2, 6],
-        [7, 3, 7, 1, 6, 5],
-      ],
-      [
-        [1, 2, 2, 3, 7, 4],
-        [5, 3, 1, 2, 0, 5],
-      ],
-      [
-        [4, 0, 0, 2, 2, 0],
-        [0, 5, 5, 5, 4, 6],
-      ],
-      [
-        [5, 6, 3, 0, 2, 7],
-        [3, 0, 5, 6, 6, 3],
-      ],
-      [
-        [2, 3, 3, 5, 2, 7],
-        [4, 5, 1, 7, 4, 5],
-      ],
-      [
-        [0, 1, 0, 5, 7, 7],
-        [1, 7, 3, 2, 4, 3],
-      ],
-      [
-        [4, 2, 4, 6, 0, 1],
-        [6, 0, 4, 5, 6, 7],
-      ],
-      [
-        [1, 0, 2, 2, 5, 6],
-        [4, 7, 7, 5, 1, 2],
-      ],
-      [
-        [5, 5, 3, 2, 4, 0],
-        [3, 2, 1, 6, 5, 1],
-      ],
-      [
-        [0, 2, 5, 3, 0, 1],
-        [3, 1, 3, 6, 3, 5],
-      ],
-      [
-        [2, 5, 5, 7, 5, 0],
-        [2, 5, 2, 1, 2, 7],
-      ],
-      [
-        [6, 0, 3, 4, 1, 5],
-        [6, 6, 6, 0, 5, 1],
-      ],
-      [
-        [6, 7, 5, 3, 3, 0],
-        [0, 6, 3, 2, 4, 1],
-      ],
-      [
-        [1, 0, 4, 7, 7, 7],
-        [2, 3, 6, 4, 7, 2],
-      ],
-      [
-        [5, 2, 1, 4, 3, 3],
-        [0, 0, 5, 4, 1, 3],
-      ],
-      [
-        [0, 0, 4, 2, 3, 4],
-        [6, 4, 0, 5, 3, 1],
-      ],
-      [
-        [4, 0, 2, 6, 3, 2],
-        [3, 6, 2, 0, 0, 1],
-      ],
-      [
-        [3, 6, 7, 3, 1, 5],
-        [3, 4, 2, 5, 2, 5],
-      ],
-      [
-        [1, 6, 0, 7, 7, 4],
-        [5, 2, 4, 1, 3, 1],
-      ],
-      [
-        [7, 3, 0, 2, 3, 2],
-        [4, 7, 0, 1, 0, 1],
-      ],
-      [
-        [6, 1, 6, 5, 5, 5],
-        [4, 7, 5, 7, 1, 1],
-      ],
-      [
-        [1, 2, 7, 5, 7, 3],
-        [7, 1, 0, 7, 7, 6],
-      ],
-      [
-        [3, 0, 3, 4, 4, 2],
-        [2, 4, 7, 7, 7, 6],
-      ],
-      [
-        [6, 3, 6, 7, 2, 1],
-        [5, 2, 2, 2, 0, 3],
-      ],
-      [
-        [5, 4, 3, 0, 6, 5],
-        [2, 7, 3, 5, 5, 6],
-      ],
-      [
-        [2, 6, 7, 7, 4, 0],
-        [2, 5, 3, 5, 2, 6],
-      ],
-      [
-        [7, 2, 4, 2, 7, 7],
-        [7, 2, 4, 1, 4, 0],
-      ],
-      [
-        [7, 2, 4, 7, 5, 5],
-        [2, 6, 4, 7, 2, 2],
-      ],
-      [
-        [2, 0, 7, 0, 2, 1],
-        [1, 3, 2, 1, 3, 4],
-      ],
-      [
-        [4, 3, 3, 2, 4, 7],
-        [0, 1, 5, 1, 7, 1],
-      ],
-      [
-        [5, 7, 0, 6, 1, 4],
-        [5, 2, 3, 2, 2, 0],
-      ],
-      [
-        [1, 7, 7, 1, 6, 3],
-        [0, 2, 7, 3, 0, 0],
-      ],
-      [
-        [3, 1, 0, 1, 7, 1],
-        [4, 0, 6, 7, 0, 2],
-      ],
-      [
-        [6, 1, 7, 7, 6, 2],
-        [7, 2, 7, 6, 3, 0],
-      ],
-      [
-        [5, 3, 7, 2, 3, 5],
-        [3, 1, 0, 7, 0, 3],
-      ],
-      [
-        [0, 3, 7, 5, 2, 5],
-        [7, 4, 0, 0, 4, 3],
-      ],
-      [
-        [5, 2, 6, 5, 2, 4],
-        [7, 4, 1, 1, 0, 2],
-      ],
-      [
-        [6, 2, 0, 4, 6, 6],
-        [0, 4, 6, 2, 1, 5],
-      ],
-      [
-        [0, 3, 3, 4, 7, 4],
-        [4, 5, 7, 1, 3, 5],
-      ],
-      [
-        [2, 7, 2, 2, 6, 2],
-        [5, 0, 6, 0, 4, 5],
-      ],
-      [
-        [5, 6, 4, 3, 2, 6],
-        [7, 1, 4, 0, 2, 6],
-      ],
-      [
-        [2, 0, 5, 0, 5, 2],
-        [7, 0, 5, 3, 0, 5],
-      ],
-      [
-        [0, 7, 5, 2, 4, 1],
-        [6, 4, 5, 3, 5, 0],
-      ],
-      [
-        [2, 3, 2, 2, 6, 0],
-        [0, 4, 5, 7, 3, 4],
-      ],
-      [
-        [5, 6, 2, 2, 0, 1],
-        [1, 0, 2, 0, 2, 4],
-      ],
-      [
-        [3, 3, 6, 3, 2, 2],
-        [4, 7, 4, 0, 5, 2],
-      ],
-      [
-        [3, 7, 5, 0, 7, 4],
-        [1, 7, 0, 7, 2, 6],
-      ],
-      [
-        [3, 5, 6, 2, 7, 2],
-        [3, 2, 2, 1, 3, 7],
-      ],
-      [
-        [6, 0, 7, 0, 5, 3],
-        [1, 2, 4, 7, 1, 7],
-      ],
-      [
-        [7, 1, 4, 5, 2, 7],
-        [0, 7, 7, 6, 0, 6],
-      ],
-      [
-        [1, 3, 6, 7, 7, 2],
-        [4, 1, 7, 0, 4, 5],
-      ],
-      [
-        [2, 3, 6, 4, 1, 3],
-        [7, 1, 0, 4, 5, 3],
-      ],
-      [
-        [6, 2, 1, 7, 7, 0],
-        [6, 1, 6, 4, 6, 3],
-      ],
-      [
-        [5, 6, 4, 5, 3, 0],
-        [5, 7, 2, 5, 6, 2],
-      ],
-      [
-        [4, 1, 4, 0, 6, 3],
-        [1, 0, 4, 3, 5, 6],
-      ],
-      [
-        [1, 7, 7, 0, 4, 3],
-        [2, 7, 3, 0, 2, 1],
-      ],
-      [
-        [2, 3, 2, 1, 6, 7],
-        [3, 2, 0, 3, 6, 7],
-      ],
-      [
-        [3, 5, 4, 6, 4, 5],
-        [1, 3, 6, 7, 2, 3],
-      ],
-      [
-        [2, 2, 1, 1, 7, 5],
-        [1, 7, 4, 6, 6, 5],
-      ],
-      [
-        [4, 4, 1, 0, 5, 0],
-        [3, 4, 0, 7, 2, 3],
-      ],
-      [
-        [0, 0, 3, 7, 4, 1],
-        [1, 6, 7, 5, 2, 5],
-      ],
-      [
-        [2, 4, 0, 5, 5, 1],
-        [0, 3, 1, 7, 3, 4],
-      ],
-      [
-        [1, 1, 0, 3, 7, 4],
-        [0, 4, 0, 6, 1, 0],
-      ],
-      [
-        [4, 4, 7, 2, 6, 7],
-        [2, 7, 2, 0, 0, 7],
-      ],
-      [
-        [2, 5, 0, 1, 2, 3],
-        [6, 6, 1, 3, 4, 1],
-      ],
-      [
-        [4, 7, 2, 5, 0, 1],
-        [1, 5, 2, 4, 3, 1],
-      ],
-      [
-        [4, 0, 2, 0, 1, 2],
-        [7, 2, 5, 3, 2, 3],
-      ],
-      [
-        [4, 4, 3, 7, 1, 1],
-        [7, 5, 3, 4, 0, 1],
-      ],
-      [
-        [0, 1, 6, 7, 5, 3],
-        [0, 5, 7, 2, 2, 4],
-      ],
-      [
-        [0, 0, 2, 0, 1, 6],
-        [3, 1, 7, 0, 0, 5],
-      ],
-      [
-        [0, 7, 0, 1, 6, 3],
-        [5, 3, 1, 1, 1, 3],
-      ],
-      [
-        [5, 0, 3, 1, 5, 7],
-        [2, 2, 7, 2, 1, 6],
-      ],
-      [
-        [3, 5, 0, 0, 5, 3],
-        [3, 7, 2, 2, 3, 7],
-      ],
-      [
-        [5, 1, 7, 2, 5, 0],
-        [3, 6, 1, 7, 5, 4],
-      ],
-      [
-        [7, 0, 6, 7, 2, 1],
-        [3, 4, 6, 6, 3, 7],
-      ],
-      [
-        [1, 4, 7, 6, 1, 4],
-        [7, 3, 7, 3, 2, 2],
-      ],
-      [
-        [4, 0, 6, 0, 6, 0],
-        [5, 1, 7, 7, 7, 2],
-      ],
-      [
-        [3, 3, 7, 3, 4, 3],
-        [7, 6, 1, 6, 2, 0],
-      ],
-      [
-        [5, 2, 5, 4, 4, 3],
-        [3, 1, 6, 2, 6, 1],
-      ],
-      [
-        [4, 0, 6, 1, 4, 4],
-        [6, 0, 4, 1, 0, 1],
-      ],
-      [
-        [7, 7, 5, 1, 4, 3],
-        [6, 4, 4, 1, 5, 1],
-      ],
-      [
-        [4, 1, 2, 7, 1, 6],
-        [1, 5, 3, 0, 6, 0],
-      ],
-      [
-        [7, 5, 2, 4, 2, 3],
-        [6, 3, 2, 5, 2, 7],
-      ],
+    arr_R = [
+      arr_right[0] + 1,
+      arr_right[1] + 1,
+      arr_right[2] + 1,
+      arr_right[3] + 1,
+      arr_right[4] + 1,
+      arr_right[5] + 1,
     ];
-    
-    var arrays;
+    //console.log("arr_R :" + w)
+  }
 
-    if (Math.random() > 0.5) {
-      arrays = arrays1;
-    } else {
-      arrays = arrays2;
+  var j = 0;
+  var w = 0;
+  var trial_count = 1;
+
+  var arr_L;
+  var arr_R;
+
+  function rainbow(z) {
+    var test = 0;
+
+    var ctx = z.getContext("2d");
+    ctx.beginPath();
+
+    ctx.fillStyle = col1[0];
+    ctx.fillRect(125, 0, 100, 100);
+
+    ctx.fillStyle = col1[1];
+    ctx.fillRect(250, 0, 100, 100);
+
+    ctx.fillStyle = col1[2];
+    ctx.fillRect(375, 0, 100, 100);
+
+    ctx.fillStyle = col1[3];
+    ctx.fillRect(500, 0, 100, 100);
+
+    ctx.fillStyle = col1[4];
+    ctx.fillRect(625, 0, 100, 100);
+
+    ctx.fillStyle = col1[5];
+    ctx.fillRect(750, 0, 100, 100);
+
+    ctx.fillStyle = col1[6];
+    ctx.fillRect(875, 0, 100, 100);
+
+    ctx.fillStyle = col1[7];
+    ctx.fillRect(1000, 0, 100, 100);
+
+    // ctx.fillStyle = colors[8];
+    // ctx.fillRect(1000, 0, 100, 100);
+
+    // ctx.fillStyle = colors[9];
+    // ctx.fillRect(1125, 0, 100, 100);
+
+    // console.log("RAINBOW")
+  }
+
+  function rainbow_values(rv) {
+    var ctx = rv.getContext("2d");
+    ctx.font = "36px Times New Roman, sans-serif";
+    ctx.fillStyle = "white";
+    var n = 290 - 165;
+
+    //ctx.fillText("1", 40, 50);
+    ctx.fillText("1", 165, 50);
+    ctx.fillText("2", 290, 50);
+    ctx.fillText("3", 290 + n, 50);
+    ctx.fillText("4", 290 + 2 * n, 50);
+    ctx.fillText("5", 290 + 3 * n, 50);
+    ctx.fillText("6", 290 + 4 * n, 50);
+    ctx.fillText("7", 290 + 5 * n, 50);
+    ctx.fillText("8", 290 + 6 * n, 50);
+    // ctx.fillText("10", 290 + 7*n - 20, 50);
+  }
+
+  function rainbow_text(rv) {
+    var ctx = rv.getContext("2d");
+    ctx.font = "24px Times New Roman, sans-serif";
+    ctx.fillStyle = "white";
+    // ctx.textAlign = 'center';
+    //ctx.fillText("Colors farther to the right are worth more points.", 140, 50);
+    ctx.fillText("Press the SPACE BAR to continue.", 450, 50);
+  }
+
+  function drawRectL(c, arr_left) {
+    j = 0;
+
+    var ctx = c.getContext("2d");
+    ctx.beginPath();
+
+    // var g = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[g];
+    console.log(arr_left)
+    ctx.fillStyle = col1[arr_left[0]];
+    ctx.fillRect(0, 0, 100, 100);
+
+    // var h = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[h];
+    ctx.fillStyle = col1[arr_left[1]];
+    ctx.fillRect(125, 0, 100, 100);
+
+    // var i = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[i];
+    ctx.fillStyle = col1[arr_left[2]];
+    ctx.fillRect(250, 0, 100, 100);
+
+    // var j = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[j];
+    ctx.fillStyle = col1[arr_left[3]];
+    ctx.fillRect(0, 125, 100, 100);
+
+    // var k = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[k];
+    ctx.fillStyle = col1[arr_left[4]];
+    ctx.fillRect(125, 125, 100, 100);
+
+    // var l = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[l];
+    ctx.fillStyle = col1[arr_left[5]];
+    ctx.fillRect(250, 125, 100, 100);
+
+    // arr_L = [a, b, c, d, e, f]
+    for (var i = 0; i < arr_left.length; ++i) {
+      j += arr_left[i] + 1;
     }
+    arr_L = [
+      arr_left[0] + 1,
+      arr_left[1] + 1,
+      arr_left[2] + 1,
+      arr_left[3] + 1,
+      arr_left[4] + 1,
+      arr_left[5] + 1,
+    ];
+    // console.log("left " + j);
+  }
 
-    function shuffle(arr) {
-      var currentIndex = arr.length, 
-        randomIndex;
-      while (0 !== currentIndex) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
+  function drawtext_l_incentive(l) {
+    var ctx = l.getContext("2d");
+    var text = j;
+    ctx.font = "36px Times New Roman, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    ctx.fillText("   " + j, 140, 100);
+  }
+  function drawtext_r_incentive(r) {
+    var ctx = r.getContext("2d");
+    ctx.font = "36px Times New Roman, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    ctx.fillText("   " + w, 140, 100);
+  }
 
-        [arr[currentIndex], arr[randomIndex]] = [
-          arr[randomIndex],
-          arr[currentIndex],
-        ];
-      }
 
-      return arr;
+
+  function drawtext_l_fixed_prac(l) {
+    var ctx = l.getContext("2d");
+    var text = j;
+    ctx.font = "36px Times New Roman, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    tmp = 0
+    if (j > w) {
+      tmp = acc_reward
     }
-
-    function swap(arrays) {
-      for (var i = 0; i < arrays.length; i++) {
-        if (Math.random() > 0.5) {
-          var tmp = arrays[i][1];
-          arrays[i][1] = arrays[i][0];
-          arrays[i][0] = tmp;
-        }
-      }
+    ctx.fillText("  " + tmp + " points", 140, 100);
+  }
+  function drawtext_r_fixed_prac(r) {
+    var ctx = r.getContext("2d");
+    ctx.font = "36px Times New Roman, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    tmp2 = 0
+    if (w > j) {
+      tmp2 = acc_reward
     }
+    ctx.fillText("  " + tmp2 + " points", 140, 100);
+  }
 
-    shuffle(arrays); //shuffle order of trials
-    swap(arrays); //shuffle L or R
 
-    var indexx = 0;
-    var indexx2 = 0;
+  function drawtext_l_incentive_prac(l) {
+    var ctx = l.getContext("2d");
+    var text = j;
+    ctx.font = "36px Times New Roman, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    tmp = 0
+    ctx.fillText("  " + j + " points", 140, 100);
+  }
+  function drawtext_r_incentive_prac(r) {
+    var ctx = r.getContext("2d");
+    ctx.font = "36px Times New Roman, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    tmp2 = 0
+    ctx.fillText("  " + w + " points", 140, 100);
+  }
 
-    function rnd_array(arrays) {
-      var idx_array = arrays[indexx][0];
-      indexx++;
-      return idx_array;
+  var fixedvalleft = 0;
+
+  function drawRectR(d, arr_right) {
+    w = 0;
+
+    var ctx = d.getContext("2d");
+    ctx.beginPath();
+
+    // var g = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[g];
+    ctx.fillStyle = col1[arr_right[0]];
+    ctx.fillRect(0, 0, 100, 100);
+
+    // var h = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[h];
+    ctx.fillStyle = col1[arr_right[1]];
+    ctx.fillRect(125, 0, 100, 100);
+
+    // var i = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[i];
+    ctx.fillStyle = col1[arr_right[2]];
+    ctx.fillRect(250, 0, 100, 100);
+
+    // var j = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[j];
+    ctx.fillStyle = col1[arr_right[3]];
+    ctx.fillRect(0, 125, 100, 100);
+
+    // var k = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[k];
+    ctx.fillStyle = col1[arr_right[4]];
+    ctx.fillRect(125, 125, 100, 100);
+
+    // var l = Math.floor(Math.random()*8);
+    // ctx.fillStyle = col1[l];
+    ctx.fillStyle = col1[arr_right[5]];
+    ctx.fillRect(250, 125, 100, 100);
+
+    for (var z = 0; z < arr_right.length; ++z) {
+      w += arr_right[z] + 1;
+      // arr_right[z] = arr_right[z]+1
     }
-
-    function rnd_array2(arrays) {
-      var idx_array = arrays[indexx2][1];
-      indexx2++;
-      return idx_array;
-    }
-    var empt = [];
-
-    function drawRectLexp(c) {
-      j = 0;
-      var arr_left = rnd_array(arrays);
-      arr_left = shuffle(arr_left);
-      empt[indexx] = arr_left;
-      var ctx = c.getContext("2d");
-      ctx.beginPath();
-
-      ctx.fillStyle = col1[arr_left[0]];
-      ctx.fillRect(0, 0, 100, 100);
-
-      ctx.fillStyle = col1[arr_left[1]];
-      ctx.fillRect(125, 0, 100, 100);
-
-      ctx.fillStyle = col1[arr_left[2]];
-      ctx.fillRect(250, 0, 100, 100);
-
-      ctx.fillStyle = col1[arr_left[3]];
-      ctx.fillRect(0, 125, 100, 100);
-
-      ctx.fillStyle = col1[arr_left[4]];
-      ctx.fillRect(125, 125, 100, 100);
-
-      ctx.fillStyle = col1[arr_left[5]];
-      ctx.fillRect(250, 125, 100, 100);
-
-      for (var i = 0; i < 6; ++i) {
-        j += arr_left[i] + 1;
-      }
-      arr_L = [
-        arr_left[0] + 1,
-        arr_left[1] + 1,
-        arr_left[2] + 1,
-        arr_left[3] + 1,
-        arr_left[4] + 1,
-        arr_left[5] + 1,
-
-        //console.log("left: " + j)
-      ];
-    }
-
-    function drawRectRexp(d) {
-      w = 0;
-
-      var arr_right = rnd_array2(arrays);
-      arr_right = shuffle(arr_right);
-      empt[indexx2] = arr_right;
-
-      var ctx = d.getContext("2d");
-      ctx.beginPath();
-
-      ctx.fillStyle = col1[arr_right[0]];
-      ctx.fillRect(0, 0, 100, 100);
-
-      ctx.fillStyle = col1[arr_right[1]];
-      ctx.fillRect(125, 0, 100, 100);
-
-      ctx.fillStyle = col1[arr_right[2]];
-      ctx.fillRect(250, 0, 100, 100);
-
-      ctx.fillStyle = col1[arr_right[3]];
-      ctx.fillRect(0, 125, 100, 100);
-
-      ctx.fillStyle = col1[arr_right[4]];
-      ctx.fillRect(125, 125, 100, 100);
-
-      ctx.fillStyle = col1[arr_right[5]];
-      ctx.fillRect(250, 125, 100, 100);
-
-      for (var z = 0; z < arr_right.length; ++z) {
-        w += arr_right[z] + 1;
-        // arr_right[z] = arr_right[z]+1
-      }
-      arr_R = [
-        arr_right[0] + 1,
-        arr_right[1] + 1,
-        arr_right[2] + 1,
-        arr_right[3] + 1,
-        arr_right[4] + 1,
-        arr_right[5] + 1,
-      ];
-      //console.log("arr_R :" + w)
-    }
-
-    var j = 0;
-    var w = 0;
-    var trial_count = 1;
-
-    var arr_L;
-    var arr_R;
-
-    function rainbow(z) {
-      var test = 0;
-
-      var ctx = z.getContext("2d");
-      ctx.beginPath();
-
-      ctx.fillStyle = col1[0];
-      ctx.fillRect(125, 0, 100, 100);
-
-      ctx.fillStyle = col1[1];
-      ctx.fillRect(250, 0, 100, 100);
-
-      ctx.fillStyle = col1[2];
-      ctx.fillRect(375, 0, 100, 100);
-
-      ctx.fillStyle = col1[3];
-      ctx.fillRect(500, 0, 100, 100);
-
-      ctx.fillStyle = col1[4];
-      ctx.fillRect(625, 0, 100, 100);
-
-      ctx.fillStyle = col1[5];
-      ctx.fillRect(750, 0, 100, 100);
-
-      ctx.fillStyle = col1[6];
-      ctx.fillRect(875, 0, 100, 100);
-
-      ctx.fillStyle = col1[7];
-      ctx.fillRect(1000, 0, 100, 100);
-
-      // ctx.fillStyle = colors[8];
-      // ctx.fillRect(1000, 0, 100, 100);
-
-      // ctx.fillStyle = colors[9];
-      // ctx.fillRect(1125, 0, 100, 100);
-
-      // console.log("RAINBOW")
-    }
-
-    function rainbow_values(rv) {
-      var ctx = rv.getContext("2d");
-      ctx.font = "36px Times New Roman, sans-serif";
-      ctx.fillStyle = "white";
-      var n = 290 - 165;
-
-      //ctx.fillText("1", 40, 50);
-      ctx.fillText("1", 165, 50);
-      ctx.fillText("2", 290, 50);
-      ctx.fillText("3", 290 + n, 50);
-      ctx.fillText("4", 290 + 2 * n, 50);
-      ctx.fillText("5", 290 + 3 * n, 50);
-      ctx.fillText("6", 290 + 4 * n, 50);
-      ctx.fillText("7", 290 + 5 * n, 50);
-      ctx.fillText("8", 290 + 6 * n, 50);
-      // ctx.fillText("10", 290 + 7*n - 20, 50);
-    }
-
-    function rainbow_text(rv) {
-      var ctx = rv.getContext("2d");
-      ctx.font = "24px Times New Roman, sans-serif";
-      ctx.fillStyle = "white";
-      // ctx.textAlign = 'center';
-      //ctx.fillText("Colors farther to the right are worth more points.", 140, 50);
-      ctx.fillText("Press the SPACE BAR to continue.", 450, 50);
-    }
-
-    function drawRectL(c, arr_left) {
-      j = 0;
-
-      var ctx = c.getContext("2d");
-      ctx.beginPath();
-
-      // var g = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[g];
-      ctx.fillStyle = col1[arr_left[0]];
-      ctx.fillRect(0, 0, 100, 100);
-
-      // var h = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[h];
-      ctx.fillStyle = col1[arr_left[1]];
-      ctx.fillRect(125, 0, 100, 100);
-
-      // var i = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[i];
-      ctx.fillStyle = col1[arr_left[2]];
-      ctx.fillRect(250, 0, 100, 100);
-
-      // var j = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[j];
-      ctx.fillStyle = col1[arr_left[3]];
-      ctx.fillRect(0, 125, 100, 100);
-
-      // var k = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[k];
-      ctx.fillStyle = col1[arr_left[4]];
-      ctx.fillRect(125, 125, 100, 100);
-
-      // var l = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[l];
-      ctx.fillStyle = col1[arr_left[5]];
-      ctx.fillRect(250, 125, 100, 100);
-
-      // arr_L = [a, b, c, d, e, f]
-      for (var i = 0; i < arr_left.length; ++i) {
-        j += arr_left[i] + 1;
-      }
-      arr_L = [
-        arr_left[0] + 1,
-        arr_left[1] + 1,
-        arr_left[2] + 1,
-        arr_left[3] + 1,
-        arr_left[4] + 1,
-        arr_left[5] + 1,
-      ];
-      // console.log("left " + j);
-    }
-
-    function drawtext_l_incentive(l) {
-      var ctx = l.getContext("2d");
-      var text = j;
-      ctx.font = "36px Times New Roman, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "white";
-      ctx.fillText("   " + j, 140, 100);
-    }
-    function drawtext_r_incentive(r) {
-      var ctx = r.getContext("2d");
-      ctx.font = "36px Times New Roman, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "white";
-      ctx.fillText("   " + w, 140, 100);
-    }
-
-
-
-    function drawtext_l_fixed_prac(l) {
-      var ctx = l.getContext("2d");
-      var text = j;
-      ctx.font = "36px Times New Roman, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "white";
-      tmp = 0
-      if(j > w){
-        tmp = 21
-      }
-      ctx.fillText("  " + tmp + " points", 140, 100);
-    }
-    function drawtext_r_fixed_prac(r) {
-      var ctx = r.getContext("2d");
-      ctx.font = "36px Times New Roman, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "white";
-      tmp2 = 0
-      if(w > j){
-        tmp2 = 21
-      }
-      ctx.fillText("  " + tmp2 + " points", 140, 100);
-    }
-
-
-    function drawtext_l_incentive_prac(l) {
-      var ctx = l.getContext("2d");
-      var text = j;
-      ctx.font = "36px Times New Roman, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "white";
-      tmp = 0
-      ctx.fillText("  " + j + " points", 140, 100);
-    }
-    function drawtext_r_incentive_prac(r) {
-      var ctx = r.getContext("2d");
-      ctx.font = "36px Times New Roman, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "white";
-      tmp2 = 0
-      ctx.fillText("  " + w + " points", 140, 100);
-    }
-
-    var fixedvalleft = 0;
-
-    function drawRectR(d, arr_right) {
-      w = 0;
-
-      var ctx = d.getContext("2d");
-      ctx.beginPath();
-
-      // var g = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[g];
-      ctx.fillStyle = col1[arr_right[0]];
-      ctx.fillRect(0, 0, 100, 100);
-
-      // var h = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[h];
-      ctx.fillStyle = col1[arr_right[1]];
-      ctx.fillRect(125, 0, 100, 100);
-
-      // var i = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[i];
-      ctx.fillStyle = col1[arr_right[2]];
-      ctx.fillRect(250, 0, 100, 100);
-
-      // var j = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[j];
-      ctx.fillStyle = col1[arr_right[3]];
-      ctx.fillRect(0, 125, 100, 100);
-
-      // var k = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[k];
-      ctx.fillStyle = col1[arr_right[4]];
-      ctx.fillRect(125, 125, 100, 100);
-
-      // var l = Math.floor(Math.random()*8);
-      // ctx.fillStyle = col1[l];
-      ctx.fillStyle = col1[arr_right[5]];
-      ctx.fillRect(250, 125, 100, 100);
-
-      for (var z = 0; z < arr_right.length; ++z) {
-        w += arr_right[z] + 1;
-        // arr_right[z] = arr_right[z]+1
-      }
-      arr_R = [
-        arr_right[0] + 1,
-        arr_right[1] + 1,
-        arr_right[2] + 1,
-        arr_right[3] + 1,
-        arr_right[4] + 1,
-        arr_right[5] + 1,
-      ];
-      // console.log("right :" + w)
-    }
-
-    function coverWhite(wh) {
-      var ctx = wh.getContext("2d");
-      ctx.beginPath();
-      var a = Math.floor(Math.random() * 8);
-      ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, 200, 200);
-    }
-
-    var instr1 = {
-      type: "html-keyboard-response",
-      stimulus: `<p>Welcome to the study! </p>
+    arr_R = [
+      arr_right[0] + 1,
+      arr_right[1] + 1,
+      arr_right[2] + 1,
+      arr_right[3] + 1,
+      arr_right[4] + 1,
+      arr_right[5] + 1,
+    ];
+    // console.log("right :" + w)
+  }
+
+  function coverWhite(wh) {
+    var ctx = wh.getContext("2d");
+    ctx.beginPath();
+    var a = Math.floor(Math.random() * 8);
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 200, 200);
+  }
+
+  var instr1 = {
+    type: "html-keyboard-response",
+    stimulus: `<p>Welcome to the study! </p>
             <p>Today, you will make some decisions about colorful objects.</p>
             <p>If you are ready to begin, please press the SPACE BAR.</p>`, //numerosity uses Space but Blair matlab code uses up arrow, which one
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var payment_trial = {
-      type: "survey-text",
-      preamble: `<p>In order for you to be compensated, we will need your PayPal or Venmo account information.</p>
+  var payment_trial = {
+    type: "survey-text",
+    preamble: `<p>In order for you to be compensated, we will need your PayPal or Venmo account information.</p>
                 <p>If you do not wish to provide us with this information, or do not have an account, you may exit the experiment by hitting the ESC key.</p>`,
-      questions: [
-        { prompt: "PayPal/Venmo account", name: "payment_account"},
-      ],
-    };
-    timeline.push(payment_trial);
+    questions: [
+      { prompt: "PayPal/Venmo account", name: "payment_account" },
+    ],
+  };
+  timeline.push(payment_trial);
 
-    var instr2 = {
-      type: "html-keyboard-response",
-      stimulus: `<p>Today, your task will be to make a series of choices between two objects. </p>
+  var instr2 = {
+    type: "html-keyboard-response",
+    stimulus: `<p>Your task will be to make a series of choices between two objects. </p>
             <p>To see an example object, press the SPACE BAR. </p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var instr3 = {
-      type: "image-keyboard-response",
-      stimulus: ["img/exampleobj/exampleobj.png"],
-      stimulus_height: 300,
-      stimulus_width: 450,
-      prompt: "<p>Press the SPACE BAR to continue</p>",
-      choices: ["space"],
-    };
+  var instr3 = {
+    type: "image-keyboard-response",
+    stimulus: ["img/exampleobj/exampleobj.png"],
+    stimulus_height: 300,
+    stimulus_width: 450,
+    prompt: "<p>Press the SPACE BAR to continue</p>",
+    choices: ["space"],
+  };
 
+  // var instr4 = {
+  //   type: "html-keyboard-response",
+  //   stimulus:
+  //     `<p>Over ` +
+  //     rep +
+  //     ` rounds, you will be choosing the better of two objects. The value of each object is</p>
+  //         <p>simply the sum of the values of each colored block in the object. The colored blocks are</p>
+  //         <p>each worth a different amount of points, and each color is equally likely to appear. In</p>
+  //         <p>this task, each point is worth $` + Number(1 / conversion_rate).toFixed(2) + `. In order to know the value of an object, you will</p>
+  //         <p>first need to learn what each color is worth.</p>
+  //         <p>Press the SPACE BAR to continue. </p>`,
+  //   choices: ["space"],
+  // };
+
+
+  if (fixedfirst) {
     var instr4 = {
       type: "html-keyboard-response",
       stimulus:
         `<p>Over ` +
         rep +
-                ` rounds, you will be choosing the better of two objects. The value of each object is</p>
-          <p>simply the sum of the values of each colored block in the object. The colored blocks are</p>
-          <p>each worth a different amount of points, and each color is equally likely to appear. In</p>
-          <p>this task, each point is worth $` + Number(1/conversion_rate).toFixed(2) + `. In order to know the value of an object, you will</p>
-          <p>first need to learn what each color is worth.</p>
-          <p>Press the SPACE BAR to continue. </p>`,
+        ` rounds, you will be choosing the better of two objects. The value of each object is</p>
+            <p>simply the sum of the values of each colored block in the object. The colored blocks are</p>
+            <p>each worth a different amount of points, and each color is equally likely to appear. In</p>
+            <p>this task, you will receive one dollar for every 585 points. In order to know the value</p>
+            <p>of an object, you will first need to learn what each color is worth.</p>
+            <p>Press the SPACE BAR to continue. </p>`,
       choices: ["space"],
     };
-
-    var instr5acc = {
+  }
+  if (fixedfirst == false) {
+    var instr4 = {
       type: "html-keyboard-response",
-      stimulus: 
-           `<p>Each round, you will see two objects on the screen. Your task is to select which of the two</p>
+      stimulus:
+        `<p>Over ` +
+        rep +
+        ` rounds, you will be choosing the better of two objects. The value of each object is</p>
+            <p>simply the sum of the values of each colored block in the object. The colored blocks are</p>
+            <p>each worth a different amount of points, and each color is equally likely to appear. In</p>
+            <p>this task, you will receive one dollar for every 497 points. In order to know the value</p>
+            <p>of an object, you will first need to learn what each color is worth.</p>
+            <p>Press the SPACE BAR to continue. </p>`,
+      choices: ["space"],
+    };
+  }
+
+
+
+
+
+
+  var instr5acc = {
+    type: "html-keyboard-response",
+    stimulus:
+      `<p>Each round, you will see two objects on the screen. Your task is to select which of the two</p>
             <p>objects you want to choose. All objects will have positive values and you can gain bonus</p>
             <p>points based on your choices. You will gain a bonus for choosing the better of the two options.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var instr5val = {
-      type: "html-keyboard-response",
-      stimulus: 
-           `<p>Each round, you will see two objects on the screen. Your task is to select which of the two</p>
+  var instr5val = {
+    type: "html-keyboard-response",
+    stimulus:
+      `<p>Each round, you will see two objects on the screen. Your task is to select which of the two</p>
             <p>objects you want to choose. All objects will have positive values and you can gain bonus</p>
             <p>points based on your choices. You will gain a bonus worth the value of the object you selected.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var instr6acc = {
-      type: "html-keyboard-response",
-      stimulus:
-        `<p>You will gain a reward based on your score by the end of the experiment.</p>
+  var instr6acc = {
+    type: "html-keyboard-response",
+    stimulus:
+      `<p>You will gain a reward based on your score by the end of the experiment.</p>
          <p>You will gain ` + acc_reward + ` points for every trial where you choose the better option, and</p>
          <p>you will gain 0 points for every trial where you choose the worse option.</p>
          <p>Every ` + num_curr_score + ` trials, we will tell you your current score.</p>
          <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var instr6val = {
-      type: "html-keyboard-response",
-      stimulus:
-        `<p>You will gain a reward based on your score by end of the experiment.</p>
+  var instr6val = {
+    type: "html-keyboard-response",
+    stimulus:
+      `<p>You will gain a reward based on your score by end of the experiment.</p>
          <p>In each trial, you will gain the point value of the option you</p>
          <p>selected, whether or not it is the better option.</p>
          <p>Every ` + num_curr_score + ` trials, we will tell you your current score.</p>
          <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var instr7 = {
-      type: "html-keyboard-response",
-      stimulus: `<p>The following screen will display the colors you will see in the first</p>
+  var instr7 = {
+    type: "html-keyboard-response",
+    stimulus: `<p>The following screen will display the colors you will see in the first</p>
             <p>few rounds.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var instr7v2 = {
-      type: "html-keyboard-response",
-      stimulus: `<p>The following screen will display the new colors you will use in the second</p>
+  var instr7v2 = {
+    type: "html-keyboard-response",
+    stimulus: `<p>The following screen will display the new colors you will use in the second</p>
             <p>half of this experiment.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    // var show_rainbow = {
-    //   type: "rainbow",
-    //   rainbow_parameter: rainbow,
-    //   rainbow_values_parameter: rainbow_values,
-    //   text_parameter: rainbow_text,
-    //   choices: ["space"],
-    // };
+  // var show_rainbow = {
+  //   type: "rainbow",
+  //   rainbow_parameter: rainbow,
+  //   rainbow_values_parameter: rainbow_values,
+  //   text_parameter: rainbow_text,
+  //   choices: ["space"],
+  // };
 
-    var instrfixed = {
-      type: "html-keyboard-response",
-      stimulus:
-        `<p>You finished the training!</p>
+  var instrfixed = {
+    type: "html-keyboard-response",
+    stimulus:
+      `<p>You finished the training!</p>
         <p></p>
         <p>Remember, in this experiment, you will receive an <b>accuracy-based reward</b></p>
         <p>for choosing the option that has a higher total value. This means that you will receive ` +
-        acc_reward +` </p>
+      acc_reward + ` </p>
         <p>points for selecting the better option, and zero points for selecting the worse option.</p>
         <p>The next screen will show an example. Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
 
-    // var instrfixed_2 = {
-    //   type: "html-keyboard-response",
-    //   stimulus:
-    //     `<p>In this trial, the object on the left has a higher total value than the object on the right.</p>
-    //      <p>Selecting the better object (higher value) will give you ` + acc_reward + ` points.</p>
-    //      <p>Selecting the worse object (lower value) will give you  0 points. </p>
-    //      <p>Press the SPACE BAR to continue.</p>`,
-    //   choices: ["space"],
-    // };
+  // var instrfixed_2 = {
+  //   type: "html-keyboard-response",
+  //   stimulus:
+  //     `<p>In this trial, the object on the left has a higher total value than the object on the right.</p>
+  //      <p>Selecting the better object (higher value) will give you ` + acc_reward + ` points.</p>
+  //      <p>Selecting the worse object (lower value) will give you  0 points. </p>
+  //      <p>Press the SPACE BAR to continue.</p>`,
+  //   choices: ["space"],
+  // };
 
-    var instrincentive = {
-      type: "html-keyboard-response",
-      stimulus: `<p>You finished the training!</p>
+  var instrincentive = {
+    type: "html-keyboard-response",
+    stimulus: `<p>You finished the training!</p>
         <p>Remember, in this experiment, you will receive a <b>value-based reward</b> for your
         <p>choices. This means that you will receive the point value of the option you select,</p>
         <p>whether or not it is the better option.</p>
         <p>The next screen will show an example. Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    // var instrincentive_2 = {
-    //   type: "html-keyboard-response",
-    //   stimulus: `<p>In the following rounds, the object on the left has a higher total value than the</p>
-    //     <p>object on the right. Since you will receive the point value of the option you select, in</p>
-    //     <p>this example you would receive XXX points for choosing the option on the left, and XXX</p>
-    //     <p>points for choosing the option on the right.</p>
-    //     <p>Press the SPACE BAR to continue.</p>`,
-    //   choices: ["space"],
-    // };
+  // var instrincentive_2 = {
+  //   type: "html-keyboard-response",
+  //   stimulus: `<p>In the following rounds, the object on the left has a higher total value than the</p>
+  //     <p>object on the right. Since you will receive the point value of the option you select, in</p>
+  //     <p>this example you would receive XXX points for choosing the option on the left, and XXX</p>
+  //     <p>points for choosing the option on the right.</p>
+  //     <p>Press the SPACE BAR to continue.</p>`,
+  //   choices: ["space"],
+  // };
 
-    var instr_start_training = {
-      type: "html-keyboard-response",
-      stimulus: `<p>You will now begin the training.</p>
+  var instr_start_training = {
+    type: "html-keyboard-response",
+    stimulus: `<p>You will now begin the training.</p>
             <p>An object made up of six random colored blocks will appear on the left, and another object made up</p>
             <p>of six random colored blocks will appear on the right. Select the side that you think is worth more</p>
             <p>points. Press <b>F</b> to select left, and press <b>J</b> to select right. When you are ready, rest</p>
             <p>your fingers on the <b>F</b> and <b>J</b> keys.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var instr_start_training_2 = {
-      type: "html-keyboard-response",
-      stimulus: `<p>You will now begin the training.</p>
+  var instr_start_training_2 = {
+    type: "html-keyboard-response",
+    stimulus: `<p>You will now begin the training.</p>
             <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var pass_training_FR = {
-      type: "html-keyboard-response",
-      stimulus:
-        `<p>You are now ready to begin the experiment. Remember, one random trial from</p>
+  var pass_training_FR = {
+    type: "html-keyboard-response",
+    stimulus:
+      `<p>You are now ready to begin the experiment. Remember, one random trial from</p>
         <p>this section will be chosen for payout, and you will receive ` +
-                                                                                acc_reward +
-                                                                              ` points</p>
+      acc_reward +
+      ` points</p>
         <p>if you chose the better option. When you are ready, rest your fingers on</p>
         <p>the <b>F</b> and <b>J</b> keys.</p>
         <p>Press the SPACE BAR to start the experiment.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var pass_training_VB = {
-      type: "html-keyboard-response",
-      stimulus: 
-         `<p>You are now ready to begin the experiment. Remember, one random trial from this section</p>
+  var pass_training_VB = {
+    type: "html-keyboard-response",
+    stimulus:
+      `<p>You are now ready to begin the experiment. Remember, one random trial from this section</p>
           <p>will be chosen for payout, and you will receive the point</p>
           <p>value of the chosen option. When you are ready, rest your fingers on the</p>
           <p><b>F</b> and <b>J</b> keys.</p>
           <p>Press the SPACE BAR to start the experiment.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var fail_training_1 = {
-      type: "html-keyboard-response",
-      stimulus: `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p>
+  var fail_training_1 = {
+    type: "html-keyboard-response",
+    stimulus: `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p>
         <p>Please remember to select the object with the higher value sum.</p>
         <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
         <p>When you are ready, press the SPACE BAR to try the training again.</p>
         `,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var fail_training_2 = {
-      type: "html-keyboard-response",
-      stimulus: `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again.</p>
+  var fail_training_2 = {
+    type: "html-keyboard-response",
+    stimulus: `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again.</p>
         <p>Please remember to select the object with the higher value sum.</p>
         <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
         <p>When you are ready, press the SPACE BAR to try the training one more time.</p>
         `,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var fail_training_3 = {
-      type: "html-keyboard-response",
-      stimulus: `<p> Whoops! Looks like you made a couple of mistakes.</p>
+  var fail_training_3 = {
+    type: "html-keyboard-response",
+    stimulus: `<p> Whoops! Looks like you made a couple of mistakes.</p>
       <p>Please try your best in the next part of the experiment.</p>
         <p></p>
         <p>Please press space to continue.</p>
         `,
-      choices: ["space"],
-      // on_finish: function (data) {
-      //   jsPsych.endExperiment("The experiment was ended after three failures.");
-      // },
-    };
+    choices: ["space"],
+    // on_finish: function (data) {
+    //   jsPsych.endExperiment("The experiment was ended after three failures.");
+    // },
+  };
 
-    var acc_VB = [];
-    var acc2_VB = [];
-    var acc3_VB = [];
+  var acc_VB = [];
+  var acc2_VB = [];
+  var acc3_VB = [];
 
-    var acc_FR = [];
-    var acc2_FR = [];
-    var acc3_FR = [];
-    var fixed_FR = [];
-    var fixed2_FR = [];
-    var fixed3_FR = [];
+  var acc_FR = [];
+  var acc2_FR = [];
+  var acc3_FR = [];
+  var fixed_FR = [];
+  var fixed2_FR = [];
+  var fixed3_FR = [];
 
-    var idx = 0;
-    var idx2 = 0;
-    var idx3 = 0;
+  var idx = 0;
+  var idx2 = 0;
+  var idx3 = 0;
 
-    //VB
-    var trial_training = {
-      type: "blocks",
-      stimulus_L: drawRectL,
-      stimulus_R: drawRectR,
-      text_l: drawtext_l_incentive,
-      text_r: drawtext_r_incentive,
-      coverWhite_f: coverWhite,
-      choices: ["f", "j"],
-      on_finish: function (data) {
-        data.task = "training_VB";
-        if (j == w) {
+  //VB
+  var trial_training = {
+    type: "blocks",
+    stimulus_L: drawRectL,
+    stimulus_R: drawRectR,
+    text_l: drawtext_l_incentive,
+    text_r: drawtext_r_incentive,
+    coverWhite_f: coverWhite,
+    choices: ["f", "j"],
+    on_finish: function (data) {
+      data.task = "training_VB";
+      if (j == w) {
+        data.accuracy = 1;
+      }
+      if (j > w) {
+        //if left is greater than right
+        if (data.key_press == 70) {
           data.accuracy = 1;
+        } else {
+          data.accuracy = 0;
         }
-        if (j > w) {
-          //if left is greater than right
-          if (data.key_press == 70) {
-            data.accuracy = 1;
-          } else {
-            data.accuracy = 0;
-          }
+      }
+      if (w > j) {
+        if (data.key_press == 74) {
+          data.accuracy = 1;
+        } else {
+          data.accuracy = 0;
         }
-        if (w > j) {
-          if (data.key_press == 74) {
-            data.accuracy = 1;
-          } else {
-            data.accuracy = 0;
-          }
-        }
-        acc_VB[idx] = data.accuracy;
-        data.Left_sum = j;
-        data.Right_sum = w;
-        data.arr_L = arr_L;
-        data.arr_R = arr_R;
-        // data.accuracy = acc_VB[idx];
-        idx++;
-        data.trialN = idx;
-        // trial_count++;
-      },
-      //data: {shape: 'rectangle'}
-    };
-    var node_VB = {
-      timeline: [fixation, trial_training],
-      repetitions: n,
-    };
+      }
+      acc_VB[idx] = data.accuracy;
+      data.Left_sum = j;
+      data.Right_sum = w;
+      data.arr_L = arr_L;
+      data.arr_R = arr_R;
+      // data.accuracy = acc_VB[idx];
+      idx++;
+      data.trialN = idx;
+      // trial_count++;
+    },
+    //data: {shape: 'rectangle'}
+  };
+  var node_VB = {
+    timeline: [fixation, trial_training],
+    repetitions: n,
+  };
 
-    //Test 2
-    var trial_training2 = {
-      type: "blocks",
-      stimulus_L: drawRectL,
-      stimulus_R: drawRectR,
-      text_l: drawtext_l_incentive,
-      text_r: drawtext_r_incentive,
-      coverWhite_f: coverWhite,
-      choices: ["f", "j"],
-      on_finish: function (data) {
-        data.task = "training_VB";
-        if (j == w) {
+  //Test 2
+  var trial_training2 = {
+    type: "blocks",
+    stimulus_L: drawRectL,
+    stimulus_R: drawRectR,
+    text_l: drawtext_l_incentive,
+    text_r: drawtext_r_incentive,
+    coverWhite_f: coverWhite,
+    choices: ["f", "j"],
+    on_finish: function (data) {
+      data.task = "training_VB";
+      if (j == w) {
+        data.acc2_VB = 1;
+      }
+      if (j > w) {
+        //if left is greater than right
+        if (data.key_press == 70) {
           data.acc2_VB = 1;
+        } else {
+          data.acc2_VB = 0;
         }
-        if (j > w) {
-          //if left is greater than right
-          if (data.key_press == 70) {
-            data.acc2_VB = 1;
-          } else {
-            data.acc2_VB = 0;
-          }
+      }
+      if (w > j) {
+        if (data.key_press == 74) {
+          data.acc2_VB = 1;
+        } else {
+          data.acc2_VB = 0;
         }
-        if (w > j) {
-          if (data.key_press == 74) {
-            data.acc2_VB = 1;
-          } else {
-            data.acc2_VB = 0;
-          }
-        }
-        // data.acc2_VB = acc2_VB;
-        acc2_VB[idx2] = data.acc2_VB;
-        data.Left_sum = j;
-        data.Right_sum = w;
-        data.arr_L = arr_L;
-        data.arr_R = arr_R;
-        idx2++;
-        data.trialN = idx2;
-        // trial_count++;
-      },
-      //data: {shape: 'rectangle'}
-    };
-    var node2 = {
-      timeline: [fixation, trial_training2],
-      repetitions: n,
-    };
+      }
+      // data.acc2_VB = acc2_VB;
+      acc2_VB[idx2] = data.acc2_VB;
+      data.Left_sum = j;
+      data.Right_sum = w;
+      data.arr_L = arr_L;
+      data.arr_R = arr_R;
+      idx2++;
+      data.trialN = idx2;
+      // trial_count++;
+    },
+    //data: {shape: 'rectangle'}
+  };
+  var node2 = {
+    timeline: [fixation, trial_training2],
+    repetitions: n,
+  };
 
-    //Test 3
-    var trial_training3 = {
-      type: "blocks",
-      stimulus_L: drawRectL,
-      stimulus_R: drawRectR,
-      text_l: drawtext_l_incentive,
-      text_r: drawtext_r_incentive,
-      coverWhite_f: coverWhite,
-      choices: ["f", "j"],
-      on_finish: function (data) {
-        data.task = "training_VB";
-        if (j == w) {
+  //Test 3
+  var trial_training3 = {
+    type: "blocks",
+    stimulus_L: drawRectL,
+    stimulus_R: drawRectR,
+    text_l: drawtext_l_incentive,
+    text_r: drawtext_r_incentive,
+    coverWhite_f: coverWhite,
+    choices: ["f", "j"],
+    on_finish: function (data) {
+      data.task = "training_VB";
+      if (j == w) {
+        data.acc3_VB = 1;
+      }
+      if (j > w) {
+        //if left is greater than right
+        if (data.key_press == 70) {
           data.acc3_VB = 1;
-        }
-        if (j > w) {
-          //if left is greater than right
-          if (data.key_press == 70) {
-            data.acc3_VB = 1;
-          } else {
-            data.acc3_VB = 0;
-          }
-        }
-        if (w > j) {
-          if (data.key_press == 74) {
-            data.acc3_VB = 1;
-          } else {
-            data.acc3_VB = 0;
-          }
-        }
-        acc3_VB[idx3] = data.acc3_VB;
-        data.Left_sum = j;
-        data.Right_sum = w;
-        data.arr_L = arr_L;
-        data.arr_R = arr_R;
-        // data.acc3_VB = acc3_VB;
-        idx3++;
-        data.trialN = idx3;
-        // trial_count++;
-      },
-      //data: {shape: 'rectangle'}
-    };
-    var node3 = {
-      timeline: [fixation, trial_training3],
-      repetitions: n,
-    };
-
-    //Conditional 1
-    var accuracy;
-    var conditional_1_value = {
-      timeline: [fail_training_1, node2],
-      conditional_function: function () {
-        accuracy = 0.0;
-        var counter = 0;
-        for (var i = 0; i < acc_VB.length; i++) {
-          if (acc_VB[i] == 1) {
-            counter++;
-          }
-        }
-        accuracy = counter / acc_VB.length;
-        if (accuracy < 0.7) {
-          //change to .70
-          return true;
         } else {
-          return false;
-        }
-      },
-    };
-
-    //Conditional 2
-    var accuracy2 = 1;
-    var conditional_2_value = {
-      timeline: [fail_training_2, node3],
-      conditional_function: function () {
-        accuracy2 = 0.0;
-        var counter2 = 0;
-        for (var i = 0; i < acc2_VB.length; i++) {
-          if (acc2_VB[i] == 1) {
-            counter2++;
-          }
-        }
-        accuracy2 = counter2 / acc2_VB.length;
-        if (accuracy2 < 0.7) {
-          return true;
-        } else {
-          timeline.push(pass_training_VB);
-          return false;
-        }
-      },
-    };
-
-    //Conditional 3
-    var accuracy3 = 1;
-    var conditional_3_value = {
-      timeline: [fail_training_3],
-      conditional_function: function () {
-        accuracy3 = 0.0;
-        var counter3 = 0;
-        for (var i = 0; i < acc3_VB.length; i++) {
-          if (acc3_VB[i] == 1) {
-            counter3++;
-          }
-        }
-        accuracy3 = counter3 / acc3_VB.length;
-        if (accuracy3 < 0.7) {
-          return true;
-        } else {
-          timeline.push(pass_training_VB);
-          return false;
-        }
-      },
-    };
-
-    var reward_val_VB = 0;
-    var reward_val_FR;
-    var rand_reward = [];
-    // var reward_val = 0;
-    var left_arr = [];
-    var right_arr = [];
-    var all_arr = [];
-    var randidx;
-    acc_exp_FR = [];
-    acc_exp_VB = [];
-    var idx4 = 0;
-    var left_value = [];
-    var right_value = [];
-    var valueScore;
-    //Experiment
-    var experiment_value = {
-      type: "blocks-exp",
-      stimulus_L: drawRectLexp,
-      stimulus_R: drawRectRexp,
-      coverWhite_f: coverWhite,
-      choices: ["f", "j"],
-      on_finish: function (data) {
-        data.task = "experiment_VB";
-        if (j == w) {
-          if (Math.random() > 0.5) {
-            data.accuracy = 1;
-            left_arr[idx4] = j;
-          } else {
-            data.accuracy = 0;
-            right_arr[idx4] = w;
-          }
-        }
-        if (j > w) {
-          //if left is greater than right
-          if (data.key_press == 70) {
-            data.accuracy = 1;
-            left_arr[idx4] = j;
-          } else {
-            data.accuracy = 0;
-            right_arr[idx4] = w;
-          }
-        }
-        if (w > j) {
-          if (data.key_press == 74) {
-            data.accuracy = 1;
-            right_arr[idx4] = w;
-          } else {
-            data.accuracy = 0;
-            left_arr[idx4] = j;
-          }
-        }
-        // acc_exp_VB[idx4] = data.correct;
-        // data.experiment_VB_accuracy = acc_exp_VB[idx4];
-        data.trialN = trial_count;
-        left_value[idx4] = j;
-        data.Left_sum = j;
-        right_value[idx4] = w;
-        data.Right_sum = w;
-        // data.l_topleft = a
-        // data.l_topmiddle = b
-        // data.l_topright = c
-        // data.l_bottomleft = d
-        // data.l_bottommiddle = e
-        // data.l_bottomright = f
-
-        // data.r_topleft = g
-        // data.r_topmiddle = h
-        // data.r_topright = i
-        // data.r_bottomleft = j
-        // data.r_bottommiddle = k
-        // data.r_bottomright = l
-        data.arr_L = arr_L;
-        data.arr_R = arr_R;
-        idx4++;
-        data.trialN = idx4;
-        // trial_count++;
-        left_arr.filter(Number);
-        right_arr.filter(Number);
-        all_arr = left_arr.concat(right_arr);
-        // data.experiment_selections_VB = all_arr[idx4]
-      },
-    };
-
-    var experiment_node_value = {
-      timeline: [fixation, experiment_value],
-      repetitions: 1,
-    };
-
-    var acc_points = 0;
-    var fixed_points = 0;
-    var value_points = 0;
-
-    var ordermemtask;
-    var testset;
-    var testsetchoice;
-    var checkOrder = function () {
-      // console.log("sanity, checkordercall");
-      if (col1 == colors) {
-        //PB
-        if (pinktoblue) {
-          ordermemtask = pinktoblue;
-          // console.log("pinktoblue");
-          testset = PB;
-          testsetchoice = PB_choice;
-          // example_current = example_PB
-        }
-        if (bluetopink) {
-          ordermemtask = bluetopink;
-          // console.log("bluetopink");
-          testset = PB;
-          testsetchoice = PB_choice;
-          // example_current = example_BP
+          data.acc3_VB = 0;
         }
       }
-      if (col1 == colors2) {
-        if (orangetogreen) {
-          ordermemtask = orangetogreen;
-          // ("orangetogreen");
-          testset = OG;
-          testsetchoice = OG_choice;
-          // example_current = example_GO
-        }
-        if (greentoorange) {
-          ordermemtask = greentoorange;
-          //("greentoorange");
-          testset = OG;
-          testsetchoice = OG_choice;
-          // example_current = example_OG
+      if (w > j) {
+        if (data.key_press == 74) {
+          data.acc3_VB = 1;
+        } else {
+          data.acc3_VB = 0;
         }
       }
-      shuffle(testset);
-      shuffle(testsetchoice);
+      acc3_VB[idx3] = data.acc3_VB;
+      data.Left_sum = j;
+      data.Right_sum = w;
+      data.arr_L = arr_L;
+      data.arr_R = arr_R;
+      // data.acc3_VB = acc3_VB;
+      idx3++;
+      data.trialN = idx3;
+      // trial_count++;
+    },
+    //data: {shape: 'rectangle'}
+  };
+  var node3 = {
+    timeline: [fixation, trial_training3],
+    repetitions: n,
+  };
 
-      for (var i = 0; i < testsetchoice.length; i++) {
+  //Conditional 1
+  var accuracy;
+  var conditional_1_value = {
+    timeline: [fail_training_1, node2],
+    conditional_function: function () {
+      accuracy = 0.0;
+      var counter = 0;
+      for (var i = 0; i < acc_VB.length; i++) {
+        if (acc_VB[i] == 1) {
+          counter++;
+        }
+      }
+      accuracy = counter / acc_VB.length;
+      if (accuracy < 0.7) {
+        //change to .70
+        return true;
+      } else {
+        return false;
+      }
+    },
+  };
+
+  //Conditional 2
+  var accuracy2 = 1;
+  var conditional_2_value = {
+    timeline: [fail_training_2, node3],
+    conditional_function: function () {
+      accuracy2 = 0.0;
+      var counter2 = 0;
+      for (var i = 0; i < acc2_VB.length; i++) {
+        if (acc2_VB[i] == 1) {
+          counter2++;
+        }
+      }
+      accuracy2 = counter2 / acc2_VB.length;
+      if (accuracy2 < 0.7) {
+        return true;
+      } else {
+        timeline.push(pass_training_VB);
+        return false;
+      }
+    },
+  };
+
+  //Conditional 3
+  var accuracy3 = 1;
+  var conditional_3_value = {
+    timeline: [fail_training_3],
+    conditional_function: function () {
+      accuracy3 = 0.0;
+      var counter3 = 0;
+      for (var i = 0; i < acc3_VB.length; i++) {
+        if (acc3_VB[i] == 1) {
+          counter3++;
+        }
+      }
+      accuracy3 = counter3 / acc3_VB.length;
+      if (accuracy3 < 0.7) {
+        return true;
+      } else {
+        timeline.push(pass_training_VB);
+        return false;
+      }
+    },
+  };
+
+  var reward_val_VB = 0;
+  var reward_val_FR;
+  var rand_reward = [];
+  // var reward_val = 0;
+  var left_arr = [];
+  var right_arr = [];
+  var all_arr = [];
+  var randidx;
+  acc_exp_FR = [];
+  acc_exp_VB = [];
+  var idx4 = 0;
+  var left_value = [];
+  var right_value = [];
+  var valueScore;
+  //Experiment
+  var experiment_value = {
+    type: "blocks-exp",
+    stimulus_L: drawRectLexp,
+    stimulus_R: drawRectRexp,
+    coverWhite_f: coverWhite,
+    choices: ["f", "j"],
+    on_finish: function (data) {
+      data.task = "experiment_VB";
+      if (j == w) {
         if (Math.random() > 0.5) {
-          testsetchoice[i].value = Math.floor(
-            Math.random() * (48 - 6 + 1) + 6
-          ).toString();
+          data.accuracy = 1;
+          left_arr[idx4] = j;
+        } else {
+          data.accuracy = 0;
+          right_arr[idx4] = w;
         }
       }
-    };
-    var checkOrdercall = {
-      type: "call-function",
-      func: checkOrder,
-    };
-
-    var OG = [
-      "img/OG/21.jpg",
-      "img/OG/24.jpg",
-      "img/OG/27.jpg",
-      "img/OG/29.jpg",
-      "img/OG/35.jpg",
-    ];
-
-    var PB = [
-      "img/PB/21.jpg",
-      "img/PB/24.jpg",
-      "img/PB/27.jpg",
-      "img/PB/29.jpg",
-      "img/PB/35.jpg",
-    ];
-
-    var OG_choice = [
-      { stim: "img/OG/21.jpg", value: "21" },
-      { stim: "img/OG/24.jpg", value: "24" },
-      { stim: "img/OG/27.jpg", value: "27" },
-      { stim: "img/OG/29.jpg", value: "29" },
-      { stim: "img/OG/35.jpg", value: "35" },
-    ];
-
-    // choice: make F and J, change instructions
-    var PB_choice = [
-      { stim: "img/PB/21.jpg", value: "21" },
-      { stim: "img/PB/24.jpg", value: "24" },
-      { stim: "img/PB/27.jpg", value: "27" },
-      { stim: "img/PB/29.jpg", value: "29" },
-      { stim: "img/PB/35.jpg", value: "35" },
-    ];
-
-
-    var example_current = [0, 0]
-    var example_current_2 = [0, 0];
-    
-    var example_PB = ["img/examples/PB.jpg", "right", "25", "35"]
-    //left 25, right 35
-
-    var example_BP = ["img/examples/BP.jpg", "right", "13", "33"]
-    //left 13, right 33
-
-
-    var example_GO = ["img/examples/GO.jpg", "right", "19", "33"]
-    //left 19, right 33
-
-
-    var example_OG = ["img/examples/OG.jpg", "right", "29", "34"]
-    //left 29, right 34
-
-  
-
-    var finish_p1_fixed_done = {
-      type: "html-keyboard-response",
-      stimulus: `<p>You have completed the first half of the experiment.</p>
-            <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
-
-    var finish_p1_value_done = {
-      type: "html-keyboard-response",
-      stimulus: `<p>You have completed the first half of the experiment.</p>
-            <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
-
-    //Make the color spectrum different
-    var myfunc = function () {
-      if (col1 == colors) {
-        col1 = colors2;
-        anchors = anchors_two
-      } else {
-        col1 = colors;
-        anchors = anchors_two
+      if (j > w) {
+        //if left is greater than right
+        if (data.key_press == 70) {
+          data.accuracy = 1;
+          left_arr[idx4] = j;
+        } else {
+          data.accuracy = 0;
+          right_arr[idx4] = w;
+        }
       }
-
-      if (arrays == arrays1) {
-        arrays = arrays2;
-      } else {
-        arrays = arrays1;
+      if (w > j) {
+        if (data.key_press == 74) {
+          data.accuracy = 1;
+          right_arr[idx4] = w;
+        } else {
+          data.accuracy = 0;
+          left_arr[idx4] = j;
+        }
       }
+      // acc_exp_VB[idx4] = data.correct;
+      // data.experiment_VB_accuracy = acc_exp_VB[idx4];
+      data.trialN = trial_count;
+      left_value[idx4] = j;
+      data.Left_sum = j;
+      right_value[idx4] = w;
+      data.Right_sum = w;
+      // data.l_topleft = a
+      // data.l_topmiddle = b
+      // data.l_topright = c
+      // data.l_bottomleft = d
+      // data.l_bottommiddle = e
+      // data.l_bottomright = f
 
-      indexx = 0;
-      indexx2 = 0;
-    };
-    var trialm = {
-      type: "call-function",
-      func: myfunc,
-    };
+      // data.r_topleft = g
+      // data.r_topmiddle = h
+      // data.r_topright = i
+      // data.r_bottomleft = j
+      // data.r_bottommiddle = k
+      // data.r_bottomright = l
+      data.arr_L = arr_L;
+      data.arr_R = arr_R;
+      idx4++;
+      data.trialN = idx4;
+      // trial_count++;
+      left_arr.filter(Number);
+      right_arr.filter(Number);
+      all_arr = left_arr.concat(right_arr);
+      // data.experiment_selections_VB = all_arr[idx4]
+    },
+  };
 
-    var idx5 = 0;
+  var experiment_node_value = {
+    timeline: [fixation, experiment_value],
+    repetitions: 1,
+  };
+
+  var acc_points = 0;
+  var fixed_points = 0;
+  var value_points = 0;
+
+  var ordermemtask;
+  var testset;
+  var testsetchoice;
+  var checkOrder = function () {
+    // console.log("sanity, checkordercall");
+    if (col1 == colors) {
+      //PB
+      if (pinktoblue) {
+        ordermemtask = pinktoblue;
+        // console.log("pinktoblue");
+        testset = PB;
+        testsetchoice = PB_choice;
+        // example_current = example_PB
+      }
+      if (bluetopink) {
+        ordermemtask = bluetopink;
+        // console.log("bluetopink");
+        testset = PB;
+        testsetchoice = PB_choice;
+        // example_current = example_BP
+      }
+    }
+    if (col1 == colors2) {
+      if (orangetogreen) {
+        ordermemtask = orangetogreen;
+        // ("orangetogreen");
+        testset = OG;
+        testsetchoice = OG_choice;
+        // example_current = example_GO
+      }
+      if (greentoorange) {
+        ordermemtask = greentoorange;
+        //("greentoorange");
+        testset = OG;
+        testsetchoice = OG_choice;
+        // example_current = example_OG
+      }
+    }
+    shuffle(testset);
+    shuffle(testsetchoice);
+
+    for (var i = 0; i < testsetchoice.length; i++) {
+      if (Math.random() > 0.5) {
+        testsetchoice[i].value = Math.floor(
+          Math.random() * (48 - 6 + 1) + 6
+        ).toString();
+      }
+    }
+  };
+  var checkOrdercall = {
+    type: "call-function",
+    func: checkOrder,
+  };
+
+  var OG = [
+    "img/OG/21.jpg",
+    "img/OG/24.jpg",
+    "img/OG/27.jpg",
+    "img/OG/29.jpg",
+    "img/OG/35.jpg",
+  ];
+
+  var PB = [
+    "img/PB/21.jpg",
+    "img/PB/24.jpg",
+    "img/PB/27.jpg",
+    "img/PB/29.jpg",
+    "img/PB/35.jpg",
+  ];
+
+  var OG_choice = [
+    { stim: "img/OG/21.jpg", value: "21" },
+    { stim: "img/OG/24.jpg", value: "24" },
+    { stim: "img/OG/27.jpg", value: "27" },
+    { stim: "img/OG/29.jpg", value: "29" },
+    { stim: "img/OG/35.jpg", value: "35" },
+  ];
+
+  // choice: make F and J, change instructions
+  var PB_choice = [
+    { stim: "img/PB/21.jpg", value: "21" },
+    { stim: "img/PB/24.jpg", value: "24" },
+    { stim: "img/PB/27.jpg", value: "27" },
+    { stim: "img/PB/29.jpg", value: "29" },
+    { stim: "img/PB/35.jpg", value: "35" },
+  ];
 
 
-    var trial_practice_fixed = {
-      type: "blocks-prac-fixed",
-      stimulus_L: drawRectL,
-      stimulus_R: drawRectR,
-      text_l: drawtext_l_fixed_prac,
-      text_r: drawtext_r_fixed_prac,
-      coverWhite_f: coverWhite,
-      choices: ["f", "j"]
-    };
-    var node_prac_fixed = {
-      timeline: [fixation, trial_practice_fixed],
-      repetitions: z,
-    };
+  var example_current = [0, 0]
+  var example_current_2 = [0, 0];
+
+  var example_PB = ["img/examples/PB.jpg", "right", "25", "35"]
+  //left 25, right 35
+
+  var example_BP = ["img/examples/BP.jpg", "right", "13", "33"]
+  //left 13, right 33
 
 
-    var trial_practice_VB = {
-      type: "blocks-prac-VB",
-      stimulus_L: drawRectL,
-      stimulus_R: drawRectR,
-      text_l: drawtext_l_incentive_prac,
-      text_r: drawtext_r_incentive_prac,
-      coverWhite_f: coverWhite,
-      choices: ["f", "j"]
-    };
-    var node_prac_VB = {
-      timeline: [fixation, trial_practice_VB],
-      repetitions: z,
-    };
+  var example_GO = ["img/examples/GO.jpg", "right", "19", "33"]
+  //left 19, right 33
+
+
+  var example_OG = ["img/examples/OG.jpg", "right", "29", "34"]
+  //left 29, right 34
 
 
 
+  var finish_p1_fixed_done = {
+    type: "html-keyboard-response",
+    stimulus: `<p>You have completed the first half of the experiment.</p>
+            <p>Press the SPACE BAR to continue.</p>`,
+    choices: ["space"],
+  };
 
+  var finish_p1_value_done = {
+    type: "html-keyboard-response",
+    stimulus: `<p>You have completed the first half of the experiment.</p>
+            <p>Press the SPACE BAR to continue.</p>`,
+    choices: ["space"],
+  };
+
+  //Make the color spectrum different
+  // var myfunc = function () {
+  //   if (col1 == colors) {
+  //     col1 = colors2;
+  //     anchors = anchors_two
+  //   } else {
+  //     col1 = colors;
+  //     anchors = anchors_two
+  //   }
+
+  //   if (arrays == arrays1) {
+  //     arrays = arrays2;
+  //   } else {
+  //     arrays = arrays1;
+  //   }
+
+  //   indexx = 0;
+  //   indexx2 = 0;
+  // };
+  // var trialm = {
+  //   type: "call-function",
+  //   func: myfunc,
+  // };
+
+  var idx5 = 0;
+
+
+  var trial_practice_fixed = {
+    type: "blocks-prac-fixed",
+    stimulus_L: drawRectL,
+    stimulus_R: drawRectR,
+    text_l: drawtext_l_fixed_prac,
+    text_r: drawtext_r_fixed_prac,
+    coverWhite_f: coverWhite,
+    choices: ["f", "j"]
+  };
+  var node_prac_fixed = {
+    timeline: [fixation, trial_practice_fixed],
+    repetitions: z,
+  };
+
+
+  var trial_practice_VB = {
+    type: "blocks-prac-VB",
+    stimulus_L: drawRectL,
+    stimulus_R: drawRectR,
+    text_l: drawtext_l_incentive_prac,
+    text_r: drawtext_r_incentive_prac,
+    coverWhite_f: coverWhite,
+    choices: ["f", "j"]
+  };
+  var node_prac_VB = {
+    timeline: [fixation, trial_practice_VB],
+    repetitions: z,
+  };
+
+
+
+  if (training_fixed_static == false) {
     var trial_training_fixed = {
-      type: "blocks",  
+      type: "blocks",
       stimulus_L: drawRectL,
       stimulus_R: drawRectR,
       text_l: drawtext_l_incentive,
@@ -2683,9 +1675,76 @@
       timeline: [fixation, trial_training_fixed],
       repetitions: n,
     };
+  }
 
-    var idx6 = 0;
-    //Test 2
+  if (training_fixed_static == true) {
+    var trial_training_fixed = {
+      type: "blocks",
+      stimulus_L: drawRectL,
+      stimulus_R: drawRectR,
+      text_l: drawtext_l_fixed_prac,
+      text_r: drawtext_r_fixed_prac,
+      coverWhite_f: coverWhite,
+      choices: ["f", "j"],
+      on_finish: function (data) {
+        data.task = "training_FR";
+        if (j == w) {
+          data.accuracy = 1;
+        }
+        if (j > w) {
+          //if left is greater than right
+          if (data.key_press == 70) {
+            data.accuracy = 1;
+          } else {
+            data.accuracy = 0;
+          }
+        }
+        if (w > j) {
+          if (data.key_press == 74) {
+            data.accuracy = 1;
+          } else {
+            data.accuracy = 0;
+          }
+        }
+        fixed_FR[idx5] = data.accuracy;
+        // data.fixed_FR = fixed_FR[idx5];
+        data.Left_sum = j;
+        data.Right_sum = w;
+        data.arr_L = arr_L;
+        data.arr_R = arr_R;
+        idx5++;
+        data.trialN = idx5;
+        // trial_count++;
+      },
+      //data: {shape: 'rectangle'}
+    };
+    var node_fixed = {
+      timeline: [fixation, trial_training_fixed],
+      repetitions: n,
+    };
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var idx6 = 0;
+
+
+
+
+
+  //Test 2
+  if (training_fixed_static == false) {
     var trial_training2_fixed = {
       type: "blocks",
       stimulus_L: drawRectL,
@@ -2730,10 +1789,62 @@
       timeline: [fixation, trial_training2_fixed],
       repetitions: n,
     };
+  }
+  if (training_fixed_static == true) {
+    var trial_training2_fixed = {
+      type: "blocks",
+      stimulus_L: drawRectL,
+      stimulus_R: drawRectR,
+      text_l: drawtext_l_fixed_prac,
+      text_r: drawtext_r_fixed_prac,
+      coverWhite_f: coverWhite,
+      choices: ["f", "j"],
+      on_finish: function (data) {
+        data.task = "training_FR";
+        if (j == w) {
+          data.training_FR_accuracy_2 = 1;
+        }
+        if (j > w) {
+          //if left is greater than right
+          if (data.key_press == 70) {
+            data.training_FR_accuracy_2 = 1;
+          } else {
+            data.training_FR_accuracy_2 = 0;
+          }
+        }
+        if (w > j) {
+          if (data.key_press == 74) {
+            data.training_FR_accuracy_2 = 1;
+          } else {
+            data.training_FR_accuracy_2 = 0;
+          }
+        }
+        fixed2_FR[idx6] = data.training_FR_accuracy_2;
+        data.FR_left_sum = j;
+        data.FR_right_sum = w;
+        data.arr_L = arr_L;
+        data.arr_R = arr_R;
+        // data.fixed2_FR = fixed2_FR;
+        idx6++;
+        data.trialN = idx6;
+        // trial_count++;
+      },
+      //data: {shape: 'rectangle'}
+    };
+    var node2_fixed = {
+      timeline: [fixation, trial_training2_fixed],
+      repetitions: n,
+    };
+  }
 
-    var idx7 = 0;
 
-    //Test 3
+
+
+
+  var idx7 = 0;
+
+  //Test 3
+  if (training_fixed_static == false) {
     var trial_training3_fixed = {
       type: "blocks",
       stimulus_L: drawRectL,
@@ -2776,961 +1887,1017 @@
       timeline: [fixation, trial_training3_fixed],
       repetitions: n,
     };
-    var pass_FR;
-
-    //Conditional 1
-    var accuracy;
-    var conditional_1_fixed = {
-      timeline: [fail_training_1, node2_fixed],
-      conditional_function: function () {
-        accuracy = 0.0;
-        var counter = 0;
-        for (var i = 0; i < fixed_FR.length; i++) {
-          if (fixed_FR[i] == 1) {
-            counter++;
-          }
-        }
-        accuracy = counter / fixed_FR.length;
-        if (accuracy < 0.7) {
-          //change to .70
-          return true;
-        } else {
-          pass_FR = true;
-          return false;
-        }
-      },
-    };
-
-    //Conditional 2
-    var accuracy2 = 1;
-    var conditional_2_fixed = {
-      timeline: [fail_training_2, node3_fixed],
-      conditional_function: function () {
-        accuracy2 = 0.0;
-        var counter2 = 0;
-        for (var i = 0; i < fixed2_FR.length; i++) {
-          if (fixed2_FR[i] == 1) {
-            counter2++;
-          }
-        }
-        accuracy2 = counter2 / fixed2_FR.length;
-        if (accuracy2 < 0.7) {
-          return true;
-        } else {
-          // console.log("test");
-          pass_FR = true;
-          return false;
-        }
-      },
-    };
-
-    //Conditional 3
-    var accuracy3 = 1;
-    var conditional_3_fixed = {
-      timeline: [fail_training_3],
-      conditional_function: function () {
-        accuracy3 = 0.0;
-        var counter3 = 0;
-        for (var i = 0; i < fixed3_FR.length; i++) {
-          if (fixed3_FR[i] == 1) {
-            counter3++;
-          }
-        }
-        accuracy3 = counter3 / fixed3_FR.length;
-        if (accuracy3 < 0.7) {
-          return true;
-        } else {
-          // console.log("test");
-          pass_FR = true;
-          return false;
-        }
-      },
-    };
-
-    var reward_val;
-    var rand_reward = [];
-    // var reward_val = 0;
-    // var left_arr = [];
-    // var right_arr = [];
-    // var all_arr = [];
-    var randidx;
-    var idxt = 0;
-    var left_fixed = [];
-    var right_fixed = [];
-    //Experiment
-    var experiment_fixed = {
-      type: "blocks-exp",
-      stimulus_L: drawRectLexp,
-      stimulus_R: drawRectRexp,
+  }
+  if (training_fixed_static == true) {
+    var trial_training3_fixed = {
+      type: "blocks",
+      stimulus_L: drawRectL,
+      stimulus_R: drawRectR,
+      text_l: drawtext_l_fixed_prac,
+      text_r: drawtext_r_fixed_prac,
       coverWhite_f: coverWhite,
       choices: ["f", "j"],
       on_finish: function (data) {
-        data.task = "experiment_FR";
+        data.task = "training_FR";
         if (j == w) {
-          if (Math.random() > 0.5) {
-            data.accuracy = 1;
-          } else {
-            data.accuracy = 0;
-          }
+          data.training_FR_accuracy_3 = 1;
         }
         if (j > w) {
           //if left is greater than right
           if (data.key_press == 70) {
-            data.accuracy = 1;
+            data.training_FR_accuracy_3 = 1;
           } else {
-            data.accuracy = 0;
+            data.training_FR_accuracy_3 = 0;
           }
         }
         if (w > j) {
           if (data.key_press == 74) {
-            data.accuracy = 1;
+            data.training_FR_accuracy_3 = 1;
           } else {
-            data.accuracy = 0;
+            data.training_FR_accuracy_3 = 0;
           }
         }
-        // acc_exp_FR[idx5] = data.correct;
-        // data.acc_exp_FR = acc_exp_FR;
-        acc_exp_FR[idxt] = data.accuracy;
-        data.trialN = trial_count;
-        // left_arr[idx5] = j;
-        left_fixed[idxt] = j;
-        // data.left_FR = left_fixed //change to j for just one
-        data.Left_sum = j;
-        // right_arr[idx5] = w;
-        right_fixed[idxt] = w;
-        // data.right_FR = right_fixed //change to w for just one
-        data.Right_sum = w;
-        // data.l_topleft = a
-        // data.l_topmiddle = b
-        // data.l_topright = c
-        // data.l_bottomleft = d
-        // data.l_bottommiddle = e
-        // data.l_bottomright = f
-
-        // data.r_topleft = g
-        // data.r_topmiddle = h
-        // data.r_topright = i
-        // data.r_bottomleft = j
-        // data.r_bottommiddle = k
-        // data.r_bottomright = l
-        data.arr_L = arr_L;
-        data.arr_R = arr_R;
-        idxt++;
-        data.trialN = idxt;
+        fixed3_FR[idx7] = data.training_FR_accuracy_3;
+        data.acc_FR = data.training_FR_accuracy_3[idx7];
+        data.FR_left_sum = j;
+        data.FR_right_sum = w;
+        idx7++;
+        data.trialN = idx7;
         // trial_count++;
-        // all_arr = left_arr.concat(right_arr);
       },
       //data: {shape: 'rectangle'}
     };
-
-    var experiment_node_fixed = {
-      timeline: [fixation, experiment_fixed],
-      repetitions: 1,
+    var node3_fixed = {
+      timeline: [fixation, trial_training3_fixed],
+      repetitions: n,
     };
-    // timeline.push(experiment_node_fixed)
+  }
 
-    //Instructions
-    if(fixedfirst){
-      var instr_arr = [instr1, instr2, instr3, instr4, instr5acc, instr6acc];
-    }
-    if(fixedfirst==false){
-      var instr_arr = [instr1, instr2, instr3, instr4, instr5val, instr6val];
-    }
-    timeline = timeline.concat(instr_arr);
 
-    var memslider_instr = {
-      type: "html-keyboard-response",
-      stimulus: `<p>In the following section, we will show you a few more color objects.</p>
+
+
+
+
+  var pass_FR;
+
+
+
+
+
+  //Conditional 1
+  var accuracy;
+  var conditional_1_fixed = {
+    timeline: [fail_training_1, node2_fixed],
+    conditional_function: function () {
+      accuracy = 0.0;
+      var counter = 0;
+      for (var i = 0; i < fixed_FR.length; i++) {
+        if (fixed_FR[i] == 1) {
+          counter++;
+        }
+      }
+      accuracy = counter / fixed_FR.length;
+      if (accuracy < 0.7) {
+        //change to .70
+        return true;
+      } else {
+        pass_FR = true;
+        return false;
+      }
+    },
+  };
+
+  //Conditional 2
+  var accuracy2 = 1;
+  var conditional_2_fixed = {
+    timeline: [fail_training_2, node3_fixed],
+    conditional_function: function () {
+      accuracy2 = 0.0;
+      var counter2 = 0;
+      for (var i = 0; i < fixed2_FR.length; i++) {
+        if (fixed2_FR[i] == 1) {
+          counter2++;
+        }
+      }
+      accuracy2 = counter2 / fixed2_FR.length;
+      if (accuracy2 < 0.7) {
+        return true;
+      } else {
+        // console.log("test");
+        pass_FR = true;
+        return false;
+      }
+    },
+  };
+
+  //Conditional 3
+  var accuracy3 = 1;
+  var conditional_3_fixed = {
+    timeline: [fail_training_3],
+    conditional_function: function () {
+      accuracy3 = 0.0;
+      var counter3 = 0;
+      for (var i = 0; i < fixed3_FR.length; i++) {
+        if (fixed3_FR[i] == 1) {
+          counter3++;
+        }
+      }
+      accuracy3 = counter3 / fixed3_FR.length;
+      if (accuracy3 < 0.7) {
+        return true;
+      } else {
+        // console.log("test");
+        pass_FR = true;
+        return false;
+      }
+    },
+  };
+
+  var reward_val;
+  var rand_reward = [];
+  // var reward_val = 0;
+  // var left_arr = [];
+  // var right_arr = [];
+  // var all_arr = [];
+  var randidx;
+  var idxt = 0;
+  var left_fixed = [];
+  var right_fixed = [];
+  //Experiment
+  var experiment_fixed = {
+    type: "blocks-exp",
+    stimulus_L: drawRectLexp,
+    stimulus_R: drawRectRexp,
+    coverWhite_f: coverWhite,
+    choices: ["f", "j"],
+    on_finish: function (data) {
+      data.task = "experiment_FR";
+      if (j == w) {
+        if (Math.random() > 0.5) {
+          data.accuracy = 1;
+        } else {
+          data.accuracy = 0;
+        }
+      }
+      if (j > w) {
+        //if left is greater than right
+        if (data.key_press == 70) {
+          data.accuracy = 1;
+        } else {
+          data.accuracy = 0;
+        }
+      }
+      if (w > j) {
+        if (data.key_press == 74) {
+          data.accuracy = 1;
+        } else {
+          data.accuracy = 0;
+        }
+      }
+      // acc_exp_FR[idx5] = data.correct;
+      // data.acc_exp_FR = acc_exp_FR;
+      acc_exp_FR[idxt] = data.accuracy;
+      data.trialN = trial_count;
+      // left_arr[idx5] = j;
+      left_fixed[idxt] = j;
+      // data.left_FR = left_fixed //change to j for just one
+      data.Left_sum = j;
+      // right_arr[idx5] = w;
+      right_fixed[idxt] = w;
+      // data.right_FR = right_fixed //change to w for just one
+      data.Right_sum = w;
+      // data.l_topleft = a
+      // data.l_topmiddle = b
+      // data.l_topright = c
+      // data.l_bottomleft = d
+      // data.l_bottommiddle = e
+      // data.l_bottomright = f
+
+      // data.r_topleft = g
+      // data.r_topmiddle = h
+      // data.r_topright = i
+      // data.r_bottomleft = j
+      // data.r_bottommiddle = k
+      // data.r_bottomright = l
+      data.arr_L = arr_L;
+      data.arr_R = arr_R;
+      idxt++;
+      data.trialN = idxt;
+      // trial_count++;
+      // all_arr = left_arr.concat(right_arr);
+    },
+    //data: {shape: 'rectangle'}
+  };
+
+  var experiment_node_fixed = {
+    timeline: [fixation, experiment_fixed],
+    repetitions: 1,
+  };
+  // timeline.push(experiment_node_fixed)
+
+  //Instructions
+  if (fixedfirst) {
+    var instr_arr = [instr1, instr2, instr3, instr4, instr5acc, instr6acc];
+  }
+  if (fixedfirst == false) {
+    var instr_arr = [instr1, instr2, instr3, instr4, instr5val, instr6val];
+  }
+  timeline = timeline.concat(instr_arr);
+
+  var memslider_instr = {
+    type: "html-keyboard-response",
+    stimulus: `<p>In the following section, we will show you a few more color objects.</p>
             <p>Each of these objects come from the previous phase that you just completed.</p>
             <p>Use the slider to estimate the value of each object.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var memchoice_instr = {
-      type: "html-keyboard-response",
-      stimulus: `<p>In the following section, we will show you the same color objects again.</p>
+  var memchoice_instr = {
+    type: "html-keyboard-response",
+    stimulus: `<p>In the following section, we will show you the same color objects again.</p>
             <p>We will show you a possible value of the object.</p>
             <p>If you believe this value is <b>correct</b>, press <b>F</b>.</p>
             <p>If you believe this value is <b>incorrect</b>, press <b>J</b>.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
-    var memslider = {
-      type: "memslider",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testset[0];
-      },
-      min: 6,
-      max: 48,
-      slider_start: Math.floor(Math.random() * 51),
-      slider_number: true,
-      require_movement: true,
-      anchor_left: function () {
-        return anchors[0]
-      },
-      anchor_right: function () {
-        return anchors[1]
-      },
-      labels: ["6", "48"],
-    };
+  var memslider = {
+    type: "memslider",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testset[0];
+    },
+    min: 6,
+    max: 48,
+    slider_start: Math.floor(Math.random() * 51),
+    slider_number: true,
+    require_movement: true,
+    anchor_left: function () {
+      return anchors[0]
+    },
+    anchor_right: function () {
+      return anchors[1]
+    },
+    labels: ["6", "48"],
+  };
 
-    var memslider2 = {
-      type: "memslider",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testset[1];
-      },
-      min: 6,
-      max: 48,
-      slider_start: Math.floor(Math.random() * 51),
-      slider_number: true,
-      require_movement: true,
-      anchor_left: function () {
-        return anchors[0]
-      },
-      anchor_right: function () {
-        return anchors[1]
-      },
-      labels: ["6", "48"],
-    };
+  var memslider2 = {
+    type: "memslider",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testset[1];
+    },
+    min: 6,
+    max: 48,
+    slider_start: Math.floor(Math.random() * 51),
+    slider_number: true,
+    require_movement: true,
+    anchor_left: function () {
+      return anchors[0]
+    },
+    anchor_right: function () {
+      return anchors[1]
+    },
+    labels: ["6", "48"],
+  };
 
-    var memslider3 = {
-      type: "memslider",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testset[2];
-      },
-      min: 6,
-      max: 48,
-      slider_start: Math.floor(Math.random() * 51),
-      slider_number: true,
-      require_movement: true,
-      anchor_left: function () {
-        return anchors[0]
-      },
-      anchor_right: function () {
-        return anchors[1]
-      },
-      labels: ["6", "48"],
-    };
+  var memslider3 = {
+    type: "memslider",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testset[2];
+    },
+    min: 6,
+    max: 48,
+    slider_start: Math.floor(Math.random() * 51),
+    slider_number: true,
+    require_movement: true,
+    anchor_left: function () {
+      return anchors[0]
+    },
+    anchor_right: function () {
+      return anchors[1]
+    },
+    labels: ["6", "48"],
+  };
 
-    var memslider4 = {
-      type: "memslider",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testset[3];
-      },
-      min: 6,
-      max: 48,
-      slider_start: Math.floor(Math.random() * 51),
-      slider_number: true,
-      require_movement: true,
-      anchor_left: function () {
-        return anchors[0]
-      },
-      anchor_right: function () {
-        return anchors[1]
-      },
-      labels: ["6", "48"],
-    };
+  var memslider4 = {
+    type: "memslider",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testset[3];
+    },
+    min: 6,
+    max: 48,
+    slider_start: Math.floor(Math.random() * 51),
+    slider_number: true,
+    require_movement: true,
+    anchor_left: function () {
+      return anchors[0]
+    },
+    anchor_right: function () {
+      return anchors[1]
+    },
+    labels: ["6", "48"],
+  };
 
-    var memslider5 = {
-      type: "memslider",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testset[4];
-      },
-      min: 6,
-      max: 48,
-      slider_start: Math.floor(Math.random() * 51),
-      slider_number: true,
-      require_movement: true,
-      anchor_left: function () {
-        return anchors[0]
-      },
-      anchor_right: function () {
-        return anchors[1]
-      },
-      labels: ["6", "48"],
-    };
+  var memslider5 = {
+    type: "memslider",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testset[4];
+    },
+    min: 6,
+    max: 48,
+    slider_start: Math.floor(Math.random() * 51),
+    slider_number: true,
+    require_movement: true,
+    anchor_left: function () {
+      return anchors[0]
+    },
+    anchor_right: function () {
+      return anchors[1]
+    },
+    labels: ["6", "48"],
+  };
 
-    var randomstim2 = "";
-    var randomstim2str = "";
+  var randomstim2 = "";
+  var randomstim2str = "";
 
-    var memchoice = {
-      type: "memchoice",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testsetchoice[0].stim;
-      },
-      choices: ["F", "J"],
-      prompt: function () {
-        return (
-          "<p>The value of this object is " +
-          testsetchoice[0].value +
-          ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
-          "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
-        ); 
-      },
-      on_finish: function(data){
-        data.testvalue = testsetchoice[0].value;
-      }
-    };
+  var memchoice = {
+    type: "memchoice",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testsetchoice[0].stim;
+    },
+    choices: ["F", "J"],
+    prompt: function () {
+      return (
+        "<p>The value of this object is " +
+        testsetchoice[0].value +
+        ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
+        "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
+      );
+    },
+    on_finish: function (data) {
+      data.testvalue = testsetchoice[0].value;
+    }
+  };
 
-    var memchoice2 = {
-      type: "memchoice",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testsetchoice[1].stim;
-      },
-      choices: ["F", "J"],
-      prompt: function () {
-        return (
-          "<p>The value of this object is " +
-          testsetchoice[1].value +
-          ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
-          "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
-        );
-      },
-      on_finish: function(data){
-        data.testvalue = testsetchoice[1].value;
-      }
-    };
+  var memchoice2 = {
+    type: "memchoice",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testsetchoice[1].stim;
+    },
+    choices: ["F", "J"],
+    prompt: function () {
+      return (
+        "<p>The value of this object is " +
+        testsetchoice[1].value +
+        ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
+        "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
+      );
+    },
+    on_finish: function (data) {
+      data.testvalue = testsetchoice[1].value;
+    }
+  };
 
-    var memchoice3 = {
-      type: "memchoice",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testsetchoice[2].stim;
-      },
-      choices: ["F", "J"],
-      prompt: function () {
-        return (
-          "<p>The value of this object is " +
-          testsetchoice[2].value +
-          ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
-          "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
-        );
-      },
-      on_finish: function(data){
-        data.testvalue = testsetchoice[2].value;
-      }
-    };
+  var memchoice3 = {
+    type: "memchoice",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testsetchoice[2].stim;
+    },
+    choices: ["F", "J"],
+    prompt: function () {
+      return (
+        "<p>The value of this object is " +
+        testsetchoice[2].value +
+        ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
+        "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
+      );
+    },
+    on_finish: function (data) {
+      data.testvalue = testsetchoice[2].value;
+    }
+  };
 
-    var memchoice4 = {
-      type: "memchoice",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testsetchoice[3].stim;
-      },
-      choices: ["F", "J"],
-      prompt: function () {
-        return (
-          "<p>The value of this object is " +
-          testsetchoice[3].value +
-          ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
-          "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
-        );
-      },
-      on_finish: function(data){
-        data.testvalue = testsetchoice[3].value;
-      }
-    };
+  var memchoice4 = {
+    type: "memchoice",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testsetchoice[3].stim;
+    },
+    choices: ["F", "J"],
+    prompt: function () {
+      return (
+        "<p>The value of this object is " +
+        testsetchoice[3].value +
+        ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
+        "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
+      );
+    },
+    on_finish: function (data) {
+      data.testvalue = testsetchoice[3].value;
+    }
+  };
 
-    var memchoice5 = {
-      type: "memchoice",
-      stimulus_height: 542 / 2,
-      stimulus_width: 854 / 2,
-      stimulus: function () {
-        return testsetchoice[4].stim;
-      },
-      choices: ["F", "J"],
-      prompt: function () {
-        return (
-          "<p>The value of this object is " +
-          testsetchoice[4].value +
-          ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
-          "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
-        );
-      },
-      on_finish: function(data){
-        data.testvalue = testsetchoice[4].value;
-      }
-    };
+  var memchoice5 = {
+    type: "memchoice",
+    stimulus_height: 542 / 2,
+    stimulus_width: 854 / 2,
+    stimulus: function () {
+      return testsetchoice[4].stim;
+    },
+    choices: ["F", "J"],
+    prompt: function () {
+      return (
+        "<p>The value of this object is " +
+        testsetchoice[4].value +
+        ".</p><p>Press <b>F</b> if you believe this is <b>correct</b>.</p>" +
+        "</p>Press <b>J</b> if you believe this is <b>incorrect</b>.</p>"
+      );
+    },
+    on_finish: function (data) {
+      data.testvalue = testsetchoice[4].value;
+    }
+  };
 
 
 
-    var instr_example = {
-      type: "image-keyboard-response",
-      stimulus: function () {
-        return example_current[0];
-      },
-      stimulus_height: 400,
-      stimulus_width: 1400,
-      //prompt: "<p>In this example, the total value of the left object is " + example_current[2] + " and the total value of the right object is " + example_current[3] + ". Press the SPACE BAR to continue</p>",
-      on_start: function (trial) {
-        if(fixedfirst){
-          trial.prompt =
+  var instr_example = {
+    type: "image-keyboard-response",
+    stimulus: function () {
+      return example_current[0];
+    },
+    stimulus_height: 400,
+    stimulus_width: 1400,
+    //prompt: "<p>In this example, the total value of the left object is " + example_current[2] + " and the total value of the right object is " + example_current[3] + ". Press the SPACE BAR to continue</p>",
+    on_start: function (trial) {
+      if (fixedfirst) {
+        trial.prompt =
           `<p> In this example, the total value of the left object is ` + example_current[2] + `.</p>
           <p>The total of value of the right object is ` + example_current[3] + `.</p>
               <p>Since this is an accuracy-based trial, your reward for choosing the option on the right is ` +
-            acc_reward + ` points.</p>
+          acc_reward + ` points.</p>
             <p>If you choose the option on the right, your reward will be 0 points.</p>
             <p>Press the SPACE BAR to continue.</p>`;
-        } else {
-          trial.prompt = `<p> In this example, the total value of the left object is ` + example_current[2] + `.</p>
+      } else {
+        trial.prompt = `<p> In this example, the total value of the left object is ` + example_current[2] + `.</p>
               <p>The total of value of the right object is ` + example_current[3] + `.</p>
               <p>Since this is a value-based trial, your reward for choosing the option on the right is ` +
-            example_current[3] + ` points.</p>
+          example_current[3] + ` points.</p>
             <p>If you choose the option on the left, your reward will be ` +
-            example_current[2] + ` points.</p>  
+          example_current[2] + ` points.</p>  
             <p>Press the SPACE BAR to continue.</p>`;
-        }
-    
-      },
-      choices: ["space"],
-    };
+      }
+
+    },
+    choices: ["space"],
+  };
 
 
-    var instr_example_2 = {
-      type: "image-keyboard-response",
-      stimulus: function () {
-        return example_current_2[0];
-      },
-      stimulus_height: 400,
-      stimulus_width: 1400,
-      //prompt: "<p>In this example, the total value of the left object is " + example_current[2] + " and the total value of the right object is " + example_current[3] + ". Press the SPACE BAR to continue</p>",
-      on_start: function (trial) {
-        if(fixedfirst){
-          trial.prompt = `<p> In this example, the total value of the left object is ` + example_current_2[2] + `.</p>
+  var instr_example_2 = {
+    type: "image-keyboard-response",
+    stimulus: function () {
+      return example_current_2[0];
+    },
+    stimulus_height: 400,
+    stimulus_width: 1400,
+    //prompt: "<p>In this example, the total value of the left object is " + example_current[2] + " and the total value of the right object is " + example_current[3] + ". Press the SPACE BAR to continue</p>",
+    on_start: function (trial) {
+      if (fixedfirst) {
+        trial.prompt = `<p> In this example, the total value of the left object is ` + example_current_2[2] + `.</p>
               <p>The total of value of the right object is ` + example_current_2[3] + `.</p>
               <p>Since this is a value-based trial, your reward for choosing the option on the right is ` +
-            example_current_2[3] + ` points.</p>
+          example_current_2[3] + ` points.</p>
             <p>If you choose the option on the left, your reward will be ` +
-            example_current_2[2] + ` points.</p>  
+          example_current_2[2] + ` points.</p>  
             <p>Press the SPACE BAR to continue.</p>`;
-        } else {
-          trial.prompt = `<p> In this example, the total value of the left object is ` + example_current_2[2] + `.</p>
+      } else {
+        trial.prompt = `<p> In this example, the total value of the left object is ` + example_current_2[2] + `.</p>
               <p>The total of value of the right object is ` + example_current_2[3] + `.</p>
               <p>Since this is an accuracy-based trial, your reward for choosing the correct answer is ` +
-            acc_reward + ` points.</p>
+          acc_reward + ` points.</p>
             <p>Choosing the wrong answer would give you 0 points.</p>
             <p>Press the SPACE BAR to continue.</p>`;
-        }
-    
-      },
-      choices: ["space"],
-    };
+      }
+
+    },
+    choices: ["space"],
+  };
 
 
 
-    var show_rainbow_one = {
-      type: "rainbowimage-keyboard-response",
-      stimulus: function () {
-        return rainbow_one[0];
-      },
-      stimulus_height: 100,
-      stimulus_width: 1000,
-      on_start: function(trial) {
-          trial.prompt = 
-          `<p> The values of the colors increase across the spectrum, from ` + rainbow_one[1] + ` to ` + rainbow_one[2] + `.</p>
+  var show_rainbow_one = {
+    type: "rainbowimage-keyboard-response",
+    stimulus: function () {
+      return rainbow_one[0];
+    },
+    stimulus_height: 100,
+    stimulus_width: 1000,
+    on_start: function (trial) {
+      trial.prompt =
+        `<p> The values of the colors increase across the spectrum, from ` + rainbow_one[1] + ` to ` + rainbow_one[2] + `.</p>
           <p> Press the SPACE BAR to continue.</p> `
-      },
-      choices: ["space"],
-    };
+    },
+    choices: ["space"],
+  };
 
 
 
-    var show_rainbow_two = {
-      type: "rainbowimage-keyboard-response",
-      stimulus: function () {
-        return rainbow_two[0];
-      },
-      stimulus_height: 100,
-      stimulus_width: 1000,
-      on_start: function(trial) {
-          trial.prompt = 
-          `<p> The values of the colors increase across the spectrum, from ` + rainbow_two[1] + ` to ` + rainbow_two[2] + `.</p>
+  var show_rainbow_two = {
+    type: "rainbowimage-keyboard-response",
+    stimulus: function () {
+      return rainbow_two[0];
+    },
+    stimulus_height: 100,
+    stimulus_width: 1000,
+    on_start: function (trial) {
+      trial.prompt =
+        `<p> The values of the colors increase across the spectrum, from ` + rainbow_two[1] + ` to ` + rainbow_two[2] + `.</p>
           <p> Press the SPACE BAR to continue.</p> `
-      },
-      choices: ["space"],
-    };
+    },
+    choices: ["space"],
+  };
 
 
-    var instr_prac = {
-      type: "html-keyboard-response",
-      stimulus: `<p>Let's try a few final practice trials.</p>
+  var instr_prac = {
+    type: "html-keyboard-response",
+    stimulus: `<p>Let's try a few final practice trials.</p>
             <p>Select the better of the two options, and we will show you how many points you are awarded for your choice.</p>
             <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
             <p>Press the SPACE BAR to continue.</p>`,
-      choices: ["space"],
-    };
+    choices: ["space"],
+  };
 
 
 
-    var curr_score_FR = {
-      type: "html-keyboard-response",
-      choices: ["space"],
-      on_start: function (trial) {
-        cu_sco = f(acc_exp_FR, 1)
-        trial.stimulus =
-          `<p> You have completed ` + (acc_exp_FR.length/rep) * 100 + `% of the experiment. </p> \
+  var curr_score_FR = {
+    type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      cu_sco = f(acc_exp_FR, 1)
+      trial.stimulus =
+        `<p> You have completed ` + (acc_exp_FR.length / rep) * 100 + `% of the experiment. </p> \
              <p>You have currently scored ` + cu_sco + ` points.</p> \
              <p>At a conversion rate of $1 for every ` + conversion_rate + ` points, your current bonus is $` +
-          Number((cu_sco/conversion_rate)).toFixed(2) +
-          `.</p><p>Press the SPACE BAR to continue.</p>`;
-      },
-      on_finish: function() {
-        // jsPsych.data.addProperties({
-        //     compensation: Number((reward_val_VB/conversion_rate)).toFixed(2),
-        //     });
-      }
-    };
+        Number((cu_sco / conversion_rate)).toFixed(2) +
+        `.</p><p>Press the SPACE BAR to continue.</p>`;
+    },
+    on_finish: function () {
+      // jsPsych.data.addProperties({
+      //     compensation: Number((reward_val_VB/conversion_rate)).toFixed(2),
+      //     });
+    }
+  };
 
 
-    var curr_score_VB = {
-      type: "html-keyboard-response",
-      choices: ["space"],
-      on_start: function (trial) {
-        cu_sco = g(left_arr, right_arr)
-        trial.stimulus =
-          `<p> You have completed ` + (left_value.length/rep) * 100 + `% of the experiment. </p> \
+  var curr_score_VB = {
+    type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      cu_sco = g(left_arr, right_arr)
+      trial.stimulus =
+        `<p> You have completed ` + (left_value.length / rep) * 100 + `% of the experiment. </p> \
              <p>You have currently scored ` + cu_sco + ` points.</p> \
              <p>At a conversion rate of $1 for every ` + conversion_rate + ` points, your current bonus is $` +
-          Number((cu_sco/conversion_rate)).toFixed(2) +
-          `.</p><p>Press the SPACE BAR to continue.</p>`;
-      },
-      on_finish: function() {
-        // jsPsych.data.addProperties({
-        //     compensation: Number((reward_val_VB/conversion_rate)).toFixed(2),
-        //     });
-      }
-    };
-    function f(array,value){
+        Number((cu_sco / conversion_rate)).toFixed(2) +
+        `.</p><p>Press the SPACE BAR to continue.</p>`;
+    },
+    on_finish: function () {
+      // jsPsych.data.addProperties({
+      //     compensation: Number((reward_val_VB/conversion_rate)).toFixed(2),
+      //     });
+    }
+  };
+  function f(array, value) {
     var n = 0;
-    for(i = 0; i < array.length; i++){
-        if(array[i] == value){n++}
+    for (i = 0; i < array.length; i++) {
+      if (array[i] == value) { n++ }
     }
-    return n*21;
-    }
+    return n * acc_reward;
+  }
 
 
-    function g(array1, array2){
-      sum1 = 0
-      for(var i = 0; i < array1.length; i++){
-      if(array1[i]>-1){
-        sum1+=array1[i]
-        }
-      } 
-
-      sum2 = 0
-      for(var i = 0; i < array2.length; i++){
-      if(array2[i]>-1){
-        sum2+=array2[i]
-        }
+  function g(array1, array2) {
+    sum1 = 0
+    for (var i = 0; i < array1.length; i++) {
+      if (array1[i] > -1) {
+        sum1 += array1[i]
       }
-
-      return (sum1 + sum2)
-
     }
 
-    curr_exp_idx = 0
-
-    curr_exp_idx2 = 0
-
-    if (fixedfirst == true) {
-      timeline.push(instr7);
-      timeline.push(show_rainbow_one);
-      timeline.push(instr_start_training);
-      timeline.push(node_fixed);
-      timeline.push(conditional_1_fixed);
-      timeline.push(conditional_2_fixed);
-      timeline.push(conditional_3_fixed);
-      timeline.push(instrfixed);
-      timeline.push(instr_example)
-      timeline.push(instr_prac);
-      timeline.push(node_prac_fixed)
-      timeline.push(pass_training_FR);
-      for (var i = 0; i < rep; i++){
-        timeline.push(experiment_node_fixed);
-        curr_exp_idx++
-        if(curr_exp_idx%num_curr_score==0 & curr_exp_idx!=rep){
-          timeline.push(curr_score_FR)
-        }
+    sum2 = 0
+    for (var i = 0; i < array2.length; i++) {
+      if (array2[i] > -1) {
+        sum2 += array2[i]
       }
-      timeline.push(checkOrdercall);
-      // timeline.push(memslider_instr);
-      // timeline.push(cursor_on);
-      // timeline.push(memslider);
-      // timeline.push(fixation)
-      // timeline.push(memslider2);
-      // timeline.push(fixation)
-      // timeline.push(memslider3);
-      // timeline.push(fixation)
-      // timeline.push(memslider4);
-      // timeline.push(fixation)
-      // timeline.push(memslider5);
-      // timeline.push(cursor_off);
-      // timeline.push(memchoice_instr);
-      // timeline.push(memchoice);
-      // timeline.push(fixation)
-      // timeline.push(memchoice2);
-      // timeline.push(fixation)
-      // timeline.push(memchoice3);
-      // timeline.push(fixation)
-      // timeline.push(memchoice4);
-      // timeline.push(fixation)
-      // timeline.push(memchoice5);
-      // timeline.push(finish_p1_fixed_done);
-      // timeline.push(trialm);
-
-
-      // timeline.push(instr7v2);
-      // timeline.push(show_rainbow_two);
-      // timeline.push(instr_start_training_2);
-      // timeline.push(node_VB);
-      // timeline.push(conditional_1_value);
-      // timeline.push(conditional_2_value);
-      // timeline.push(conditional_3_value);
-      // timeline.push(instrincentive);
-      // timeline.push(instr_example_2)
-      // timeline.push(instr_prac);
-      // timeline.push(node_prac_VB)
-      // timeline.push(pass_training_VB);
-      // for (var i = 0; i < 5; i++){
-      //   timeline.push(experiment_node_value);
-      // }
-      // timeline.push(checkOrdercall);
-      // timeline.push(memslider_instr);
-      // timeline.push(cursor_on);
-      // timeline.push(memslider);
-      // timeline.push(fixation)
-      // timeline.push(memslider2);
-      // timeline.push(fixation)
-      // timeline.push(memslider3);
-      // timeline.push(fixation)
-      // timeline.push(memslider4);
-      // timeline.push(fixation)
-      // timeline.push(memslider5);
-      // timeline.push(cursor_off);
-      // timeline.push(memchoice_instr);
-      // timeline.push(memchoice);
-      // timeline.push(fixation)
-      // timeline.push(memchoice2);
-      // timeline.push(fixation)
-      // timeline.push(memchoice3);
-      // timeline.push(fixation)
-      // timeline.push(memchoice4);
-      // timeline.push(fixation)
-      // timeline.push(memchoice5);
-    } else {
-      timeline.push(instr7);
-      timeline.push(show_rainbow_one);
-      timeline.push(instr_start_training_2);
-      timeline.push(node_VB);
-      timeline.push(conditional_1_value);
-      timeline.push(conditional_2_value);
-      timeline.push(conditional_3_value);
-      timeline.push(instrincentive);
-      timeline.push(instr_example)
-      timeline.push(instr_prac);
-      timeline.push(node_prac_VB)
-      timeline.push(pass_training_VB);
-      for (var i = 0; i < rep; i++){
-        timeline.push(experiment_node_value);
-        curr_exp_idx2++
-        if(curr_exp_idx2%num_curr_score==0 & curr_exp_idx2!=rep){
-          timeline.push(curr_score_VB)
-        }
-      }
-      timeline.push(checkOrdercall);
-      // timeline.push(memslider_instr);
-      // timeline.push(cursor_on);
-      // timeline.push(memslider);
-      // timeline.push(fixation)
-      // timeline.push(memslider2);
-      // timeline.push(fixation)
-      // timeline.push(memslider3);
-      // timeline.push(fixation)
-      // timeline.push(memslider4);
-      // timeline.push(fixation)
-      // timeline.push(memslider5);
-      // timeline.push(cursor_off);
-      // timeline.push(memchoice_instr);
-      // timeline.push(memchoice);
-      // timeline.push(fixation)
-      // timeline.push(memchoice2);
-      // timeline.push(fixation)
-      // timeline.push(memchoice3);
-      // timeline.push(fixation)
-      // timeline.push(memchoice4);
-      // timeline.push(fixation)
-      // timeline.push(memchoice5);
-      // timeline.push(finish_p1_value_done);
-      // timeline.push(trialm);
-
-      // timeline.push(instr7v2);
-      // timeline.push(show_rainbow_two);
-      // timeline.push(instr_start_training);
-      // timeline.push(node_fixed);
-      // timeline.push(conditional_1_fixed);
-      // timeline.push(conditional_2_fixed);
-      // timeline.push(conditional_3_fixed);
-      // timeline.push(instrfixed);
-      // timeline.push(instr_example_2)
-      // timeline.push(instr_prac);
-      // timeline.push(node_prac_fixed)
-      // timeline.push(pass_training_FR);
-      // for (var i = 0; i < 5; i++){
-      //   timeline.push(experiment_node_fixed);
-      // }
-      // timeline.push(checkOrdercall);
-      // timeline.push(memslider_instr);
-      // timeline.push(cursor_on);
-      // timeline.push(memslider);
-      // timeline.push(fixation)
-      // timeline.push(memslider2);
-      // timeline.push(fixation)
-      // timeline.push(memslider3);
-      // timeline.push(fixation)
-      // timeline.push(memslider4);
-      // timeline.push(fixation)
-      // timeline.push(memslider5);
-      // timeline.push(cursor_off);
-      // timeline.push(memchoice_instr);
-      // timeline.push(memchoice);
-      // timeline.push(fixation)
-      // timeline.push(memchoice2);
-      // timeline.push(fixation)
-      // timeline.push(memchoice3);
-      // timeline.push(fixation)
-      // timeline.push(memchoice4);
-      // timeline.push(fixation)
-      // timeline.push(memchoice5);
     }
-    var final_reward_value;
 
-    // var reward_is_VB;
-    // var reward_is_FR;
-    // if (Math.random() < 0.5) {
-    //   reward_is_VB = true;
-    //   // console.log("VB reward");
-    // } else {
-    //   reward_is_FR = true;
-      // console.log("FR reward (21 or 0");
+    return (sum1 + sum2)
+
+  }
+
+  curr_exp_idx = 0
+
+  curr_exp_idx2 = 0
+
+  if (fixedfirst == true) {
+    timeline.push(instr7);
+    timeline.push(show_rainbow_one);
+    timeline.push(instr_start_training);
+    timeline.push(node_fixed);
+    timeline.push(conditional_1_fixed);
+    timeline.push(conditional_2_fixed);
+    timeline.push(conditional_3_fixed);
+    timeline.push(instrfixed);
+    timeline.push(instr_example)
+    timeline.push(instr_prac);
+    timeline.push(node_prac_fixed)
+    timeline.push(pass_training_FR);
+    for (var i = 0; i < rep; i++) {
+      timeline.push(experiment_node_fixed);
+      curr_exp_idx++
+      if (curr_exp_idx % num_curr_score == 0 & curr_exp_idx != rep) {
+        timeline.push(curr_score_FR)
+      }
+    }
+    timeline.push(checkOrdercall);
+    // timeline.push(memslider_instr);
+    // timeline.push(cursor_on);
+    // timeline.push(memslider);
+    // timeline.push(fixation)
+    // timeline.push(memslider2);
+    // timeline.push(fixation)
+    // timeline.push(memslider3);
+    // timeline.push(fixation)
+    // timeline.push(memslider4);
+    // timeline.push(fixation)
+    // timeline.push(memslider5);
+    // timeline.push(cursor_off);
+    // timeline.push(memchoice_instr);
+    // timeline.push(memchoice);
+    // timeline.push(fixation)
+    // timeline.push(memchoice2);
+    // timeline.push(fixation)
+    // timeline.push(memchoice3);
+    // timeline.push(fixation)
+    // timeline.push(memchoice4);
+    // timeline.push(fixation)
+    // timeline.push(memchoice5);
+    // timeline.push(finish_p1_fixed_done);
+    // timeline.push(trialm);
+
+
+    // timeline.push(instr7v2);
+    // timeline.push(show_rainbow_two);
+    // timeline.push(instr_start_training_2);
+    // timeline.push(node_VB);
+    // timeline.push(conditional_1_value);
+    // timeline.push(conditional_2_value);
+    // timeline.push(conditional_3_value);
+    // timeline.push(instrincentive);
+    // timeline.push(instr_example_2)
+    // timeline.push(instr_prac);
+    // timeline.push(node_prac_VB)
+    // timeline.push(pass_training_VB);
+    // for (var i = 0; i < 5; i++){
+    //   timeline.push(experiment_node_value);
     // }
+    // timeline.push(checkOrdercall);
+    // timeline.push(memslider_instr);
+    // timeline.push(cursor_on);
+    // timeline.push(memslider);
+    // timeline.push(fixation)
+    // timeline.push(memslider2);
+    // timeline.push(fixation)
+    // timeline.push(memslider3);
+    // timeline.push(fixation)
+    // timeline.push(memslider4);
+    // timeline.push(fixation)
+    // timeline.push(memslider5);
+    // timeline.push(cursor_off);
+    // timeline.push(memchoice_instr);
+    // timeline.push(memchoice);
+    // timeline.push(fixation)
+    // timeline.push(memchoice2);
+    // timeline.push(fixation)
+    // timeline.push(memchoice3);
+    // timeline.push(fixation)
+    // timeline.push(memchoice4);
+    // timeline.push(fixation)
+    // timeline.push(memchoice5);
+  } else {
+    timeline.push(instr7);
+    timeline.push(show_rainbow_one);
+    timeline.push(instr_start_training_2);
+    timeline.push(node_VB);
+    timeline.push(conditional_1_value);
+    timeline.push(conditional_2_value);
+    timeline.push(conditional_3_value);
+    timeline.push(instrincentive);
+    timeline.push(instr_example)
+    timeline.push(instr_prac);
+    timeline.push(node_prac_VB)
+    timeline.push(pass_training_VB);
+    for (var i = 0; i < rep; i++) {
+      timeline.push(experiment_node_value);
+      curr_exp_idx2++
+      if (curr_exp_idx2 % num_curr_score == 0 & curr_exp_idx2 != rep) {
+        timeline.push(curr_score_VB)
+      }
+    }
+    timeline.push(checkOrdercall);
+    // timeline.push(memslider_instr);
+    // timeline.push(cursor_on);
+    // timeline.push(memslider);
+    // timeline.push(fixation)
+    // timeline.push(memslider2);
+    // timeline.push(fixation)
+    // timeline.push(memslider3);
+    // timeline.push(fixation)
+    // timeline.push(memslider4);
+    // timeline.push(fixation)
+    // timeline.push(memslider5);
+    // timeline.push(cursor_off);
+    // timeline.push(memchoice_instr);
+    // timeline.push(memchoice);
+    // timeline.push(fixation)
+    // timeline.push(memchoice2);
+    // timeline.push(fixation)
+    // timeline.push(memchoice3);
+    // timeline.push(fixation)
+    // timeline.push(memchoice4);
+    // timeline.push(fixation)
+    // timeline.push(memchoice5);
+    // timeline.push(finish_p1_value_done);
+    // timeline.push(trialm);
 
-    // var reward_function_VB = function () {
-    //   while (reward_val_VB == 0 || !(reward_val_VB > 0)) {
-    //     randidx = Math.floor(Math.random() * rep);
-    //     reward_val_VB = all_arr[randidx];
-    //   }
-    //   // if(all_arr.length == 0){
-    //   //     reward_val_VB = 0;
-    //   // }
-    //   //console.log(reward_val_VB);
-    //   return reward_val_VB;
-    // };
-
-    // var reward_node_VB = {
-    //   type: "reward-function",
-    //   func: reward_function_VB,
-    //   on_finish: function (data) {
-    //     data.randidx_VB = randidx;
-    //     data.reward_val_VB = reward_val_VB;
-    //     data.trialN = "NA";
-    //   },
-    // };
-    
-    // timeline.push(reward_node_VB);
-    
-    // var randidx_FR;
-    // var final_reward_boolean;
-    // var final_reward;
-    // var reward_function_FR = function () {
-    //   randidx_FR = Math.floor(Math.random() * acc_exp_FR.length);
-    //   var final_reward_boolean = acc_exp_FR[randidx_FR];
-    //   if (final_reward_boolean == 1) {
-    //     // if(left_fixed[randidx] > right_fixed[randidx_FR]){
-    //     //     final_reward_value = left_fixed[randidx_FR];
-    //     // }else{
-    //     //     final_reward_value = right_fixed[randidx_FR]
-    //     final_reward_value = acc_reward;
-    //   } else {
-    //     final_reward_value = 0;
-    //   }
-
-    //   return final_reward_value;
-    // };
-
-    // var reward_node_FR = {
-    //   type: "reward-function",
-    //   func: reward_function_FR,
-    //   on_finish: function (data) {
-    //     data.randidx_FR = randidx_FR;
-    //     data.trialN = "NA";
-    //   },
+    // timeline.push(instr7v2);
+    // timeline.push(show_rainbow_two);
+    // timeline.push(instr_start_training);
+    // timeline.push(node_fixed);
+    // timeline.push(conditional_1_fixed);
+    // timeline.push(conditional_2_fixed);
+    // timeline.push(conditional_3_fixed);
+    // timeline.push(instrfixed);
+    // timeline.push(instr_example_2)
+    // timeline.push(instr_prac);
+    // timeline.push(node_prac_fixed)
+    // timeline.push(pass_training_FR);
+    // for (var i = 0; i < 5; i++){
+    //   timeline.push(experiment_node_fixed);
     // }
+    // timeline.push(checkOrdercall);
+    // timeline.push(memslider_instr);
+    // timeline.push(cursor_on);
+    // timeline.push(memslider);
+    // timeline.push(fixation)
+    // timeline.push(memslider2);
+    // timeline.push(fixation)
+    // timeline.push(memslider3);
+    // timeline.push(fixation)
+    // timeline.push(memslider4);
+    // timeline.push(fixation)
+    // timeline.push(memslider5);
+    // timeline.push(cursor_off);
+    // timeline.push(memchoice_instr);
+    // timeline.push(memchoice);
+    // timeline.push(fixation)
+    // timeline.push(memchoice2);
+    // timeline.push(fixation)
+    // timeline.push(memchoice3);
+    // timeline.push(fixation)
+    // timeline.push(memchoice4);
+    // timeline.push(fixation)
+    // timeline.push(memchoice5);
+  }
+  var final_reward_value;
 
-    // timeline.push(reward_node_FR);
+  // var reward_is_VB;
+  // var reward_is_FR;
+  // if (Math.random() < 0.5) {
+  //   reward_is_VB = true;
+  //   // console.log("VB reward");
+  // } else {
+  //   reward_is_FR = true;
+  // console.log("FR reward (21 or 0");
+  // }
+
+  // var reward_function_VB = function () {
+  //   while (reward_val_VB == 0 || !(reward_val_VB > 0)) {
+  //     randidx = Math.floor(Math.random() * rep);
+  //     reward_val_VB = all_arr[randidx];
+  //   }
+  //   // if(all_arr.length == 0){
+  //   //     reward_val_VB = 0;
+  //   // }
+  //   //console.log(reward_val_VB);
+  //   return reward_val_VB;
+  // };
+
+  // var reward_node_VB = {
+  //   type: "reward-function",
+  //   func: reward_function_VB,
+  //   on_finish: function (data) {
+  //     data.randidx_VB = randidx;
+  //     data.reward_val_VB = reward_val_VB;
+  //     data.trialN = "NA";
+  //   },
+  // };
+
+  // timeline.push(reward_node_VB);
+
+  // var randidx_FR;
+  // var final_reward_boolean;
+  // var final_reward;
+  // var reward_function_FR = function () {
+  //   randidx_FR = Math.floor(Math.random() * acc_exp_FR.length);
+  //   var final_reward_boolean = acc_exp_FR[randidx_FR];
+  //   if (final_reward_boolean == 1) {
+  //     // if(left_fixed[randidx] > right_fixed[randidx_FR]){
+  //     //     final_reward_value = left_fixed[randidx_FR];
+  //     // }else{
+  //     //     final_reward_value = right_fixed[randidx_FR]
+  //     final_reward_value = acc_reward;
+  //   } else {
+  //     final_reward_value = 0;
+  //   }
+
+  //   return final_reward_value;
+  // };
+
+  // var reward_node_FR = {
+  //   type: "reward-function",
+  //   func: reward_function_FR,
+  //   on_finish: function (data) {
+  //     data.randidx_FR = randidx_FR;
+  //     data.trialN = "NA";
+  //   },
+  // }
+
+  // timeline.push(reward_node_FR);
 
 
 
-    var reward_fixedfirst= {
-      type: "html-keyboard-response",
-      choices: ["space"],
-      on_start: function (trial) {
-        trial.stimulus =
-          `<p> You have completed the experiment! </p> \
-            <p>You earned a total of ` + f(acc_exp_FR, 1) +` points!</p>
+  var reward_fixedfirst = {
+    type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      trial.stimulus =
+        `<p> You have completed the experiment! </p> \
+            <p>You earned a total of ` + f(acc_exp_FR, 1) + ` points!</p>
             <p>At a conversion rate of $1 for every ` + conversion_rate + ` points, you will receive a total of $` +
-          Number(((f(acc_exp_FR, 1))/conversion_rate)).toFixed(2) +
-          `.</p><p>Press the SPACE BAR to continue.</p>`;
-      },
-      on_finish: function() {
-        jsPsych.data.addProperties({
-            compensation: Number(((f(acc_exp_FR, 1))/conversion_rate)).toFixed(2),
-            });
-      }
-    };
+        Number(((f(acc_exp_FR, 1)) / conversion_rate)).toFixed(2) +
+        `.</p><p>Press the SPACE BAR to continue.</p>`;
+    },
+    on_finish: function () {
+      jsPsych.data.addProperties({
+        compensation: Number(((f(acc_exp_FR, 1)) / conversion_rate)).toFixed(2),
+      });
+    }
+  };
 
-    var reward_valuefirst = {
-      type: "html-keyboard-response",
-      choices: ["space"],
-      on_start: function (trial) {
-        trial.stimulus =
-          `<p> You have completed the experiment! </p> \
-           <p>You earned a total of ` + g(left_arr, right_arr) +` points!</p>
+  var reward_valuefirst = {
+    type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      trial.stimulus =
+        `<p> You have completed the experiment! </p> \
+           <p>You earned a total of ` + g(left_arr, right_arr) + ` points!</p>
             <p>At a conversion rate of $1 for every ` + conversion_rate + ` points, you will receive a bonus of $` +
-          Number(((g(left_arr, right_arr))/conversion_rate)).toFixed(2) +
-          `.</p><p>Press the SPACE BAR to continue.</p>`;
+        Number(((g(left_arr, right_arr)) / conversion_rate)).toFixed(2) +
+        `.</p><p>Press the SPACE BAR to continue.</p>`;
+    },
+    on_finish: function () {
+      jsPsych.data.addProperties({
+        compensation: Number(((g(left_arr, right_arr)) / conversion_rate)).toFixed(2),
+      });
+    }
+  };
+
+  var reward_FR_is_correct;
+
+  // var determine_FR_reward_type = function () {
+  // };
+
+  // // var node_FR_reward = {
+  // //   type: "call-function",
+  // //   func: determine_FR_reward_type,
+
+  // //       on_start: function(timeline){
+  // //           if(fixedfirst){
+  // //               timeline.push(reward_fixedfirst)
+  // //           }
+  // //           if(fixedfirst == false){
+  // //               timeline.push(reward_valuefirst)
+  // //           }
+  // //       },
+  // // };
+
+
+  if (fixedfirst) {
+    timeline.push(reward_fixedfirst)
+  }
+  if (fixedfirst == false) {
+    timeline.push(reward_valuefirst)
+  }
+
+  // timeline.push(node_FR_reward);
+
+  // var if_node = {
+  //   timeline: [reward_correct],
+  //   conditional_function: function () {
+  //     if (reward_FR_is_correct) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   },
+  // };
+
+  // var if_node_2 = {
+  //   timeline: [reward_incorrect],
+  //   conditional_function: function () {
+  //     if (reward_FR_is_correct == false) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   },
+  // };
+
+  // timeline.push(if_node);
+  // timeline.push(if_node_2);
+
+  //log data for demographic info
+
+  timeline.push(cursor_on);
+
+  var demo_trial = {
+    type: "survey-text",
+    preamble: "<p>Please answer the following demographic questions</p>",
+    questions: [
+      { prompt: "What is your worker ID?", name: "workerID" },
+      { prompt: "What is your age?", name: "Age" },
+      {
+        prompt:
+          "What is your gender identify? (Female/Male/Non-binary/Other/Prefer not to say",
+        name: "Gender",
       },
-      on_finish: function() {
-        jsPsych.data.addProperties({
-            compensation: Number(((g(left_arr, right_arr))/conversion_rate)).toFixed(2),
-            });
-      }
-    };
+      {
+        prompt: "Do you have full color vision? (Yes/No)",
+        name: "colorblind",
+      },
+    ],
+  };
+  timeline.push(demo_trial);
 
-    var reward_FR_is_correct;
-
-    // var determine_FR_reward_type = function () {
-    // };
-
-    // // var node_FR_reward = {
-    // //   type: "call-function",
-    // //   func: determine_FR_reward_type,
-
-    // //       on_start: function(timeline){
-    // //           if(fixedfirst){
-    // //               timeline.push(reward_fixedfirst)
-    // //           }
-    // //           if(fixedfirst == false){
-    // //               timeline.push(reward_valuefirst)
-    // //           }
-    // //       },
-    // // };
-
-
-    if(fixedfirst){
-      timeline.push(reward_fixedfirst)
-    }
-    if(fixedfirst == false){
-      timeline.push(reward_valuefirst)
-    }
-  
-    // timeline.push(node_FR_reward);
-
-    // var if_node = {
-    //   timeline: [reward_correct],
-    //   conditional_function: function () {
-    //     if (reward_FR_is_correct) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   },
-    // };
-
-    // var if_node_2 = {
-    //   timeline: [reward_incorrect],
-    //   conditional_function: function () {
-    //     if (reward_FR_is_correct == false) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   },
-    // };
-
-    // timeline.push(if_node);
-    // timeline.push(if_node_2);
-
-    //log data for demographic info
-
-    timeline.push(cursor_on);
-
-    var demo_trial = {
-      type: "survey-text",
-      preamble: "<p>Please answer the following demographic questions</p>",
-      questions: [
-        { prompt: "What is your worker ID?", name: "workerID" },
-        { prompt: "What is your age?", name: "Age" },
-        {
-          prompt:
-            "What is your gender identify? (Female/Male/Non-binary/Other/Prefer not to say",
-          name: "Gender",
-        },
-        {
-          prompt: "Do you have full color vision? (Yes/No)",
-          name: "colorblind",
-        },
-      ],
-    };
-    timeline.push(demo_trial);
-
-    jsPsych.init({
-      timeline,
-      on_finish: function () {
-        jsPsych.data.addProperties({
-                subject: subject_id,
-            });
-          $.ajax({
-          type: "POST",
-          url: "/experiment-data",
-          data: JSON.stringify(jsPsych.data
+  jsPsych.init({
+    timeline,
+    on_finish: function () {
+      jsPsych.data.addProperties({
+        subject: subject_id,
+      });
+      $.ajax({
+        type: "POST",
+        url: "/experiment-data",
+        data: JSON.stringify(jsPsych.data
           .get()
           .filter([
-          { trial_type: "blocks" },
-          { trial_type: "blocks-exp" },
-          { trial_type: "reward-function" },
-          { trial_type: "call" },
-          { trial_type: "survey-text" },
-          { trial_type: "memslider" },
-          { trial_type: "memchoice" }])
+            { trial_type: "blocks" },
+            { trial_type: "blocks-exp" },
+            { trial_type: "reward-function" },
+            { trial_type: "call" },
+            { trial_type: "survey-text" },
+            { trial_type: "memslider" },
+            { trial_type: "memchoice" }])
           .ignore("trial_index")
           .ignore("internal_node_id")
-          .values()   
-          ),
-          contentType: "application/json",
-          success: window.location.href = "finish"
-        }).fail(function() {
-          alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
-          window.location.href = "finish";
-        });
-        }
-    });
-  </script>
+          .values()
+        ),
+        contentType: "application/json",
+        success: window.location.href = "finish"
+      }).fail(function () {
+        alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
+        window.location.href = "finish";
+      });
+    }
+  });
+</script>
+
 </html>

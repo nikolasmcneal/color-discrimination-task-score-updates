@@ -107,7 +107,7 @@ jsPsych.plugins["rainbowimage-keyboard-response"] = (function() {
         // if image wasn't preloaded, then it will need to be drawn whenever it finishes loading
         if (!image_drawn) {
           getHeightWidth(); // only possible to get width/height after image loads
-          ctx.drawImage(img,0,0,width,height);
+          ctx.drawImage(img,0,0,width,60);
         }
       };
       img.src = trial.stimulus;

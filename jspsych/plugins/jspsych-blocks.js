@@ -168,11 +168,11 @@ jsPsych.plugins["blocks"] = (function () {
 
     while (leftsum == rightsum) {
       for (var i = 0; i < arr_left.length; i++) {
-        arr_left[i] = Math.floor(Math.random() * 8);
+        arr_left[i] = Math.floor(Math.random() * 12);
         leftsum += arr_left[i];
       }
       for (var j = 0; j < arr_right.length; j++) {
-        arr_right[j] = Math.floor(Math.random() * 8);
+        arr_right[j] = Math.floor(Math.random() * 12);
         rightsum += arr_right[j];
       }
     }
