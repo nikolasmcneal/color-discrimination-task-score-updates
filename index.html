@@ -36,42 +36,21 @@
   var training_fixed_static = true //if true, then FR training is 27/0. if false, then FR training shows value of selected item
   var toggle; //toggle memory on
 
-
-
-
-
-
-  //conversion rate, rainbow, turning off memory.
-
-
-
-
-
   if (fixedfirst) {
     // look at what the average accuracy is in FR , multiply that by average stimulus value. round to the nearest $.05.
-    var conversion_rate = 497.00; //number of points per dollar //this assumes the average accuracy in FR is .85, and the correct payout is X
-    //(150 * 39) = 5850 
-    //5850 * .85 = 4972 ~ 4970
-    //4970 / x = 10
-    //x = 497
+    var conversion_rate = 500.00; //number of points per dollar //this assumes the average accuracy in FR is .85, and the correct payout is X
+    //(150 * 40) = 600 0
+    //6000 * .85 = 5100
+    //5100 / x = 10
+    //x = 510 -> round to 500
   }
   if (fixedfirst == false) {
-    var conversion_rate = 585.00; // set value-based conversion rate first (avg = 39)
-    // 39 * 150 = 5850
-    // 5850 / x = 10
-    // x = 585
-    // round to 585
+    var conversion_rate = 500.00; // set value-based conversion rate first (avg = 39)
+ 
   }
   const fixation_duration = 500;
 
   //total reward should be around $10
-
-
-
-  //code so that we have both options for reward: change reward at end, change instructions about reward end
-  //look into memory data for interesting relationships but for now remove memory tasks at end
-
-
 
   //fixed reward feedback
   //total earnings: points, and then underneath in dollars
@@ -145,8 +124,6 @@
     },
   };
 
-  timeline.push(cursor_off);
-
   var cursor_on = {
     type: "call-function",
     func: function () {
@@ -162,7 +139,7 @@
   // }
 
   //Reward
-  acc_reward = 39;
+  acc_reward = 40;
 
   var fixation = {
     type: "html-keyboard-response",
@@ -305,32 +282,6 @@
   };
   timeline.push(log_rainbow);
   var arr_left;
-
-  //Code to generate arrays
-  // var arrays = new Array();
-  // for (var m = 0; m < 12; m++) {
-  //   arrays[m] = new Array();
-  // }
-  // for (var x = 0; x < 2; x++) {
-  //   for (var i = 0; i < 11; i++) {
-  //     var arr = [];
-  //     for (var j = 0; j < 6; j++) {
-  //       arr[j] = Math.floor(Math.random() * 8);
-  //       arrays[i][x] = arr;
-  //     }
-  //   }
-  // }
-
-  // var arrays = [
-  //   [
-  //     [1, 2, 3, 4, 5, 6],
-  //     [7, 2, 3, 5, 4, 1],
-  //   ],
-  //   [
-  //     [1, 6, 5, 0, 2, 3],
-  //     [2, 3, 1, 5, 3, 2],
-  //   ],
-  // ];
 
   var arrays1 = [[[1, 0, 4, 4, 6, 3], [4, 1, 1, 3, 6, 7]],
  [[3, 2, 3, 1, 3, 7], [0, 6, 4, 6, 3, 3]],
@@ -868,13 +819,6 @@
     ctx.fillRect(0, 0, 200, 200);
   }
 
-  var instr1 = {
-    type: "html-keyboard-response",
-    stimulus: `<p>Welcome to the study! </p>
-            <p>Today, you will make some decisions about colorful objects.</p>
-            <p>If you are ready to begin, please press the SPACE BAR.</p>`, //numerosity uses Space but Blair matlab code uses up arrow, which one
-    choices: ["space"],
-  };
 
   var payment_trial = {
     type: "survey-text",
@@ -885,10 +829,12 @@
     ],
   };
   timeline.push(payment_trial);
+  timeline.push(cursor_off);
+
 
   var instr2 = {
     type: "html-keyboard-response",
-    stimulus: `<p>Your task will be to make a series of choices between two objects. </p>
+    stimulus: `<p>Today, your task will be to make a series of choices between two colorful objects. </p>
             <p>To see an example object, press the SPACE BAR. </p>`,
     choices: ["space"],
   };
@@ -926,7 +872,7 @@
         ` rounds, you will be choosing the better of two objects. The value of each object is</p>
             <p>simply the sum of the values of each colored block in the object. The colored blocks are</p>
             <p>each worth a different amount of points, and each color is equally likely to appear. In</p>
-            <p>this task, you will receive one dollar for every 585 points. In order to know the value</p>
+            <p>this task, you will receive one dollar for every ` + conversion_rate + ` points. In order to know the value</p>
             <p>of an object, you will first need to learn what each color is worth.</p>
             <p>Press the SPACE BAR to continue. </p>`,
       choices: ["space"],
@@ -941,75 +887,43 @@
         ` rounds, you will be choosing the better of two objects. The value of each object is</p>
             <p>simply the sum of the values of each colored block in the object. The colored blocks are</p>
             <p>each worth a different amount of points, and each color is equally likely to appear. In</p>
-            <p>this task, you will receive one dollar for every 497 points. In order to know the value</p>
+            <p>this task, you will receive one dollar for every `+ conversion_rate + ` points. In order to know the value</p>
             <p>of an object, you will first need to learn what each color is worth.</p>
             <p>Press the SPACE BAR to continue. </p>`,
       choices: ["space"],
     };
   }
 
-
-
-
-
-
   var instr5acc = {
     type: "html-keyboard-response",
     stimulus:
-      `<p>Each round, you will see two objects on the screen. Your task is to select which of the two</p>
-            <p>objects you want to choose. All objects will have positive values and you can gain bonus</p>
-            <p>points based on your choices. You will gain a bonus for choosing the better of the two options.</p>
-            <p>Press the SPACE BAR to continue.</p>`,
+      `<p>Each round, you will see two objects on the screen. All objects will have positive values and</p>
+       <p>you will gain a bonus for choosing the better of the two options. In other words, you will gain</p>
+       <p>` + acc_reward + ` points for every trial where you choose the better option and 0 points for every trial</p>
+       <p>where you choose the worse option. Every ` + num_curr_score + ` trials, we will tell you your current score.</p>
+       <p>Press the SPACE BAR to continue.</p>`,
     choices: ["space"],
   };
 
   var instr5val = {
     type: "html-keyboard-response",
     stimulus:
-      `<p>Each round, you will see two objects on the screen. Your task is to select which of the two</p>
-            <p>objects you want to choose. All objects will have positive values and you can gain bonus</p>
-            <p>points based on your choices. You will gain a bonus worth the value of the object you selected.</p>
+    `<p>Each round, you will see two objects on the screen. All objects will have positive values and</p>
+       <p>you will gain a bonus equal to the value of whichever object you choose. In other words, you will</p>
+       <p>gain the point value of the option you select whether or not it is the better option.</p>
+       <p>Every ` + num_curr_score + ` trials, we will tell you your current score.</p>
+       <p>Press the SPACE BAR to continue.</p>`,
+
+    choices: ["space"],
+  };
+
+  var instr6 = {
+    type: "html-keyboard-response",
+    stimulus: `<p>The following screen will display the colors you will see throughout this task.</p>
             <p>Press the SPACE BAR to continue.</p>`,
     choices: ["space"],
   };
 
-  var instr6acc = {
-    type: "html-keyboard-response",
-    stimulus:
-      `<p>You will gain a reward based on your score by the end of the experiment.</p>
-         <p>You will gain ` + acc_reward + ` points for every trial where you choose the better option, and</p>
-         <p>you will gain 0 points for every trial where you choose the worse option.</p>
-         <p>Every ` + num_curr_score + ` trials, we will tell you your current score.</p>
-         <p>Press the SPACE BAR to continue.</p>`,
-    choices: ["space"],
-  };
-
-  var instr6val = {
-    type: "html-keyboard-response",
-    stimulus:
-      `<p>You will gain a reward based on your score by end of the experiment.</p>
-         <p>In each trial, you will gain the point value of the option you</p>
-         <p>selected, whether or not it is the better option.</p>
-         <p>Every ` + num_curr_score + ` trials, we will tell you your current score.</p>
-         <p>Press the SPACE BAR to continue.</p>`,
-    choices: ["space"],
-  };
-
-  var instr7 = {
-    type: "html-keyboard-response",
-    stimulus: `<p>The following screen will display the colors you will see in the first</p>
-            <p>few rounds.</p>
-            <p>Press the SPACE BAR to continue.</p>`,
-    choices: ["space"],
-  };
-
-  var instr7v2 = {
-    type: "html-keyboard-response",
-    stimulus: `<p>The following screen will display the new colors you will use in the second</p>
-            <p>half of this experiment.</p>
-            <p>Press the SPACE BAR to continue.</p>`,
-    choices: ["space"],
-  };
 
   // var show_rainbow = {
   //   type: "rainbow",
@@ -1085,12 +999,10 @@
   var pass_training_FR = {
     type: "html-keyboard-response",
     stimulus:
-      `<p>You are now ready to begin the experiment. Remember, one random trial from</p>
-        <p>this section will be chosen for payout, and you will receive ` +
-      acc_reward +
-      ` points</p>
-        <p>if you chose the better option. When you are ready, rest your fingers on</p>
-        <p>the <b>F</b> and <b>J</b> keys.</p>
+      `<p>You are now ready to begin the experiment. Remember, your bonus payment will depend</p>
+      <p>on your choices in this section. If you choose then better option, you will receive ` +
+      acc_reward + ` points</p>
+        <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
         <p>Press the SPACE BAR to start the experiment.</p>`,
     choices: ["space"],
   };
@@ -1098,46 +1010,125 @@
   var pass_training_VB = {
     type: "html-keyboard-response",
     stimulus:
-      `<p>You are now ready to begin the experiment. Remember, one random trial from this section</p>
-          <p>will be chosen for payout, and you will receive the point</p>
-          <p>value of the chosen option. When you are ready, rest your fingers on the</p>
-          <p><b>F</b> and <b>J</b> keys.</p>
+      `<p>You are now ready to begin the experiment. Remember, your bonus payment will depend</p>
+          <p>on your choices in this section. You will get points for whichever option you choose.</p>
+          <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
           <p>Press the SPACE BAR to start the experiment.</p>`,
     choices: ["space"],
   };
 
-  var fail_training_1 = {
+  var fail_training_1_VB = {
     type: "html-keyboard-response",
-    stimulus: `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p>
+    choices: ["space"],
+    on_start: function (trial) {
+      var tmp_sum = 0;
+      cu_sco = h(training_values_VB_1)
+      trial.stimulus =
+        `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p> \
+             <p>In this training, round you scored ` + cu_sco + ` points.</p> \
         <p>Please remember to select the object with the higher value sum.</p>
         <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
         <p>When you are ready, press the SPACE BAR to try the training again.</p>
-        `,
-    choices: ["space"],
+        `;
+    },
+    on_finish: function () {
+    }
   };
 
-  var fail_training_2 = {
+  var fail_training_1_FR = {
     type: "html-keyboard-response",
-    stimulus: `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again.</p>
+    choices: ["space"],
+    on_start: function (trial) {
+      cu_sco = f(fixed_FR, 1)
+      trial.stimulus =
+        `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p> \
+             <p>In this training, round you scored ` + cu_sco + ` points.</p> \
         <p>Please remember to select the object with the higher value sum.</p>
         <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
-        <p>When you are ready, press the SPACE BAR to try the training one more time.</p>
-        `,
-    choices: ["space"],
+        <p>When you are ready, press the SPACE BAR to try the training again.</p>
+        `;
+    },
+    on_finish: function () {
+    }
   };
 
-  var fail_training_3 = {
+
+  var fail_training_2_VB = {
     type: "html-keyboard-response",
-    stimulus: `<p> Whoops! Looks like you made a couple of mistakes.</p>
-      <p>Please try your best in the next part of the experiment.</p>
+    choices: ["space"],
+    on_start: function (trial) {
+      cu_sco = h(training_values_VB_2)
+      trial.stimulus =
+        `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p> \
+             <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+        <p>Please remember to select the object with the higher value sum.</p>
+        <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
+        <p>When you are ready, press the SPACE BAR to try the training again.</p>
+        `;
+    },
+    on_finish: function () {
+    }
+  };
+
+  var fail_training_2_FR = {
+    type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      cu_sco = f(fixed2_FR, 1)
+      trial.stimulus =
+        `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p> \
+             <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+        <p>Please remember to select the object with the higher value sum.</p>
+        <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
+        <p>When you are ready, press the SPACE BAR to try the training again.</p>
+        `;
+    },
+    on_finish: function () {
+    }
+  };
+
+
+  var fail_training_3_VB = {
+    type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      cu_sco = h(training_values_VB_3)
+      trial.stimulus =
+        `<p> Whoops! Looks like you made a couple of mistakes.</p> \
+        <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+        <p>Please try your best in the next part of the experiment.</p>
         <p></p>
         <p>Please press space to continue.</p>
-        `,
-    choices: ["space"],
-    // on_finish: function (data) {
-    //   jsPsych.endExperiment("The experiment was ended after three failures.");
-    // },
+        `;
+    },
+    on_finish: function () {
+    }
   };
+
+  var fail_training_3_FR = {
+    type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      cu_sco = f(fixed3_FR, 1)
+      trial.stimulus =
+        `<p> Whoops! Looks like you made a couple of mistakes.</p> \
+        <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+        <p>Please try your best in the next part of the experiment.</p>
+        <p></p>
+        <p>Please press space to continue.</p>
+        `;
+    },
+    on_finish: function () {
+    }
+  };
+
+
+
+
+
+
+
+
 
   var acc_VB = [];
   var acc2_VB = [];
@@ -1149,7 +1140,9 @@
   var fixed_FR = [];
   var fixed2_FR = [];
   var fixed3_FR = [];
-
+  var training_values_VB_1 = [0];
+  var training_values_VB_2 = [0];
+  var training_values_VB_3 = [0];
   var idx = 0;
   var idx2 = 0;
   var idx3 = 0;
@@ -1167,20 +1160,25 @@
       data.task = "training_VB";
       if (j == w) {
         data.accuracy = 1;
+        training_values_VB_1.push(j)
       }
       if (j > w) {
         //if left is greater than right
         if (data.key_press == 70) {
           data.accuracy = 1;
+          training_values_VB_1.push(j)
         } else {
           data.accuracy = 0;
+          training_values_VB_1.push(w)
         }
       }
       if (w > j) {
         if (data.key_press == 74) {
           data.accuracy = 1;
+          training_values_VB_1.push(w);
         } else {
           data.accuracy = 0;
+          training_values_VB_1.push(j)
         }
       }
       acc_VB[idx] = data.accuracy;
@@ -1213,20 +1211,25 @@
       data.task = "training_VB";
       if (j == w) {
         data.acc2_VB = 1;
+        training_values_VB_2.push(j)
       }
       if (j > w) {
         //if left is greater than right
         if (data.key_press == 70) {
           data.acc2_VB = 1;
+          training_values_VB_2.push(j)
         } else {
           data.acc2_VB = 0;
+          training_values_VB_2.push(w)
         }
       }
       if (w > j) {
         if (data.key_press == 74) {
           data.acc2_VB = 1;
+          training_values_VB_2.push(w)
         } else {
           data.acc2_VB = 0;
+          training_values_VB_2.push(j)
         }
       }
       // data.acc2_VB = acc2_VB;
@@ -1259,20 +1262,25 @@
       data.task = "training_VB";
       if (j == w) {
         data.acc3_VB = 1;
+        training_values_VB_3.push(j)
       }
       if (j > w) {
         //if left is greater than right
         if (data.key_press == 70) {
           data.acc3_VB = 1;
+          training_values_VB_3.push(j)
         } else {
           data.acc3_VB = 0;
+          training_values_VB_3.push(w)
         }
       }
       if (w > j) {
         if (data.key_press == 74) {
           data.acc3_VB = 1;
+          training_values_VB_3.push(w)
         } else {
           data.acc3_VB = 0;
+          training_values_VB_3.push(j)
         }
       }
       acc3_VB[idx3] = data.acc3_VB;
@@ -1295,7 +1303,7 @@
   //Conditional 1
   var accuracy;
   var conditional_1_value = {
-    timeline: [fail_training_1, node2],
+    timeline: [fail_training_1_VB, node2],
     conditional_function: function () {
       accuracy = 0.0;
       var counter = 0;
@@ -1317,7 +1325,7 @@
   //Conditional 2
   var accuracy2 = 1;
   var conditional_2_value = {
-    timeline: [fail_training_2, node3],
+    timeline: [fail_training_2_VB, node3],
     conditional_function: function () {
       accuracy2 = 0.0;
       var counter2 = 0;
@@ -1339,7 +1347,7 @@
   //Conditional 3
   var accuracy3 = 1;
   var conditional_3_value = {
-    timeline: [fail_training_3],
+    timeline: [fail_training_3_VB],
     conditional_function: function () {
       accuracy3 = 0.0;
       var counter3 = 0;
@@ -1368,6 +1376,8 @@
   var randidx;
   acc_exp_FR = [];
   acc_exp_VB = [];
+  acc_training_FR = []
+  acc_training_VB = []
   var idx4 = 0;
   var left_value = [];
   var right_value = [];
@@ -1946,7 +1956,7 @@
   //Conditional 1
   var accuracy;
   var conditional_1_fixed = {
-    timeline: [fail_training_1, node2_fixed],
+    timeline: [fail_training_1_FR, node2_fixed],
     conditional_function: function () {
       accuracy = 0.0;
       var counter = 0;
@@ -1969,7 +1979,7 @@
   //Conditional 2
   var accuracy2 = 1;
   var conditional_2_fixed = {
-    timeline: [fail_training_2, node3_fixed],
+    timeline: [fail_training_2_FR, node3_fixed],
     conditional_function: function () {
       accuracy2 = 0.0;
       var counter2 = 0;
@@ -1992,7 +2002,7 @@
   //Conditional 3
   var accuracy3 = 1;
   var conditional_3_fixed = {
-    timeline: [fail_training_3],
+    timeline: [fail_training_3_FR],
     conditional_function: function () {
       accuracy3 = 0.0;
       var counter3 = 0;
@@ -2096,10 +2106,10 @@
 
   //Instructions
   if (fixedfirst) {
-    var instr_arr = [instr1, instr2, instr3, instr4, instr5acc, instr6acc];
+    var instr_arr = [instr2, instr3, instr4, instr5acc];
   }
   if (fixedfirst == false) {
-    var instr_arr = [instr1, instr2, instr3, instr4, instr5val, instr6val];
+    var instr_arr = [instr2, instr3, instr4, instr5val];
   }
   timeline = timeline.concat(instr_arr);
 
@@ -2352,7 +2362,7 @@
           <p>The total of value of the right object is ` + example_current[3] + `.</p>
               <p>Since this is an accuracy-based trial, your reward for choosing the option on the right is ` +
           acc_reward + ` points.</p>
-            <p>If you choose the option on the right, your reward will be 0 points.</p>
+            <p>If you choose the option on the left, your reward will be 0 points.</p>
             <p>Press the SPACE BAR to continue.</p>`;
       } else {
         trial.prompt = `<p> In this example, the total value of the left object is ` + example_current[2] + `.</p>
@@ -2511,12 +2521,22 @@
 
   }
 
+
+  function h(arr) {
+    tmp = 0
+    for (var i = 0; i < arr.length; i++) {
+      tmp += arr[i]
+    }
+    return tmp;
+  }
+
+
   curr_exp_idx = 0
 
   curr_exp_idx2 = 0
 
   if (fixedfirst == true) {
-    timeline.push(instr7);
+    timeline.push(instr6);
     timeline.push(show_rainbow_one);
     timeline.push(instr_start_training);
     timeline.push(node_fixed);
@@ -2601,7 +2621,7 @@
     // timeline.push(fixation)
     // timeline.push(memchoice5);
   } else {
-    timeline.push(instr7);
+    timeline.push(instr6);
     timeline.push(show_rainbow_one);
     timeline.push(instr_start_training_2);
     timeline.push(node_VB);
@@ -2751,15 +2771,21 @@
 
   // timeline.push(reward_node_FR);
 
+  var finished_exp = {
+    type: "html-keyboard-response",
+    stimulus: `<p>Congratulations - you have completed the experiment!</p>
+            <p>Press the SPACE BAR to see your reward.</p>`,
+    choices: ["space"],
+  };
 
+  timeline.push(finished_exp);
 
   var reward_fixedfirst = {
     type: "html-keyboard-response",
     choices: ["space"],
     on_start: function (trial) {
       trial.stimulus =
-        `<p> You have completed the experiment! </p> \
-            <p>You earned a total of ` + f(acc_exp_FR, 1) + ` points!</p>
+        `<p>You earned a total of ` + f(acc_exp_FR, 1) + ` points!</p>
             <p>At a conversion rate of $1 for every ` + conversion_rate + ` points, you will receive a total of $` +
         Number(((f(acc_exp_FR, 1)) / conversion_rate)).toFixed(2) +
         `.</p><p>Press the SPACE BAR to continue.</p>`;
@@ -2776,8 +2802,7 @@
     choices: ["space"],
     on_start: function (trial) {
       trial.stimulus =
-        `<p> You have completed the experiment! </p> \
-           <p>You earned a total of ` + g(left_arr, right_arr) + ` points!</p>
+        `<p>You earned a total of ` + g(left_arr, right_arr) + ` points!</p>
             <p>At a conversion rate of $1 for every ` + conversion_rate + ` points, you will receive a bonus of $` +
         Number(((g(left_arr, right_arr)) / conversion_rate)).toFixed(2) +
         `.</p><p>Press the SPACE BAR to continue.</p>`;
@@ -2855,7 +2880,7 @@
       { prompt: "What is your age?", name: "Age" },
       {
         prompt:
-          "What is your gender identify? (Female/Male/Non-binary/Other/Prefer not to say",
+          "What is your gender identify? (Female/Male/Non-binary/Other/Prefer not to say)",
         name: "Gender",
       },
       {
@@ -2893,7 +2918,7 @@
         success: window.location.href = "finish"
       }).fail(function () {
         alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
-        window.location.href = "finish";
+        window.location.href = "/";
       });
     }
   });
