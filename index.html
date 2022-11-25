@@ -936,7 +936,7 @@
   var instrfixed = {
     type: "html-keyboard-response",
     stimulus:
-      `<p>You finished the training!</p>
+      `
         <p></p>
         <p>Remember, in this experiment, you will receive an <b>accuracy-based reward</b></p>
         <p>for choosing the option that has a higher total value. This means that you will receive ` +
@@ -959,7 +959,7 @@
 
   var instrincentive = {
     type: "html-keyboard-response",
-    stimulus: `<p>You finished the training!</p>
+    stimulus: `
         <p>Remember, in this experiment, you will receive a <b>value-based reward</b> for your
         <p>choices. This means that you will receive the point value of the option you select,</p>
         <p>whether or not it is the better option.</p>
@@ -996,26 +996,119 @@
     choices: ["space"],
   };
 
-  var pass_training_FR = {
+var pass_training_FR_1 = {
     type: "html-keyboard-response",
-    stimulus:
-      `<p>You are now ready to begin the experiment. Remember, your bonus payment will depend</p>
-      <p>on your choices in this section. If you choose then better option, you will receive ` +
-      acc_reward + ` points</p>
-        <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
-        <p>Press the SPACE BAR to start the experiment.</p>`,
     choices: ["space"],
+    on_start: function (trial) {
+      var tmp_sum = 0;
+      console.log(accuracy);
+      cu_sco = f(fixed_FR, 1)
+      trial.stimulus =
+      `<p>You are now ready to begin the experiment.</p>
+      <p> In this training round, you scored ` + cu_sco + ` points.</p> \
+      <p> Remember, your bonus payment will depend on your choices in this section. </p>
+      <p>If you choose the better option, you will receive ` +
+      acc_reward + ` points.</p>
+        <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
+        <p>Press the SPACE BAR to start the experiment.</p>`;
+    },
+    on_finish: function () {
+    }
   };
 
-  var pass_training_VB = {
+
+  var pass_training_FR_2 = {
     type: "html-keyboard-response",
-    stimulus:
-      `<p>You are now ready to begin the experiment. Remember, your bonus payment will depend</p>
+    choices: ["space"],
+    on_start: function (trial) {
+      var tmp_sum = 0;
+      cu_sco = f(fixed2_FR, 1)
+      trial.stimulus =
+      `<p>You are now ready to begin the experiment.</p>
+      <p> In this training round, you scored ` + cu_sco + ` points.</p> \
+      <p> Remember, your bonus payment will depend on your choices in this section. </p>
+      <p>If you choose the better option, you will receive ` +
+      acc_reward + ` points.</p>
+        <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
+        <p>Press the SPACE BAR to start the experiment.</p>`;
+    },
+    on_finish: function () {
+    }
+  };
+
+  var pass_training_FR_3 = {
+    type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      var tmp_sum = 0;
+      cu_sco = f(fixed3_FR, 1)
+      trial.stimulus =
+      `<p>You are now ready to begin the experiment.</p>
+      <p> In this training round, you scored ` + cu_sco + ` points.</p> \
+      <p> Remember, your bonus payment will depend on your choices in this section. </p>
+      <p>If you choose the better option, you will receive ` +
+      acc_reward + ` points.</p>
+        <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
+        <p>Press the SPACE BAR to start the experiment.</p>`;
+    },
+    on_finish: function () {
+    }
+  };
+
+var pass_training_VB_1 = {
+  type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      var tmp_sum = 0;
+      cu_sco = h(training_values_VB_1)
+      trial.stimulus =
+      `<p>You are now ready to begin the experiment. </p>
+      <p>In this training round, you scored ` + cu_sco + ` points.</p>
+      <p>Remember, your bonus payment will depend on your choices in this section. </p>
+          <p>You will get points for whichever option you choose.</p>
+          <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
+          <p>Press the SPACE BAR to start the experiment.</p>`;
+    },
+    on_finish: function () {
+    }
+  };
+  
+  var pass_training_VB_2 = {
+  type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      var tmp_sum = 0;
+      cu_sco = h(training_values_VB_2)
+      trial.stimulus =
+      `<p>You are now ready to begin the experiment. </p>
+      <p>In this training round, you scored ` + cu_sco + ` points.</p>
+      <p>Remember, your bonus payment will depend</p>
           <p>on your choices in this section. You will get points for whichever option you choose.</p>
           <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
-          <p>Press the SPACE BAR to start the experiment.</p>`,
-    choices: ["space"],
+          <p>Press the SPACE BAR to start the experiment.</p>`;
+    },
+    on_finish: function () {
+    }
   };
+
+  var pass_training_VB_3 = {
+  type: "html-keyboard-response",
+    choices: ["space"],
+    on_start: function (trial) {
+      var tmp_sum = 0;
+      cu_sco = h(training_values_VB_3)
+      trial.stimulus =
+      `<p>You are now ready to begin the experiment. </p>
+      <p>In this training round, you scored ` + cu_sco + ` points.</p>
+      <p>Remember, your bonus payment will depend</p>
+          <p>on your choices in this section. You will get points for whichever option you choose.</p>
+          <p>When you are ready, rest your fingers on the <b>F</b> and <b>J</b> keys.</p>
+          <p>Press the SPACE BAR to start the experiment.</p>`;
+    },
+    on_finish: function () {
+    }
+  };
+
 
   var fail_training_1_VB = {
     type: "html-keyboard-response",
@@ -1025,7 +1118,7 @@
       cu_sco = h(training_values_VB_1)
       trial.stimulus =
         `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p> \
-             <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+             <p>In this training round, you scored ` + cu_sco + ` points.</p> \
         <p>Please remember to select the object with the higher value sum.</p>
         <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
         <p>When you are ready, press the SPACE BAR to try the training again.</p>
@@ -1042,7 +1135,7 @@
       cu_sco = f(fixed_FR, 1)
       trial.stimulus =
         `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p> \
-             <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+             <p>In this training round, you scored ` + cu_sco + ` points.</p> \
         <p>Please remember to select the object with the higher value sum.</p>
         <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
         <p>When you are ready, press the SPACE BAR to try the training again.</p>
@@ -1060,7 +1153,7 @@
       cu_sco = h(training_values_VB_2)
       trial.stimulus =
         `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p> \
-             <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+             <p>In this training round, you scored ` + cu_sco + ` points.</p> \
         <p>Please remember to select the object with the higher value sum.</p>
         <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
         <p>When you are ready, press the SPACE BAR to try the training again.</p>
@@ -1077,7 +1170,7 @@
       cu_sco = f(fixed2_FR, 1)
       trial.stimulus =
         `<p> Whoops! Looks like you made a couple of mistakes. Let's try that again. </p> \
-             <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+             <p>In this training round, you scored ` + cu_sco + ` points.</p> \
         <p>Please remember to select the object with the higher value sum.</p>
         <p>Press <b>F</b> to select left, and press <b>J</b> to select right.</p>
         <p>When you are ready, press the SPACE BAR to try the training again.</p>
@@ -1095,7 +1188,7 @@
       cu_sco = h(training_values_VB_3)
       trial.stimulus =
         `<p> Whoops! Looks like you made a couple of mistakes.</p> \
-        <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+        <p>In this training round, you scored ` + cu_sco + ` points.</p> \
         <p>Please try your best in the next part of the experiment.</p>
         <p></p>
         <p>Please press space to continue.</p>
@@ -1112,7 +1205,7 @@
       cu_sco = f(fixed3_FR, 1)
       trial.stimulus =
         `<p> Whoops! Looks like you made a couple of mistakes.</p> \
-        <p>In this training, round you scored ` + cu_sco + ` points.</p> \
+        <p>In this training round, you scored ` + cu_sco + ` points.</p> \
         <p>Please try your best in the next part of the experiment.</p>
         <p></p>
         <p>Please press space to continue.</p>
@@ -1301,7 +1394,7 @@
   };
 
   //Conditional 1
-  var accuracy;
+  var accuracy = 0;
   var conditional_1_value = {
     timeline: [fail_training_1_VB, node2],
     conditional_function: function () {
@@ -1317,13 +1410,23 @@
         //change to .70
         return true;
       } else {
-        return false;
+        return false
       }
     },
   };
 
+  var conditional_pass_1_VB = {
+    timeline: [pass_training_VB_1],
+    conditional_function: function() {
+      if (accuracy > 0.7){
+        return true
+      }
+    }
+  }
+
+
   //Conditional 2
-  var accuracy2 = 1;
+  var accuracy2 = 0;
   var conditional_2_value = {
     timeline: [fail_training_2_VB, node3],
     conditional_function: function () {
@@ -1332,20 +1435,31 @@
       for (var i = 0; i < acc2_VB.length; i++) {
         if (acc2_VB[i] == 1) {
           counter2++;
+          console.log('test')
         }
       }
       accuracy2 = counter2 / acc2_VB.length;
       if (accuracy2 < 0.7) {
         return true;
       } else {
-        timeline.push(pass_training_VB);
-        return false;
+        return false
       }
     },
   };
 
+
+  var conditional_pass_2_VB = {
+    timeline: [pass_training_VB_2],
+    conditional_function: function() {
+      if (accuracy2 > 0.7){
+        return true
+      }
+    }
+  }
+
+
   //Conditional 3
-  var accuracy3 = 1;
+  var accuracy3 = 0;
   var conditional_3_value = {
     timeline: [fail_training_3_VB],
     conditional_function: function () {
@@ -1360,11 +1474,22 @@
       if (accuracy3 < 0.7) {
         return true;
       } else {
-        timeline.push(pass_training_VB);
         return false;
       }
     },
   };
+
+
+  var conditional_pass_3_VB = {
+    timeline: [pass_training_VB_3],
+    conditional_function: function() {
+      if (accuracy3 > 0.7){
+        return true
+      }
+    }
+  }
+
+
 
   var reward_val_VB = 0;
   var reward_val_FR;
@@ -1464,7 +1589,7 @@
   var testset;
   var testsetchoice;
   var checkOrder = function () {
-    // console.log("sanity, checkordercall");
+  
     if (col1 == colors) {
       //PB
       if (pinktoblue) {
@@ -1954,7 +2079,7 @@
 
 
   //Conditional 1
-  var accuracy;
+  var accuracy = 0;
   var conditional_1_fixed = {
     timeline: [fail_training_1_FR, node2_fixed],
     conditional_function: function () {
@@ -1967,44 +2092,40 @@
       }
       accuracy = counter / fixed_FR.length;
       if (accuracy < 0.7) {
-        //change to .70
         return true;
       } else {
-        pass_FR = true;
         return false;
       }
     },
   };
 
   //Conditional 2
-  var accuracy2 = 1;
+  var accuracy2 = 0;
   var conditional_2_fixed = {
     timeline: [fail_training_2_FR, node3_fixed],
     conditional_function: function () {
-      accuracy2 = 0.0;
       var counter2 = 0;
       for (var i = 0; i < fixed2_FR.length; i++) {
         if (fixed2_FR[i] == 1) {
           counter2++;
+          console.log('test_fr!')
         }
       }
       accuracy2 = counter2 / fixed2_FR.length;
       if (accuracy2 < 0.7) {
         return true;
       } else {
-        // console.log("test");
-        pass_FR = true;
         return false;
       }
     },
   };
 
+
   //Conditional 3
-  var accuracy3 = 1;
+  var accuracy3 = 0;
   var conditional_3_fixed = {
     timeline: [fail_training_3_FR],
     conditional_function: function () {
-      accuracy3 = 0.0;
       var counter3 = 0;
       for (var i = 0; i < fixed3_FR.length; i++) {
         if (fixed3_FR[i] == 1) {
@@ -2015,12 +2136,60 @@
       if (accuracy3 < 0.7) {
         return true;
       } else {
-        // console.log("test");
-        pass_FR = true;
         return false;
       }
     },
   };
+
+
+
+
+
+
+  var conditional_pass_1_fixed = {
+    timeline: [pass_training_FR_1],
+    conditional_function: function() {
+      if (accuracy > 0.7){
+        return true
+      }
+      else {
+        return false
+      }
+    }
+
+  }
+
+
+  var conditional_pass_2_fixed = {
+    timeline: [pass_training_FR_2],
+    conditional_function: function() {
+      if (accuracy2 > 0.7){
+        return true
+      }
+      else {
+        return false
+      }
+    }
+  }
+
+
+
+  var conditional_pass_3_fixed = {
+    timeline: [pass_training_FR_3],
+    conditional_function: function() {
+      if (accuracy3 > 0.7){
+        return true
+      }
+      else {
+        return false
+      }
+    }
+  }
+
+
+
+
+
 
   var reward_val;
   var rand_reward = [];
@@ -2540,14 +2709,17 @@
     timeline.push(show_rainbow_one);
     timeline.push(instr_start_training);
     timeline.push(node_fixed);
-    timeline.push(conditional_1_fixed);
+    timeline.push(conditional_1_fixed); //if accuracy < .7, show failure and then go to 2nd training
+    timeline.push(conditional_pass_1_fixed); //if accuracy > .7, goes to success screen
     timeline.push(conditional_2_fixed);
+    timeline.push(conditional_pass_2_fixed);
     timeline.push(conditional_3_fixed);
+    timeline.push(conditional_pass_3_fixed);
     timeline.push(instrfixed);
     timeline.push(instr_example)
     timeline.push(instr_prac);
     timeline.push(node_prac_fixed)
-    timeline.push(pass_training_FR);
+    // timeline.push(pass_training_FR);
     for (var i = 0; i < rep; i++) {
       timeline.push(experiment_node_fixed);
       curr_exp_idx++
@@ -2556,83 +2728,22 @@
       }
     }
     timeline.push(checkOrdercall);
-    // timeline.push(memslider_instr);
-    // timeline.push(cursor_on);
-    // timeline.push(memslider);
-    // timeline.push(fixation)
-    // timeline.push(memslider2);
-    // timeline.push(fixation)
-    // timeline.push(memslider3);
-    // timeline.push(fixation)
-    // timeline.push(memslider4);
-    // timeline.push(fixation)
-    // timeline.push(memslider5);
-    // timeline.push(cursor_off);
-    // timeline.push(memchoice_instr);
-    // timeline.push(memchoice);
-    // timeline.push(fixation)
-    // timeline.push(memchoice2);
-    // timeline.push(fixation)
-    // timeline.push(memchoice3);
-    // timeline.push(fixation)
-    // timeline.push(memchoice4);
-    // timeline.push(fixation)
-    // timeline.push(memchoice5);
-    // timeline.push(finish_p1_fixed_done);
-    // timeline.push(trialm);
-
-
-    // timeline.push(instr7v2);
-    // timeline.push(show_rainbow_two);
-    // timeline.push(instr_start_training_2);
-    // timeline.push(node_VB);
-    // timeline.push(conditional_1_value);
-    // timeline.push(conditional_2_value);
-    // timeline.push(conditional_3_value);
-    // timeline.push(instrincentive);
-    // timeline.push(instr_example_2)
-    // timeline.push(instr_prac);
-    // timeline.push(node_prac_VB)
-    // timeline.push(pass_training_VB);
-    // for (var i = 0; i < 5; i++){
-    //   timeline.push(experiment_node_value);
-    // }
-    // timeline.push(checkOrdercall);
-    // timeline.push(memslider_instr);
-    // timeline.push(cursor_on);
-    // timeline.push(memslider);
-    // timeline.push(fixation)
-    // timeline.push(memslider2);
-    // timeline.push(fixation)
-    // timeline.push(memslider3);
-    // timeline.push(fixation)
-    // timeline.push(memslider4);
-    // timeline.push(fixation)
-    // timeline.push(memslider5);
-    // timeline.push(cursor_off);
-    // timeline.push(memchoice_instr);
-    // timeline.push(memchoice);
-    // timeline.push(fixation)
-    // timeline.push(memchoice2);
-    // timeline.push(fixation)
-    // timeline.push(memchoice3);
-    // timeline.push(fixation)
-    // timeline.push(memchoice4);
-    // timeline.push(fixation)
-    // timeline.push(memchoice5);
   } else {
     timeline.push(instr6);
     timeline.push(show_rainbow_one);
     timeline.push(instr_start_training_2);
     timeline.push(node_VB);
     timeline.push(conditional_1_value);
+    timeline.push(conditional_pass_1_VB);
     timeline.push(conditional_2_value);
+    timeline.push(conditional_pass_2_VB);
     timeline.push(conditional_3_value);
+    timeline.push(conditional_pass_3_VB);
     timeline.push(instrincentive);
     timeline.push(instr_example)
     timeline.push(instr_prac);
     timeline.push(node_prac_VB)
-    timeline.push(pass_training_VB);
+    // timeline.push(pass_training_VB);
     for (var i = 0; i < rep; i++) {
       timeline.push(experiment_node_value);
       curr_exp_idx2++
@@ -2641,135 +2752,9 @@
       }
     }
     timeline.push(checkOrdercall);
-    // timeline.push(memslider_instr);
-    // timeline.push(cursor_on);
-    // timeline.push(memslider);
-    // timeline.push(fixation)
-    // timeline.push(memslider2);
-    // timeline.push(fixation)
-    // timeline.push(memslider3);
-    // timeline.push(fixation)
-    // timeline.push(memslider4);
-    // timeline.push(fixation)
-    // timeline.push(memslider5);
-    // timeline.push(cursor_off);
-    // timeline.push(memchoice_instr);
-    // timeline.push(memchoice);
-    // timeline.push(fixation)
-    // timeline.push(memchoice2);
-    // timeline.push(fixation)
-    // timeline.push(memchoice3);
-    // timeline.push(fixation)
-    // timeline.push(memchoice4);
-    // timeline.push(fixation)
-    // timeline.push(memchoice5);
-    // timeline.push(finish_p1_value_done);
-    // timeline.push(trialm);
-
-    // timeline.push(instr7v2);
-    // timeline.push(show_rainbow_two);
-    // timeline.push(instr_start_training);
-    // timeline.push(node_fixed);
-    // timeline.push(conditional_1_fixed);
-    // timeline.push(conditional_2_fixed);
-    // timeline.push(conditional_3_fixed);
-    // timeline.push(instrfixed);
-    // timeline.push(instr_example_2)
-    // timeline.push(instr_prac);
-    // timeline.push(node_prac_fixed)
-    // timeline.push(pass_training_FR);
-    // for (var i = 0; i < 5; i++){
-    //   timeline.push(experiment_node_fixed);
-    // }
-    // timeline.push(checkOrdercall);
-    // timeline.push(memslider_instr);
-    // timeline.push(cursor_on);
-    // timeline.push(memslider);
-    // timeline.push(fixation)
-    // timeline.push(memslider2);
-    // timeline.push(fixation)
-    // timeline.push(memslider3);
-    // timeline.push(fixation)
-    // timeline.push(memslider4);
-    // timeline.push(fixation)
-    // timeline.push(memslider5);
-    // timeline.push(cursor_off);
-    // timeline.push(memchoice_instr);
-    // timeline.push(memchoice);
-    // timeline.push(fixation)
-    // timeline.push(memchoice2);
-    // timeline.push(fixation)
-    // timeline.push(memchoice3);
-    // timeline.push(fixation)
-    // timeline.push(memchoice4);
-    // timeline.push(fixation)
-    // timeline.push(memchoice5);
   }
   var final_reward_value;
 
-  // var reward_is_VB;
-  // var reward_is_FR;
-  // if (Math.random() < 0.5) {
-  //   reward_is_VB = true;
-  //   // console.log("VB reward");
-  // } else {
-  //   reward_is_FR = true;
-  // console.log("FR reward (21 or 0");
-  // }
-
-  // var reward_function_VB = function () {
-  //   while (reward_val_VB == 0 || !(reward_val_VB > 0)) {
-  //     randidx = Math.floor(Math.random() * rep);
-  //     reward_val_VB = all_arr[randidx];
-  //   }
-  //   // if(all_arr.length == 0){
-  //   //     reward_val_VB = 0;
-  //   // }
-  //   //console.log(reward_val_VB);
-  //   return reward_val_VB;
-  // };
-
-  // var reward_node_VB = {
-  //   type: "reward-function",
-  //   func: reward_function_VB,
-  //   on_finish: function (data) {
-  //     data.randidx_VB = randidx;
-  //     data.reward_val_VB = reward_val_VB;
-  //     data.trialN = "NA";
-  //   },
-  // };
-
-  // timeline.push(reward_node_VB);
-
-  // var randidx_FR;
-  // var final_reward_boolean;
-  // var final_reward;
-  // var reward_function_FR = function () {
-  //   randidx_FR = Math.floor(Math.random() * acc_exp_FR.length);
-  //   var final_reward_boolean = acc_exp_FR[randidx_FR];
-  //   if (final_reward_boolean == 1) {
-  //     // if(left_fixed[randidx] > right_fixed[randidx_FR]){
-  //     //     final_reward_value = left_fixed[randidx_FR];
-  //     // }else{
-  //     //     final_reward_value = right_fixed[randidx_FR]
-  //     final_reward_value = acc_reward;
-  //   } else {
-  //     final_reward_value = 0;
-  //   }
-
-  //   return final_reward_value;
-  // };
-
-  // var reward_node_FR = {
-  //   type: "reward-function",
-  //   func: reward_function_FR,
-  //   on_finish: function (data) {
-  //     data.randidx_FR = randidx_FR;
-  //     data.trialN = "NA";
-  //   },
-  // }
-
-  // timeline.push(reward_node_FR);
 
   var finished_exp = {
     type: "html-keyboard-response",
@@ -2816,22 +2801,7 @@
 
   var reward_FR_is_correct;
 
-  // var determine_FR_reward_type = function () {
-  // };
 
-  // // var node_FR_reward = {
-  // //   type: "call-function",
-  // //   func: determine_FR_reward_type,
-
-  // //       on_start: function(timeline){
-  // //           if(fixedfirst){
-  // //               timeline.push(reward_fixedfirst)
-  // //           }
-  // //           if(fixedfirst == false){
-  // //               timeline.push(reward_valuefirst)
-  // //           }
-  // //       },
-  // // };
 
 
   if (fixedfirst) {
@@ -2841,34 +2811,6 @@
     timeline.push(reward_valuefirst)
   }
 
-  // timeline.push(node_FR_reward);
-
-  // var if_node = {
-  //   timeline: [reward_correct],
-  //   conditional_function: function () {
-  //     if (reward_FR_is_correct) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   },
-  // };
-
-  // var if_node_2 = {
-  //   timeline: [reward_incorrect],
-  //   conditional_function: function () {
-  //     if (reward_FR_is_correct == false) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   },
-  // };
-
-  // timeline.push(if_node);
-  // timeline.push(if_node_2);
-
-  //log data for demographic info
 
   timeline.push(cursor_on);
 
