@@ -68,10 +68,8 @@
   var checkBrowser = function () {
     if (navigator.userAgent.indexOf("Chrome") != -1) {
       isChrome = true;
-      console.log("Chrome");
     } else {
       isChrome = false;
-      console.log("unknown");
     }
   };
   var checkBrowsercall = {
@@ -653,7 +651,7 @@
 
     // var g = Math.floor(Math.random()*8);
     // ctx.fillStyle = col1[g];
-    console.log(arr_left)
+    // console.log(arr_left)
     ctx.fillStyle = col1[arr_left[0]];
     ctx.fillRect(0, 0, 100, 100);
 
@@ -1001,7 +999,7 @@ var pass_training_FR_1 = {
     choices: ["space"],
     on_start: function (trial) {
       var tmp_sum = 0;
-      console.log(accuracy);
+      // console.log(accuracy);
       cu_sco = f(fixed_FR, 1)
       trial.stimulus =
       `<p>You are now ready to begin the experiment.</p>
@@ -1435,7 +1433,7 @@ var pass_training_VB_1 = {
       for (var i = 0; i < acc2_VB.length; i++) {
         if (acc2_VB[i] == 1) {
           counter2++;
-          console.log('test')
+          // console.log('test')
         }
       }
       accuracy2 = counter2 / acc2_VB.length;
@@ -2108,7 +2106,7 @@ var pass_training_VB_1 = {
       for (var i = 0; i < fixed2_FR.length; i++) {
         if (fixed2_FR[i] == 1) {
           counter2++;
-          console.log('test_fr!')
+          // console.log('test_fr!')
         }
       }
       accuracy2 = counter2 / fixed2_FR.length;
