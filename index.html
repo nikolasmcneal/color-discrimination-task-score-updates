@@ -36,16 +36,16 @@
   var training_fixed_static = true //if true, then FR training is 27/0. if false, then FR training shows value of selected item
   var toggle; //toggle memory on
 
-  if (fixedfirst) {
+  if (fixedfirst) { //RBD
     // look at what the average accuracy is in FR , multiply that by average stimulus value. round to the nearest $.05.
-    var conversion_rate = 450.00; //number of points per dollar //this assumes the average accuracy in FR is .85, and the correct payout is X
+    var conversion_rate = 500.00; //number of points per dollar //this assumes the average accuracy in FR is .85, and the correct payout is X
     //(150 * 35) = 5250
     //5250 * .85 = 4462
     //4462 / x = 10
     //x = 446 -> round to 450
   }
-  if (fixedfirst == false) {
-    var conversion_rate = 450.00; // set value-based conversion rate first (avg = 33)
+  if (fixedfirst == false) { //VBC
+    var conversion_rate = 450.00; // set value-based conversion rate first (avg = 35)
  
   }
   const fixation_duration = 500;
