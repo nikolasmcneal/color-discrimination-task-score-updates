@@ -137,7 +137,7 @@
   // }
 
   //Reward
-  acc_reward = 35;
+  acc_reward = 45;
 
   var fixation = {
     type: "html-keyboard-response",
@@ -922,6 +922,18 @@
             <p>Press the SPACE BAR to continue.</p>`,
     choices: ["space"],
   };
+
+
+  var pass_practice = {
+    type: "html-keyboard-response",
+    stimulus: `<p>You have completed the practice rounds.</p>
+            <p>You are now ready to begin the experiment. It is important to use good judgment</p>
+            <p>and not spend too much time on any one round, as this will affect your overall performance on the task.</p>
+            <p>Your goal is to complete the task as quickly and carefully as possible.</p>
+            <p>Press the SPACE BAR to continue.</p>`,
+            choices: ["space"],
+  };
+
 
 
   // var show_rainbow = {
@@ -2718,7 +2730,7 @@ var pass_training_VB_1 = {
     timeline.push(instr_example)
     timeline.push(instr_prac);
     timeline.push(node_prac_fixed)
-    // timeline.push(pass_training_FR);
+    timeline.push(pass_practice);
     for (var i = 0; i < rep; i++) {
       timeline.push(experiment_node_fixed);
       curr_exp_idx++
@@ -2742,7 +2754,7 @@ var pass_training_VB_1 = {
     timeline.push(instr_example)
     timeline.push(instr_prac);
     timeline.push(node_prac_VB)
-    // timeline.push(pass_training_VB);
+    timeline.push(pass_practice);
     for (var i = 0; i < rep; i++) {
       timeline.push(experiment_node_value);
       curr_exp_idx2++
